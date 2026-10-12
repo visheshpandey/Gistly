@@ -1,7 +1,7 @@
 import { ImageResponse } from "next/og";
 
-// The picture shown when a link to InsightFlow is shared in chat apps and social media. Built at build time.
-export const alt = "InsightFlow: AI-powered feedback intelligence";
+// The picture shown when a link to Verdict is shared in chat apps and social media. Built at build time.
+export const alt = "Verdict: AI-powered feedback intelligence";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -44,7 +44,7 @@ export default function Image() {
             <div style={{ width: 9, height: 28, background: "#fff", borderRadius: 3 }} />
             <div style={{ width: 9, height: 36, background: "#fff", borderRadius: 3 }} />
           </div>
-          <div style={{ fontSize: 40, fontWeight: 700 }}>InsightFlow</div>
+          <div style={{ fontSize: 40, fontWeight: 700 }}>Verdict</div>
         </div>
 
         <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>

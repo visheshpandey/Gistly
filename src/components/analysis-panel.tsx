@@ -1,46 +1,103 @@
 "use client";
 
+import { useState } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { DataGate } from "@/components/data-gate";
 import { useFeedbackData } from "@/components/data-provider";
 import { Stat } from "@/components/stat";
+import { MeterBar, MiniHistogram, SentimentBar } from "@/components/mini-viz";
 import { PendingNotice } from "@/components/new-data-banner";
 import { useAnalysis } from "@/components/use-analysis";
 import { useAnalysisRunner } from "@/components/use-analysis-runner";
-import type { AnalysisMetrics } from "@/lib/analysis/metrics";
+import type { AnalysisMetrics, ThemeStat } from "@/lib/analysis/metrics";
 import { MAX_ANALYSED, type AnalysisResult } from "@/lib/analysis/types";
+import { cn } from "@/lib/utils";
 
 const nf = new Intl.NumberFormat("en-US");
 const pct = (part: number, whole: number) => (whole > 0 ? `${((part / whole) * 100).toFixed(1)}%` : "0%");
+const whole = (share: number) => `${Math.round(share * 100)}%`;
+// Severity 1 (minor) to 5 (severe): sand, mustard, rose, red, ink. Same order as the dashboard.
+const SEVERITY_SCALE = ["var(--neu)", "var(--p3)", "var(--p4)", "var(--neg)", "var(--p1)"];
 
-function SentimentBar({ m }: { m: AnalysisMetrics }) {
-  const parts = [
-    { key: "positive", label: "Positive", value: m.positive, className: "bg-pos" },
-    { key: "neutral", label: "Neutral", value: m.neutral, className: "bg-neu" },
-    { key: "negative", label: "Negative", value: m.negative, className: "bg-neg" },
+const neutralOf = (t: ThemeStat) => Math.max(0, t.mentions - t.positive - t.negative);
+
+function Label({ children }: { children: React.ReactNode }) {
+  return <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">{children}</p>;
+}
+
+// One row of a "points" list: the text, its count, and a bar sized against the biggest in the list.
+function PointBars({ items, color }: { items: { issue: string; mentions: number }[]; color: string }) {
+  const max = Math.max(1, ...items.map((i) => i.mentions));
+  return (
+    <ul className="flex flex-col gap-2.5">
+      {items.map((i) => (
+        <li key={i.issue} className="flex flex-col gap-1">
+          <span className="flex justify-between gap-3 text-sm">
+            <span className="first-letter:uppercase">{i.issue}</span>
+            <span className="tabular-nums text-muted-foreground">{nf.format(i.mentions)}</span>
+          </span>
+          <MeterBar value={i.mentions / max} color={color} className="h-2" label={`${i.issue}: ${nf.format(i.mentions)} mentions`} />
+        </li>
+      ))}
+    </ul>
+  );
+}
+
+// Everything about the selected theme: its numbers, what goes wrong, what people like, and what they actually wrote.
+function ThemeDetail({ t }: { t: ThemeStat }) {
+  const facts = [
+    { label: "Mentions", value: `${nf.format(t.mentions)} · ${whole(t.share)}` },
+    { label: "Positive", value: whole(t.positiveShare) },
+    { label: "Negative", value: whole(t.negativeShare) },
+    ...(t.negative > 0 ? [{ label: "Severity", value: `${t.avgSeverity.toFixed(1)} / 5` }] : []),
   ];
   return (
-    <div className="flex flex-col gap-3">
-      <div
-        className="flex h-5 w-full gap-0.5 overflow-hidden rounded-full bg-muted"
-        role="img"
-        aria-label={parts.map((p) => `${p.label} ${pct(p.value, m.labelledMentions)}`).join(", ")}
-      >
-        {parts.map((p) => (
-          <div key={p.key} className={p.className} style={{ width: pct(p.value, m.labelledMentions) }} />
-        ))}
+    <div className="flex flex-col gap-5 p-5 md:p-6">
+      <div className="flex flex-col gap-3">
+        <h3 className="text-2xl font-semibold">{t.theme}</h3>
+        <dl className="flex flex-wrap gap-2">
+          {facts.map((f) => (
+            <div key={f.label} className="rounded-md border-[1.5px] border-edge bg-card px-3 py-1.5">
+              <dt className="text-[0.6875rem] font-semibold uppercase tracking-wider text-muted-foreground">{f.label}</dt>
+              <dd className="num-display text-lg tabular-nums">{f.value}</dd>
+            </div>
+          ))}
+        </dl>
+        <SentimentBar positive={t.positive} neutral={neutralOf(t)} negative={t.negative} className="h-3.5" />
       </div>
-      <ul className="flex flex-wrap gap-x-6 gap-y-1 text-sm">
-        {parts.map((p) => (
-          <li key={p.key} className="flex items-center gap-2">
-            <span className={`size-2.5 rounded-full ${p.className}`} aria-hidden="true" />
-            {p.label}: <span className="font-medium tabular-nums">{pct(p.value, m.labelledMentions)}</span>
-            <span className="text-muted-foreground tabular-nums">({nf.format(p.value)})</span>
-          </li>
-        ))}
-      </ul>
+
+      {(t.topIssues.length > 0 || t.topStrengths.length > 0) && (
+        <div className="grid gap-5 lg:grid-cols-2">
+          {t.topIssues.length > 0 && (
+            <div className="flex flex-col gap-2">
+              <Label>Main problems</Label>
+              <PointBars items={t.topIssues} color="var(--neg)" />
+            </div>
+          )}
+          {t.topStrengths.length > 0 && (
+            <div className="flex flex-col gap-2">
+              <Label>What customers like</Label>
+              <PointBars items={t.topStrengths} color="var(--pos)" />
+            </div>
+          )}
+        </div>
+      )}
+
+      {t.quotes.length > 0 && (
+        <div className="flex flex-col gap-2">
+          <Label>What customers wrote</Label>
+          <ul className="flex flex-col gap-2">
+            {t.quotes.map((q) => (
+              <li key={q.text} className="flex items-baseline gap-3 rounded-md bg-muted/60 px-3 py-2 text-sm">
+                <span className="w-12 shrink-0 text-xs font-semibold tabular-nums text-muted-foreground">{nf.format(q.mentions)}×</span>
+                <span>“{q.text}”</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
     </div>
   );
 }
@@ -48,16 +105,22 @@ function SentimentBar({ m }: { m: AnalysisMetrics }) {
 function Results({ result, metrics, onRerun, busy }: { result: AnalysisResult; metrics: AnalysisMetrics; onRerun: () => void; busy: boolean }) {
   const m = metrics;
   const net = m.netSentiment;
+  const [selected, setSelected] = useState<string | null>(null);
+  const current = m.themes.find((t) => t.theme === selected) ?? m.themes[0];
+  const maxMentions = Math.max(1, ...m.themes.map((t) => t.mentions));
+  const labelled = result.analysedTexts - result.failedTexts;
+
   return (
     <div className="flex flex-col gap-8">
       <section aria-label="Summary" className="flex flex-col gap-4">
-        <div className="flex flex-wrap items-center justify-between gap-3">
-          <div className="flex flex-wrap items-center gap-3">
+        {/* What this analysis is, in one line */}
+        <div className="flex flex-wrap items-center justify-between gap-3 rounded-lg border-[1.5px] border-edge bg-card px-4 py-3">
+          <div className="flex min-w-0 flex-wrap items-center gap-x-4 gap-y-2 text-sm">
             <Badge>{result.source === "precomputed" ? "Saved AI analysis" : "AI analysis"}</Badge>
-            <p className="text-sm text-muted-foreground">
-              {result.model} · {nf.format(result.analysedTexts - result.failedTexts)} of {nf.format(result.totalUnique)} unique
-              reviews labelled, covering {nf.format(m.labelledMentions)} of {nf.format(m.totalMentions)} mentions
-            </p>
+            <span>
+              <b className="font-semibold tabular-nums">{nf.format(labelled)}</b>
+              <span className="text-muted-foreground"> of {nf.format(result.totalUnique)} unique reviews labelled</span>
+            </span>
           </div>
           <Button variant="outline" onClick={onRerun} disabled={busy}>
             Run again
@@ -79,126 +142,136 @@ function Results({ result, metrics, onRerun, busy }: { result: AnalysisResult; m
 
         <div className="kpi-strip">
           <Stat
-            tint="a"
             label="Net sentiment"
             value={`${net > 0 ? "+" : ""}${net.toFixed(1)}`}
-            note="Positive share minus negative share, in points"
+            note="Positive minus negative, in points"
+            visual={<SentimentBar positive={m.positive} neutral={m.neutral} negative={m.negative} />}
           />
-          <Stat tint="e" label="Positive" value={pct(m.positive, m.labelledMentions)} note={`${nf.format(m.positive)} mentions`} />
-          <Stat tint="b" label="Negative" value={pct(m.negative, m.labelledMentions)} note={`${nf.format(m.negative)} mentions`} />
           <Stat
-            tint="c"
+            label="Positive"
+            value={pct(m.positive, m.labelledMentions)}
+            note={`${nf.format(m.positive)} mentions`}
+            visual={<MeterBar value={m.positive / Math.max(1, m.labelledMentions)} color="var(--pos)" label={`${pct(m.positive, m.labelledMentions)} positive`} />}
+          />
+          <Stat
+            label="Negative"
+            value={pct(m.negative, m.labelledMentions)}
+            note={`${nf.format(m.negative)} mentions`}
+            visual={<MeterBar value={m.negative / Math.max(1, m.labelledMentions)} label={`${pct(m.negative, m.labelledMentions)} negative`} />}
+          />
+          <Stat
             label="Critical problems"
             value={nf.format(m.critical)}
-            note={`Negative mentions rated 4 or 5 out of 5 (${pct(m.critical, m.negative)} of all negative)`}
+            note={`Severity 4 or 5 · ${pct(m.critical, m.negative)} of negative`}
+            visual={
+              <MiniHistogram
+                values={m.severity}
+                colors={SEVERITY_SCALE}
+                label={`Negative mentions by severity 1 to 5: ${m.severity.map((v) => nf.format(v)).join(", ")}`}
+              />
+            }
           />
         </div>
-        <SentimentBar m={m} />
       </section>
 
       <section aria-label="Themes" className="flex flex-col gap-4">
         <div>
           <h2 className="title-bar text-2xl font-semibold">What people talk about</h2>
-          <p className="text-sm text-muted-foreground">
-            Themes found by the AI, by number of mentions. Problem-heavy themes list their most common issues.
+          <p className="mt-1 text-sm text-muted-foreground">
+            Pick a theme to see its problems, what customers like, and real quotes. Bar length shows how much it is talked
+            about; colours show the sentiment.
           </p>
         </div>
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-          {m.themes.map((t) => (
-            <Card key={t.theme}>
-              <CardContent className="flex flex-col gap-3">
-                <div className="flex items-start justify-between gap-3">
-                  <h3 className="text-base font-semibold">{t.theme}</h3>
-                  <p className="text-sm tabular-nums text-muted-foreground">
-                    {nf.format(t.mentions)} mentions · {(t.share * 100).toFixed(0)}%
-                  </p>
-                </div>
-                <div className="flex flex-col gap-1">
-                  <div
-                    className="flex h-2 w-full overflow-hidden rounded-full bg-pos/30"
-                    role="img"
-                    aria-label={`${(t.negativeShare * 100).toFixed(0)}% negative`}
-                  >
-                    <div className="bg-neg" style={{ width: `${t.negativeShare * 100}%` }} />
-                  </div>
-                  <p className="text-xs text-muted-foreground">
-                    {(t.negativeShare * 100).toFixed(0)}% negative
-                    {t.negative > 0 ? ` · average severity ${t.avgSeverity.toFixed(1)} of 5` : ""}
-                  </p>
-                </div>
-                {t.topIssues.length > 0 && (
-                  <ul className="flex flex-col gap-1 text-sm">
-                    {t.topIssues.map((i) => (
-                      <li key={i.issue} className="flex justify-between gap-3">
-                        <span className="first-letter:uppercase">{i.issue}</span>
-                        <span className="tabular-nums text-muted-foreground">{nf.format(i.mentions)}</span>
-                      </li>
-                    ))}
-                  </ul>
-                )}
-                {t.quotes.length > 0 && (
-                  <div className="flex flex-col gap-1.5 border-t pt-3">
-                    {t.quotes.map((q) => (
-                      <p key={q.text} className="text-xs text-muted-foreground">
-                        “{q.text}” <span className="tabular-nums">×{nf.format(q.mentions)}</span>
-                      </p>
-                    ))}
-                  </div>
-                )}
-              </CardContent>
-            </Card>
-          ))}
-        </div>
+
+        <Card className="gap-0 py-0">
+          <div className="grid lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)]">
+            <ol className="flex flex-col gap-1 p-3 md:p-4" aria-label="Themes">
+              {m.themes.map((t, i) => {
+                const active = t.theme === current?.theme;
+                return (
+                  <li key={t.theme}>
+                    <button
+                      type="button"
+                      aria-pressed={active}
+                      onClick={() => {
+                        setSelected(t.theme);
+                        // On narrow screens the details sit below the list, so bring them into view.
+                        if (window.innerWidth < 1024) {
+                          document.getElementById("theme-detail")?.scrollIntoView({ behavior: "smooth", block: "start" });
+                        }
+                      }}
+                      className={cn(
+                        "flex w-full flex-col gap-1.5 rounded-lg border-[1.5px] px-3 py-2.5 text-left transition-colors",
+                        active ? "border-edge bg-sel" : "border-transparent hover:bg-muted/70",
+                      )}
+                    >
+                      <span className="flex items-baseline gap-3">
+                        <span className="w-5 shrink-0 text-xs font-bold tabular-nums text-muted-foreground">{i + 1}</span>
+                        <span className="min-w-0 flex-1 truncate font-semibold">{t.theme}</span>
+                        <span className="shrink-0 text-sm tabular-nums">
+                          {nf.format(t.mentions)} <span className="text-muted-foreground">· {whole(t.share)}</span>
+                        </span>
+                      </span>
+                      {/* One bar for two facts: its length is the theme's size, its colours are the sentiment split. */}
+                      <span className="flex items-center gap-3 pl-8">
+                        <span className="flex-1">
+                          <span className="block" style={{ width: `${Math.max(6, (t.mentions / maxMentions) * 100)}%` }}>
+                            <SentimentBar positive={t.positive} neutral={neutralOf(t)} negative={t.negative} className="h-2.5" />
+                          </span>
+                        </span>
+                        <span className={cn("w-16 shrink-0 text-right text-xs font-semibold tabular-nums", t.negativeShare > 0.5 ? "text-neg" : "text-muted-foreground")}>
+                          {whole(t.negativeShare)} neg.
+                        </span>
+                      </span>
+                    </button>
+                  </li>
+                );
+              })}
+            </ol>
+            <div id="theme-detail" className="scroll-mt-16 border-t-[1.5px] border-edge lg:border-t-0 lg:border-l-[1.5px]" aria-live="polite">
+              {current ? <ThemeDetail t={current} /> : <p className="p-6 text-sm text-muted-foreground">No themes found.</p>}
+            </div>
+          </div>
+        </Card>
+        <ul className="flex flex-wrap gap-x-5 gap-y-1 text-xs text-muted-foreground" aria-hidden="true">
+          <li className="flex items-center gap-1.5"><span className="size-2.5 rounded-full bg-pos" />Positive</li>
+          <li className="flex items-center gap-1.5"><span className="size-2.5 rounded-full bg-neu" />Neutral</li>
+          <li className="flex items-center gap-1.5"><span className="size-2.5 rounded-full bg-neg" />Negative</li>
+        </ul>
       </section>
 
       {m.byCategory && (
-        <section aria-label="Sentiment by category" className="flex flex-col gap-3">
+        <section aria-label="Sentiment by category" className="flex flex-col gap-4">
           <div>
             <h2 className="title-bar text-2xl font-semibold">Sentiment inside each category</h2>
-            <p className="text-sm text-muted-foreground">
-              A category is not a sentiment: every category contains both praise and complaints. Sentiment comes from
-              what each review says.
+            <p className="mt-1 text-sm text-muted-foreground">
+              A category is not a sentiment: every category has praise and complaints. Sentiment comes from what each review
+              says.
             </p>
           </div>
-          <div className="overflow-x-auto rounded-xl border bg-card">
-            <table className="w-full min-w-[560px] text-sm">
-              <thead>
-                <tr className="border-b text-left text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-                  <th scope="col" className="p-3">Category</th>
-                  <th scope="col" className="p-3 text-right">Mentions</th>
-                  <th scope="col" className="w-2/5 p-3">Sentiment</th>
-                  <th scope="col" className="p-3 text-right">Negative</th>
-                </tr>
-              </thead>
-              <tbody>
-                {m.byCategory.map((c) => (
-                  <tr key={c.category} className="border-b last:border-0">
-                    <td className="p-3 font-medium">{c.category}</td>
-                    <td className="p-3 text-right tabular-nums">{nf.format(c.mentions)}</td>
-                    <td className="p-3">
-                      <div
-                        className="flex h-3 w-full gap-0.5 overflow-hidden rounded-full bg-muted"
-                        role="img"
-                        aria-label={`${pct(c.positive, c.mentions)} positive, ${pct(c.neutral, c.mentions)} neutral, ${pct(c.negative, c.mentions)} negative`}
-                      >
-                        <div className="bg-pos" style={{ width: pct(c.positive, c.mentions) }} />
-                        <div className="bg-neu" style={{ width: pct(c.neutral, c.mentions) }} />
-                        <div className="bg-neg" style={{ width: pct(c.negative, c.mentions) }} />
-                      </div>
-                    </td>
-                    <td className="p-3 text-right font-semibold tabular-nums">{pct(c.negative, c.mentions)}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+          <Card className="gap-0 py-0">
+            <ul className="divide-y">
+              {m.byCategory.map((c) => (
+                <li key={c.category} className="grid items-center gap-x-4 gap-y-1.5 px-4 py-3 sm:grid-cols-[minmax(0,12rem)_minmax(0,1fr)_5.5rem]">
+                  <span className="flex items-baseline justify-between gap-2 sm:block">
+                    <span className="font-semibold">{c.category}</span>
+                    <span className="block text-xs tabular-nums text-muted-foreground">{nf.format(c.mentions)} mentions</span>
+                  </span>
+                  <SentimentBar positive={c.positive} neutral={c.neutral} negative={c.negative} className="h-3.5" />
+                  <span className={cn("text-sm font-semibold tabular-nums sm:text-right", c.negative / Math.max(1, c.mentions) > 0.5 && "text-neg")}>
+                    {pct(c.negative, c.mentions)} neg.
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </Card>
         </section>
       )}
 
-      <p className="text-xs text-muted-foreground">
-        How this was made: the AI read the text of each unique review and labelled its sentiment, theme, severity and
-        main issue. Every count and percentage above is calculated by InsightFlow from those labels and weighted by how
-        many times each review was received, so the AI never writes a number. Categories were not sent to the AI.
+      <p className="notice p-3 text-xs leading-relaxed text-muted-foreground">
+        How this was made: the AI read the text of each unique review and labelled its sentiment, theme, severity and main
+        issue. Every count and percentage is calculated by Verdict from those labels and weighted by how many times each
+        review was received, so the AI never writes a number. Categories were not sent to the AI.
       </p>
     </div>
   );
@@ -217,7 +290,7 @@ function Panel() {
     <Card>
       <CardContent className="flex flex-col gap-4">
         <div>
-          <h2 className="text-base font-medium">{result ? "Run the analysis again" : "Analyse this feedback"}</h2>
+          <h2 className="text-xl font-semibold">{result ? "Run the analysis again" : "Analyse this feedback"}</h2>
           <p className="mt-1 max-w-prose text-sm text-muted-foreground">
             An AI reads each unique review and labels its sentiment, theme, severity and main issue. For{" "}
             {nf.format(rows.length)} unique reviews this usually takes under a minute.

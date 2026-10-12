@@ -12,13 +12,26 @@ export const TINT_CLASS: Record<Tint, string> = {
   e: "bg-tint-e ring-0",
 };
 
-// One headline number with a label and a short note.
-export function Stat({ label, value, note, tint }: { label: string; value: string; note: string; tint?: Tint }) {
+// One headline number with a label, an optional small chart, and a short note.
+export function Stat({
+  label,
+  value,
+  note,
+  tint,
+  visual,
+}: {
+  label: string;
+  value: string;
+  note: string;
+  tint?: Tint;
+  visual?: React.ReactNode;
+}) {
   return (
     <Card className={cn(tint && TINT_CLASS[tint])}>
       <CardContent className="flex flex-col gap-1">
         <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">{label}</p>
         <p className="num-display text-3xl tabular-nums md:text-4xl">{value}</p>
+        {visual && <div className="my-1.5">{visual}</div>}
         <p className="text-[0.8125rem] leading-snug text-muted-foreground">{note}</p>
       </CardContent>
     </Card>

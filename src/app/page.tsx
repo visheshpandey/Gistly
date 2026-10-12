@@ -16,7 +16,7 @@ import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
 export const metadata: Metadata = {
-  title: "InsightFlow: customer feedback into decisions",
+  title: "Verdict: customer feedback into decisions",
   description: "Import feedback, see what customers feel, find out what to fix first, and share a report.",
 };
 
@@ -102,18 +102,21 @@ export default function Home() {
 
       <main className="flex-1">
         <section className="page-width pb-14 pt-12 md:pb-20 md:pt-20">
-          <p className="mb-5 text-xs font-semibold uppercase tracking-[0.12em] text-brand">Customer feedback analysis</p>
-          <h1 className="max-w-4xl text-4xl font-bold leading-[1.08] md:text-6xl">
-            AI-powered feedback intelligence.
-            <br />
-            <span className="text-brand">From raw signal to ranked decisions.</span>
-          </h1>
-          <p className="mt-6 max-w-2xl text-lg leading-relaxed text-muted-foreground">
-            InsightFlow shows what customers feel, what they keep complaining about, and what to fix first, with the
-            real reviews and numbers behind every answer.
-          </p>
-          <div className="mt-8">
-            <LandingActions />
+          {/* Centred on the screen, with the headline kept on balanced lines. */}
+          <div className="flex flex-col items-center text-center">
+            <p className="mb-5 text-xs font-semibold uppercase tracking-[0.12em] text-brand">Customer feedback analysis</p>
+            <h1 className="max-w-6xl text-4xl font-bold leading-[1.08] [text-wrap:balance] md:text-6xl xl:text-7xl">
+              AI-powered feedback intelligence.
+              <br />
+              <span className="text-brand">From raw signal to ranked decisions.</span>
+            </h1>
+            <p className="mt-6 max-w-2xl text-lg leading-relaxed text-muted-foreground [text-wrap:balance]">
+              Verdict shows what customers feel, what they keep complaining about, and what to fix first, with the
+              real reviews and numbers behind every answer.
+            </p>
+            <div className="mt-8 flex justify-center">
+              <LandingActions />
+            </div>
           </div>
 
           <dl className="mt-14 grid grid-cols-2 border-y-[1.5px] border-edge md:grid-cols-4">
@@ -121,11 +124,10 @@ export default function Home() {
               <div
                 key={f.label}
                 className={cn(
-                  "py-5 pr-4",
-                  i % 2 === 1 ? "border-l pl-5" : "pl-0",
+                  "px-4 py-5 text-center",
+                  i % 2 === 1 && "border-l",
                   i >= 2 && "border-t md:border-t-0",
                   i === 2 && "md:border-l",
-                  i > 0 && "md:pl-6",
                 )}
               >
                 <dt className="sr-only">{f.label}</dt>
@@ -186,18 +188,18 @@ export default function Home() {
         </section>
 
         <section className="page-width pb-20">
-          <div className="nav-dark flex flex-col gap-6 rounded-lg border-[1.5px] border-edge bg-nav p-8 text-nav-ink shadow-[3px_3px_0_var(--hl)] md:flex-row md:items-center md:justify-between md:p-12">
-            <h2 className="max-w-xl text-2xl font-semibold text-nav-ink md:text-3xl">
+          <div className="flex flex-col gap-6 rounded-lg border-[1.5px] border-edge bg-hl p-8 text-[#1c1b2e] shadow-[3px_3px_0_var(--edge)] md:flex-row md:items-center md:justify-between md:p-12">
+            <h2 className="max-w-xl text-2xl font-semibold text-[#1c1b2e] md:text-3xl">
               See it on real-looking data in under a minute.
             </h2>
-            <LandingActions tone="dark" />
+            <LandingActions />
           </div>
         </section>
       </main>
 
       <footer className="border-t-4 border-hl bg-nav text-nav-mute">
         <div className="flex page-width flex-wrap items-center justify-between gap-2 py-6 text-sm">
-          <span><b className="font-semibold text-nav-ink">InsightFlow</b> · Build Battle 2026</span>
+          <span><b className="font-semibold text-nav-ink">Verdict</b> · Build Battle 2026</span>
           <Link href="/dashboard" className="text-nav-ink underline underline-offset-4 hover:text-hl">
             Go to the dashboard
           </Link>

@@ -9,6 +9,7 @@ import { DataGate } from "@/components/data-gate";
 import { useFeedbackData } from "@/components/data-provider";
 import { DEFAULT_CAP, qualityLine, useAdaption } from "@/components/adaption-provider";
 import { Stat } from "@/components/stat";
+import { Funnel, Gauge } from "@/components/mini-viz";
 import { MAX_REPEATS_SENT, MAX_ROWS_SENT } from "@/lib/adaption/types";
 
 const nf = new Intl.NumberFormat("en-US");
@@ -74,9 +75,33 @@ function InstantResult() {
           note={`Reading ${seconds(t.parseMs)} · deduplicating ${seconds(t.dedupeMs)} · scoring ${seconds(t.scoreMs)}`}
         />
       </div>
+      <Card>
+        <CardContent className="grid gap-6 md:grid-cols-[minmax(0,3fr)_minmax(0,2fr)] md:items-center">
+          <Funnel
+            steps={[
+              { label: "Rows in your file", value: stats.rowsRead },
+              { label: "Usable rows", value: stats.rowsKept },
+              { label: "Unique entries after merging repeats", value: stats.uniqueEntries },
+            ]}
+          />
+          <div className="flex flex-wrap justify-center gap-6">
+            <Gauge
+              value={stats.before.score / 10}
+              display={`${stats.before.grade} · ${stats.before.score.toFixed(1)}`}
+              caption="Quality before cleaning"
+              color="var(--neu)"
+            />
+            <Gauge
+              value={stats.after.score / 10}
+              display={`${stats.after.grade} · ${stats.after.score.toFixed(1)}`}
+              caption="Quality after cleaning"
+            />
+          </div>
+        </CardContent>
+      </Card>
       {stats.overflowRows > 0 && (
         <p role="alert" className="notice p-3 text-sm">
-          This file has more unique entries than InsightFlow can hold. {nf.format(stats.overflowRows)} rows after
+          This file has more unique entries than Verdict can hold. {nf.format(stats.overflowRows)} rows after
           the limit were not included, so totals are lower than the file.
         </p>
       )}
@@ -176,6 +201,34 @@ function Panel() {
                 }
               />
             </div>
+            {q && q.scoreAfter !== null && (
+              <Card>
+                <CardContent className="flex flex-wrap items-center justify-center gap-8">
+                  {q.scoreBefore !== null && (
+                    <Gauge
+                      value={q.scoreBefore / 10}
+                      display={`${q.gradeBefore ?? ""} · ${q.scoreBefore.toFixed(1)}`}
+                      caption="Adaption score before"
+                      color="var(--neu)"
+                    />
+                  )}
+                  <Gauge
+                    value={q.scoreAfter / 10}
+                    display={`${q.gradeAfter ?? ""} · ${q.scoreAfter.toFixed(1)}`}
+                    caption="Adaption score after deduplication"
+                    color="var(--p2)"
+                  />
+                  <div className="min-w-56 flex-1">
+                    <Funnel
+                      steps={[
+                        { label: "Rows sent to Adaption", value: report.rowsSent },
+                        { label: "Rows kept after deduplication", value: report.rowsAfter },
+                      ]}
+                    />
+                  </div>
+                </CardContent>
+              </Card>
+            )}
             <p className="text-sm text-muted-foreground">
               {report.sampled
                 ? `To keep the run short, Adaption processed a sample of ${nf.format(report.textsSent)} of your ${nf.format(report.totalUnique)} unique texts. The score describes that sample. `
@@ -299,7 +352,7 @@ function Panel() {
                 </div>
                 <p className="text-sm text-muted-foreground">
                   Adaption is working ({job.statusText}) · {clock}. This usually takes 5 to 15 minutes and runs in the
-                  background. You can keep using InsightFlow or close this page; we pick it up again when you return.
+                  background. You can keep using Verdict or close this page; we pick it up again when you return.
                 </p>
               </div>
             )}

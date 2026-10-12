@@ -1,4 +1,4 @@
-# InsightFlow — Build Checklist
+# Verdict — Build Checklist
 
 **Progress: about 95%.** Every feature is built and was tested in a real browser. What is left needs your accounts: deploying to Vercel and (optionally) moving storage to Supabase.
 Last updated: 2026-10-11.
@@ -11,6 +11,8 @@ Legend: `[x]` done and tested, `[ ]` not done.
 - [x] **Dark mode.** Follows the computer's setting, with a toggle in the header that is remembered.
 - [x] **New look.** Entry page at `/` (what the product does, sample or upload), top tab bar instead of a sidebar, tinted number cards, key takeaways and a ranked "fix these first" list on the dashboard, charts with values written on them.
 - [x] **All pages restyled.** Numbered priority table with score bars and a details panel on Recommendations; status cards and coloured status pills on Issues; sentiment pills on Feedback and Ask; tinted cards on Analysis and Adaption; report with key takeaways that prints light even in dark mode.
+- [x] **Deployed on Vercel:** https://verdict-visheshpandey.vercel.app (the older https://insightflow-visheshpandey.vercel.app also works) (project `insightflow`, keys stored as hidden server-only secrets, GitHub repo connected so pushes to `main` redeploy). Checked live: entry page, sample dashboard, charts, file upload, a real Ask answer from Gemini, phone width.
+- [x] **Visual-first pages.** Shared chart pieces in `src/components/mini-viz.tsx` (sentiment bar, meter with #1 marker, gauge, funnel, mini histogram, sparkline, donut, priority matrix, heatmap; plain HTML/SVG so they also print). Dashboard: a mini chart in every number card and takeaway, priority matrix, theme × category heatmap, kind-of-feedback donut, reliability funnel and quality gauges. Recommendations: "why it ranks here" as three bars against #1, plus the matrix. Analysis: one clean theme list (bar length = how much it is talked about, colours = sentiment) with a details panel for the selected theme (main problems, what customers like, real quotes), and category sentiment as tidy rows. Feedback: clickable sentiment and theme bars that filter the table. Issues: status progress bar and "when saved vs now" bars. Ask: each answer drawn from its facts. Adaption: funnel and before/after gauges. Report: sentiment donut, matrix and score bars.
 - [x] **"Paper and ink" look (current).** Cream page, ink-outlined cards with a small hard shadow, dark ink navigation bar with a serif wordmark and yellow active tab, Fraunces headings and numbers, red main buttons, yellow pressed filters, cobalt links, green/sand/red sentiment, joined number strips, matching dark mode, icon and link preview.
 - [x] **Blue-and-white colour system (replaced by the look above).** White pages, deep slate text and footer, muted blue for buttons, links and active states, cool gray lines; charts in four shades of blue; no gradients, no glass blur, small corner radii; accessible contrast (buttons 5.8:1, secondary text 6.1:1); dark mode in the same navy family.
 - [x] **Layout and text size.** Content uses 90% of the screen width on laptops and desktops; text scales up on large screens (17px at 1280+, 18px at 1600+).
@@ -22,7 +24,7 @@ Legend: `[x]` done and tested, `[ ]` not done.
 - [x] Next.js (App Router), TypeScript, Tailwind, shadcn/ui, Recharts
 - [x] App shell with a responsive sidebar and mobile menu; 9 pages
 - [x] Loading, empty and error states on every page
-- [x] Renamed to InsightFlow; stray `cn` dependency checked (kept: every component uses it)
+- [x] Renamed (first InsightFlow, now Verdict); stray `cn` dependency checked (kept: every component uses it)
 - [x] `.env.example` complete; `.env.local` ignored by git; keys never reach the browser (checked in the build output)
 - [x] Font bug fixed (the UI was rendering in a serif font)
 - [x] `shadcn` CLI moved to dev dependencies: `npm audit` for production dependencies reports 0 vulnerabilities

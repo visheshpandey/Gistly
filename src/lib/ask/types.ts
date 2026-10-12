@@ -2,7 +2,7 @@ import type { Sentiment } from "../analysis/types.ts";
 
 // "Ask a question" works in three steps so the AI never makes up numbers:
 //  1. The AI turns the question into a plan (which feedback to look at).
-//  2. InsightFlow works out the real numbers for that plan from the labelled feedback.
+//  2. Verdict works out the real numbers for that plan from the labelled feedback.
 //  3. The AI explains those numbers in plain words, and every figure it quotes is checked against them.
 
 export type AskFocus = "overview" | "problems" | "strengths" | "compare" | "examples" | "trend";

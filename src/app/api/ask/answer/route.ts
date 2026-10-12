@@ -3,7 +3,7 @@ import { badRequest, errorResponse } from "@/lib/analysis/http";
 import { ANSWER_SCHEMA, answerPrompt } from "@/lib/ask/prompts";
 import { MAX_QUESTION_CHARS, type AskFacts } from "@/lib/ask/types";
 
-// Step 3 of a question: the AI explains numbers that InsightFlow already calculated.
+// Step 3 of a question: the AI explains numbers that Verdict already calculated.
 export async function POST(request: Request) {
   const body = (await request.json().catch(() => null)) as
     | { question?: unknown; facts?: unknown; context?: unknown }

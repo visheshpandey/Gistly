@@ -48,7 +48,7 @@ export function SharedReport() {
         <Button onClick={() => window.print()}>Download PDF</Button>
       </div>
       <ReportView data={state.data} />
-      <p className="text-center text-xs text-muted-foreground print:hidden">Shared from InsightFlow</p>
+      <p className="text-center text-xs text-muted-foreground print:hidden">Shared from Verdict</p>
     </div>
   );
 }

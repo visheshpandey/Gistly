@@ -10,6 +10,7 @@ import { useFeedbackData } from "@/components/data-provider";
 import { NewDataBanner } from "@/components/new-data-banner";
 import { useAnalysis } from "@/components/use-analysis";
 import { useIssues } from "@/components/use-issues";
+import { MeterBar, PriorityMatrix } from "@/components/mini-viz";
 import { AnalysisRunError, fetchActions } from "@/lib/analysis/run";
 import { explainRank, rankPriorities, type PriorityItem } from "@/lib/analysis/priority";
 import type { AnalysisResult } from "@/lib/analysis/types";
@@ -72,7 +73,7 @@ function Detail({
 
           <div>
             <div className="flex items-center gap-2">
-              <h3 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Suggested action</h3>
+              <h3 className="font-sans text-xs font-semibold uppercase tracking-wider text-muted-foreground">Suggested action</h3>
               <Badge variant="secondary">AI-written</Badge>
             </div>
             <p className="mt-1.5 text-[0.9375rem] leading-relaxed">
@@ -81,8 +82,32 @@ function Detail({
           </div>
 
           <div>
-            <h3 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Why it ranks here</h3>
-            <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground">{explainRank(p, top)}</p>
+            <h3 className="font-sans text-xs font-semibold uppercase tracking-wider text-muted-foreground">Why it ranks here</h3>
+            {/* The three numbers that make the score, each against the #1 problem (the ink marker). */}
+            <ul className="mt-2 flex flex-col gap-2.5">
+              {[
+                { label: "Share of all feedback", value: p.frequency, ref: top.frequency, text: pct(p.frequency), max: Math.max(p.frequency, top.frequency) },
+                { label: "Negative share", value: p.negativeShare, ref: top.negativeShare, text: pct(p.negativeShare), max: 1 },
+                { label: "Severity", value: p.severity, ref: top.severity, text: `${p.avgSeverity.toFixed(1)} / 5`, max: 1 },
+              ].map((part) => (
+                <li key={part.label} className="flex flex-col gap-1">
+                  <span className="flex justify-between text-sm">
+                    <span>{part.label}</span>
+                    <span className="font-semibold tabular-nums">{part.text}</span>
+                  </span>
+                  <MeterBar
+                    value={part.value / Math.max(0.0001, part.max)}
+                    reference={p.rank === 1 ? undefined : part.ref / Math.max(0.0001, part.max)}
+                    label={`${part.label}: ${part.text}${p.rank === 1 ? "" : `, compared with the top problem`}`}
+                  />
+                </li>
+              ))}
+            </ul>
+            {p.rank > 1 && <p className="mt-2 text-xs text-muted-foreground">The ink marker shows the #1 problem.</p>}
+            <details className="mt-2 text-sm">
+              <summary className="cursor-pointer text-xs font-semibold text-brand">Read the full calculation</summary>
+              <p className="mt-1.5 leading-relaxed text-muted-foreground">{explainRank(p, top)}</p>
+            </details>
           </div>
 
           <div className="flex flex-wrap items-center gap-3">
@@ -102,7 +127,7 @@ function Detail({
         <div className="flex flex-col gap-5">
           {p.stat.topIssues.length > 0 && (
             <div>
-              <h3 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Most common issues</h3>
+              <h3 className="font-sans text-xs font-semibold uppercase tracking-wider text-muted-foreground">Most common issues</h3>
               <ul className="mt-2 flex flex-col gap-2">
                 {p.stat.topIssues.map((i) => (
                   <li key={i.issue} className="flex flex-col gap-1">
@@ -123,7 +148,7 @@ function Detail({
           )}
           {p.stat.quotes.length > 0 && (
             <div>
-              <h3 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">What customers said</h3>
+              <h3 className="font-sans text-xs font-semibold uppercase tracking-wider text-muted-foreground">What customers said</h3>
               <ul className="mt-2 flex flex-col">
                 {p.stat.quotes.map((q) => (
                   <li key={q.text} className="flex items-baseline gap-3 border-b py-2 last:border-b-0">
@@ -221,7 +246,7 @@ function Panel() {
         <p className="max-w-3xl text-sm leading-relaxed">
           <span className="font-semibold">Score = share of feedback × negative share × severity</span>, shown relative to
           the top problem (always 100). Repeated reviews count every time. Ranking and numbers are calculated by
-          InsightFlow; only the suggested actions are AI-written ({result.model}).
+          Verdict; only the suggested actions are AI-written.
         </p>
         {missingActions && (
           <Button onClick={() => void writeActions()} disabled={busy} className="shrink-0">
@@ -302,9 +327,28 @@ function Panel() {
         </div>
       </Card>
 
-      <section aria-label={`Details for ${current.theme}`}>
+      <section id="rec-details" aria-label={`Details for ${current.theme}`} className="scroll-mt-16">
         <Detail p={current} top={top} result={result} saved={isSaved(current.theme)} onSave={() => saveIssue(current)} />
       </section>
+
+      <Card>
+        <CardContent className="flex flex-col gap-3">
+          <div>
+            <h2 className="title-bar text-xl font-semibold">All problems at a glance</h2>
+            <p className="mt-1 text-[0.8125rem] text-muted-foreground">
+              Further right means more feedback, higher means more negative, bigger means more severe. Click a bubble to
+              see its details above.
+            </p>
+          </div>
+          <PriorityMatrix
+            points={priorities.map((p) => ({ name: p.theme, x: p.frequency, y: p.negativeShare, size: p.severity, rank: p.rank }))}
+            onSelect={(name) => {
+              setSelected(name);
+              document.getElementById("rec-details")?.scrollIntoView({ behavior: "smooth", block: "start" });
+            }}
+          />
+        </CardContent>
+      </Card>
     </div>
   );
 }

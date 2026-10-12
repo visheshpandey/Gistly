@@ -98,9 +98,32 @@ function IssueCard({
           />
         </dl>
 
+        {nowMentions !== null && (
+          <div className="flex flex-col gap-1.5" role="img" aria-label={`Mentions when saved ${nf.format(issue.snapshot.mentions)}, now ${nf.format(nowMentions)}`}>
+            {[
+              { label: "When saved", value: issue.snapshot.mentions, color: "var(--neu)" },
+              { label: "Now", value: nowMentions, color: delta !== null && delta > 0 ? "var(--neg)" : "var(--pos)" },
+            ].map((b) => (
+              <div key={b.label} className="grid grid-cols-[5.5rem_minmax(0,1fr)_4rem] items-center gap-3 text-xs">
+                <span className="text-muted-foreground">{b.label}</span>
+                <span className="h-3 overflow-hidden rounded-full bg-muted">
+                  <span
+                    className="block h-full rounded-full"
+                    style={{
+                      width: `${(b.value / Math.max(1, issue.snapshot.mentions, nowMentions)) * 100}%`,
+                      background: b.color,
+                    }}
+                  />
+                </span>
+                <span className="text-right font-semibold tabular-nums">{nf.format(b.value)}</span>
+              </div>
+            ))}
+          </div>
+        )}
+
         {issue.action && (
           <div>
-            <h3 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Suggested action</h3>
+            <h3 className="font-sans text-xs font-semibold uppercase tracking-wider text-muted-foreground">Suggested action</h3>
             <p className="mt-1.5 text-sm leading-relaxed">{issue.action}</p>
           </div>
         )}
@@ -192,6 +215,22 @@ function Panel() {
         <Stat tint="c" label="In progress" value={nf.format(counts.in_progress)} note="Someone is on it" />
         <Stat tint="e" label="Resolved" value={nf.format(counts.resolved)} note="Fixed and closed" />
       </section>
+
+      <div className="flex flex-col gap-2">
+        <div
+          className="flex h-4 w-full gap-0.5 overflow-hidden rounded-full border-[1.5px] border-edge bg-muted"
+          role="img"
+          aria-label={`${counts.open} open, ${counts.in_progress} in progress, ${counts.resolved} resolved`}
+        >
+          <span className="bg-neg" style={{ width: `${(counts.open / Math.max(1, counts.all)) * 100}%` }} />
+          <span className="bg-hl" style={{ width: `${(counts.in_progress / Math.max(1, counts.all)) * 100}%` }} />
+          <span className="bg-pos" style={{ width: `${(counts.resolved / Math.max(1, counts.all)) * 100}%` }} />
+        </div>
+        <p className="text-xs text-muted-foreground">
+          {Math.round((counts.resolved / Math.max(1, counts.all)) * 100)}% resolved · red open, yellow in progress, green
+          resolved
+        </p>
+      </div>
 
       <div className="flex flex-wrap gap-2" role="tablist" aria-label="Filter issues by status">
         {(["all", ...STATUSES] as Filter[]).map((f) => (

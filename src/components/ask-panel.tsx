@@ -8,11 +8,12 @@ import { Card, CardContent } from "@/components/ui/card";
 import { DataGate } from "@/components/data-gate";
 import { useFeedbackData } from "@/components/data-provider";
 import { NewDataBanner } from "@/components/new-data-banner";
+import { MeterBar, SentimentBar } from "@/components/mini-viz";
 import { useAnalysis } from "@/components/use-analysis";
 import { AnalysisRunError } from "@/lib/analysis/run";
 import { askQuestion, type AskProgress } from "@/lib/ask/run";
 import { getItem, putItem } from "@/lib/storage/db";
-import { MAX_QUESTION_CHARS, SUGGESTED_QUESTIONS, type AskResult } from "@/lib/ask/types";
+import { MAX_QUESTION_CHARS, SUGGESTED_QUESTIONS, type AskFacts, type AskResult } from "@/lib/ask/types";
 
 const nf = new Intl.NumberFormat("en-US");
 
@@ -22,13 +23,71 @@ const STEP_TEXT: Record<AskProgress, string> = {
   writing: "Writing the answer",
 };
 
+const share = (text: string) => {
+  const n = Number.parseFloat(text);
+  return Number.isFinite(n) ? n / 100 : 0;
+};
+
+// The facts behind an answer, drawn: how much of the feedback it covers, its sentiment, and the groups it compares.
+// Every number here was calculated by code (see lib/ask/facts.ts); the chart only draws them.
+function AnswerVisual({ f }: { f: AskFacts }) {
+  const groups = f.comparison
+    ? f.comparison.rows.slice(0, 6).map((row) => ({ name: row.name, value: share(row.negativeShare), text: row.negativeShare }))
+    : f.topThemes.slice(0, 5).map((t) => ({ name: t.theme, value: share(t.shareOfSelection), text: t.shareOfSelection }));
+  const max = Math.max(0.0001, ...groups.map((g) => g.value));
+  return (
+    <div className="grid gap-5 rounded-lg bg-muted/50 p-4 md:grid-cols-2">
+      <div className="flex flex-col gap-3">
+        <div className="flex flex-col gap-1">
+          <span className="flex justify-between text-xs">
+            <span className="font-semibold uppercase tracking-wider text-muted-foreground">Feedback covered</span>
+            <span className="font-semibold tabular-nums">{f.matchedShareOfAll}</span>
+          </span>
+          <MeterBar value={f.matchedMentions / Math.max(1, f.allMentions)} color="var(--p1)" label={`${f.matchedShareOfAll} of all feedback`} />
+        </div>
+        <div className="flex flex-col gap-1">
+          <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Sentiment</span>
+          <SentimentBar
+            positive={f.sentiment.positiveMentions}
+            neutral={f.sentiment.neutralMentions}
+            negative={f.sentiment.negativeMentions}
+          />
+          <span className="text-xs text-muted-foreground">
+            {f.sentiment.positive} positive · {f.sentiment.negative} negative
+          </span>
+        </div>
+      </div>
+      {groups.length > 0 && (
+        <div className="flex flex-col gap-1.5">
+          <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+            {f.comparison ? `Negative share by ${f.comparison.by}` : "Main themes in this selection"}
+          </span>
+          {groups.map((g) => (
+            <div key={g.name} className="grid grid-cols-[minmax(0,8rem)_minmax(0,1fr)_3rem] items-center gap-2 text-xs">
+              <span className="truncate">{g.name}</span>
+              <span className="h-2.5 overflow-hidden rounded-full bg-card">
+                <span
+                  className="block h-full rounded-full"
+                  style={{ width: `${(g.value / max) * 100}%`, background: f.comparison ? "var(--neg)" : "var(--p2)" }}
+                />
+              </span>
+              <span className="text-right tabular-nums">{g.text}</span>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
 function AnswerCard({ r }: { r: AskResult }) {
   const f = r.facts;
   return (
     <Card>
       <CardContent className="flex flex-col gap-4">
-        <h2 className="text-base font-semibold tracking-tight">{r.question}</h2>
+        <h2 className="text-xl font-semibold">{r.question}</h2>
         <p className="max-w-prose text-sm leading-relaxed">{r.answer}</p>
+        {f && f.matchedMentions > 0 && <AnswerVisual f={f} />}
 
         {r.unverifiedNumbers.length > 0 && (
           <p role="alert" className="notice p-3 text-xs">
@@ -55,7 +114,7 @@ function AnswerCard({ r }: { r: AskResult }) {
               </p>
               <p className="text-xs">{f.coverageNote}</p>
               <p className="text-xs">
-                Every number was calculated by InsightFlow from the AI labels. The AI only turned your question into a
+                Every number was calculated by Verdict from the AI labels. The AI only turned your question into a
                 search and then explained those numbers.
               </p>
             </div>
@@ -64,7 +123,7 @@ function AnswerCard({ r }: { r: AskResult }) {
 
         {f && f.quotes.length > 0 && (
           <div>
-            <h3 className="text-sm font-medium">What customers wrote</h3>
+            <h3 className="font-sans text-sm font-medium">What customers wrote</h3>
             <ul className="mt-2 flex flex-col gap-2">
               {f.quotes.map((q) => (
                 <li key={q.text} className="flex flex-col gap-1 rounded-lg border p-3">

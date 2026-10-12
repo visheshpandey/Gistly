@@ -15,7 +15,7 @@ import { persistenceMode, type Persistence } from "@/lib/storage/db";
 import { MAX_DATASETS, listMeta, loadDataset, metaOf, removeDataset, saveDataset, saveMeta, uniqueName } from "@/lib/storage/library";
 import { ACTIVE_KEY, SEEDED_KEY, migrateLegacy } from "@/lib/storage/migrate";
 
-// InsightFlow keeps a shelf of datasets in the browser's database (IndexedDB). One is open at a time.
+// Verdict keeps a shelf of datasets in the browser's database (IndexedDB). One is open at a time.
 // Everything else in the app reads the open dataset from here, so switching datasets switches every page.
 export const SAMPLE_LABEL = "Sample dataset";
 export const SAMPLE_UID = "sample";

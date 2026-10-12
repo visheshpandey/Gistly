@@ -9,7 +9,7 @@ import type { AdaptionReport, EstimateResponse, ResultResponse, StatusResponse }
 import { getItem, putItem } from "@/lib/storage/db";
 
 // One manager for Adaption verification, living above every page. A run keeps going while you move around the app
-// (even to another dataset), and the rest of InsightFlow never waits for it. It can start by itself after an upload,
+// (even to another dataset), and the rest of Verdict never waits for it. It can start by itself after an upload,
 // but only if the user turned that on, and only when the server's own cost estimate is within the credit limit the
 // user set. Every dataset keeps its own result.
 const JOB_KEY = "insightflow:adaption-job:v3";

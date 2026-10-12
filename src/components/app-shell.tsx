@@ -65,7 +65,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       <footer className="mt-8 border-t-4 border-hl bg-nav text-nav-mute print:hidden">
         <div className="page-width flex flex-wrap items-center justify-between gap-x-6 gap-y-1 py-5 text-sm">
           <span>
-            <b className="font-semibold text-nav-ink">InsightFlow</b> · customer feedback into priorities
+            <b className="font-semibold text-nav-ink">Verdict</b> · customer feedback into priorities
           </span>
           <span>Every number is calculated from your data. The AI only labels and explains.</span>
         </div>

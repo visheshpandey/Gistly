@@ -4,8 +4,8 @@ import Link from "next/link";
 // It takes its colour from where it sits, so it works on the dark bar and on light pages.
 export function Brand() {
   return (
-    <Link href="/" className="wordmark rounded-sm text-[1.45rem] leading-none" aria-label="InsightFlow home">
-      InsightFlow
+    <Link href="/" className="wordmark rounded-sm text-[1.45rem] leading-none" aria-label="Verdict home">
+      Verdict
     </Link>
   );
 }

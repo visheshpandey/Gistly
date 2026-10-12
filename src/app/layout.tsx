@@ -30,11 +30,11 @@ const DESCRIPTION =
   "AI-powered feedback intelligence: import customer feedback, see sentiment and themes, and get a ranked list of what to fix first.";
 
 export const metadata: Metadata = {
-  title: { default: "InsightFlow", template: "%s · InsightFlow" },
+  title: { default: "Verdict", template: "%s · Verdict" },
   description: DESCRIPTION,
-  applicationName: "InsightFlow",
-  openGraph: { title: "InsightFlow", description: DESCRIPTION, siteName: "InsightFlow", type: "website" },
-  twitter: { card: "summary_large_image", title: "InsightFlow", description: DESCRIPTION },
+  applicationName: "Verdict",
+  openGraph: { title: "Verdict", description: DESCRIPTION, siteName: "Verdict", type: "website" },
+  twitter: { card: "summary_large_image", title: "Verdict", description: DESCRIPTION },
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

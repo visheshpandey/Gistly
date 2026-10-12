@@ -2,7 +2,7 @@ import type { Dataset, FeedbackRow, LocalStats } from "../feedback-types.ts";
 import { putItem } from "./db.ts";
 import { saveDataset } from "./library.ts";
 
-// Earlier versions of InsightFlow kept ONE dataset (plus its analysis and Adaption result) in localStorage.
+// Earlier versions of Verdict kept ONE dataset (plus its analysis and Adaption result) in localStorage.
 // This moves that into the new shelf once, so nobody loses what they had. It never throws: if something is odd
 // it simply skips it.
 

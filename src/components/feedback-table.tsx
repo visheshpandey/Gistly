@@ -88,6 +88,53 @@ function SortHeader({
   );
 }
 
+// A small bar chart where every bar is also a filter button. Clicking the selected bar clears the filter.
+function BarFilter({
+  title,
+  items,
+  selected,
+  onSelect,
+}: {
+  title: string;
+  items: { key: string; label: string; value: number; color: string }[];
+  selected: string;
+  onSelect: (key: string) => void;
+}) {
+  const max = Math.max(1, ...items.map((i) => i.value));
+  const total = items.reduce((s, i) => s + i.value, 0);
+  return (
+    <div className="rounded-xl border-[1.5px] border-edge bg-card p-4 shadow-[3px_3px_0_var(--edge)]">
+      <p className="mb-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground">{title} · click to filter</p>
+      <ul className="flex flex-col gap-1">
+        {items.map((i) => {
+          const active = selected === i.key;
+          return (
+            <li key={i.key}>
+              <button
+                type="button"
+                aria-pressed={active}
+                onClick={() => onSelect(active ? "all" : i.key)}
+                className={cn(
+                  "grid w-full grid-cols-[minmax(0,9rem)_minmax(0,1fr)_3.5rem] items-center gap-3 rounded-md px-2 py-1 text-left text-sm transition-colors",
+                  active ? "bg-sel font-semibold" : "hover:bg-muted",
+                )}
+              >
+                <span className="truncate capitalize">{i.label}</span>
+                <span className="h-2.5 overflow-hidden rounded-full bg-muted">
+                  <span className="block h-full rounded-full" style={{ width: `${(i.value / max) * 100}%`, background: i.color }} />
+                </span>
+                <span className="text-right text-xs tabular-nums text-muted-foreground">
+                  {total > 0 ? `${Math.round((i.value / total) * 100)}%` : "0%"}
+                </span>
+              </button>
+            </li>
+          );
+        })}
+      </ul>
+    </div>
+  );
+}
+
 export function FeedbackTable({
   rows,
   categories,
@@ -130,6 +177,25 @@ export function FeedbackTable({
     });
   }, [rows, query, category, sentiment, theme, labels, sortKey, sortDir]);
 
+  // Mentions per sentiment and per theme, for the clickable bars above the table. They follow the search and
+  // category filters but not their own, so every bar stays visible while one is selected.
+  const breakdown = useMemo(() => {
+    if (!labels) return null;
+    const q = query.trim().toLowerCase();
+    const bySentiment: Record<string, number> = { positive: 0, neutral: 0, negative: 0 };
+    const byTheme = new Map<string, number>();
+    for (const row of rows) {
+      if (category !== "all" && row.category !== category) continue;
+      if (q !== "" && !row.review.toLowerCase().includes(q)) continue;
+      const l = labels.get(row.id);
+      if (!l) continue;
+      bySentiment[l.sentiment] += row.occurrences;
+      byTheme.set(l.theme, (byTheme.get(l.theme) ?? 0) + row.occurrences);
+    }
+    const themesSorted = [...byTheme.entries()].sort((a, b) => b[1] - a[1]).slice(0, 6);
+    return { bySentiment, themesSorted };
+  }, [rows, labels, query, category]);
+
   const pageCount = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
   const current = Math.min(page, pageCount);
   const start = (current - 1) * PAGE_SIZE;
@@ -149,6 +215,33 @@ export function FeedbackTable({
 
   return (
     <section aria-label="Feedback table" className="flex flex-col gap-4">
+      {breakdown && (
+        <div className="grid gap-4 md:grid-cols-2">
+          <BarFilter
+            title="Sentiment"
+            items={(["positive", "neutral", "negative"] as const).map((s) => ({
+              key: s,
+              label: s,
+              value: breakdown.bySentiment[s],
+              color: s === "positive" ? "var(--pos)" : s === "neutral" ? "var(--neu)" : "var(--neg)",
+            }))}
+            selected={sentiment}
+            onSelect={(v) => {
+              setSentiment(v);
+              setPage(1);
+            }}
+          />
+          <BarFilter
+            title="Top themes"
+            items={breakdown.themesSorted.map(([t, v]) => ({ key: t, label: t, value: v, color: "var(--p2)" }))}
+            selected={theme}
+            onSelect={(v) => {
+              setTheme(v);
+              setPage(1);
+            }}
+          />
+        </div>
+      )}
       <div className="flex flex-col gap-3 sm:flex-row">
         <div className="flex flex-1 flex-col gap-1.5">
           <label htmlFor="feedback-search" className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">

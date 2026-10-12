@@ -40,7 +40,7 @@ export function DataGate({ children }: { children: React.ReactNode }) {
       <div className="flex min-h-64 flex-col items-center justify-center rounded-xl border border-dashed p-8 text-center">
         <h2 className="text-base font-medium">No feedback yet</h2>
         <p className="mt-1 max-w-md text-sm text-muted-foreground">
-          Upload your own feedback (CSV, Excel, JSON, text or pasted), or load the sample dataset to explore InsightFlow.
+          Upload your own feedback (CSV, Excel, JSON, text or pasted), or load the sample dataset to explore Verdict.
         </p>
         {actionError && (
           <p role="alert" className="mt-3 max-w-md text-sm text-destructive">

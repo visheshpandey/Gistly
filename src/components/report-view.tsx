@@ -1,3 +1,4 @@
+import { Donut, MeterBar, PriorityMatrix } from "@/components/mini-viz";
 import { Stat } from "@/components/stat";
 import { STATUS_LABEL, type IssueStatus } from "@/lib/issues/types";
 import type { ReportData } from "@/lib/report/types";
@@ -30,12 +31,12 @@ export function ReportView({ data }: { data: ReportData }) {
     <article className="flex flex-col gap-10 [print-color-adjust:exact]" aria-label={data.title}>
       <header className="flex flex-col gap-4 border-b-[1.5px] border-edge pb-6">
         <div className="flex items-baseline gap-2 text-sm font-semibold text-muted-foreground">
-          <span className="wordmark text-xl text-foreground">InsightFlow</span>
+          <span className="wordmark text-xl text-foreground">Verdict</span>
           report
         </div>
         <h1 className="text-3xl font-bold md:text-4xl">{data.title}</h1>
         <p className="text-sm text-muted-foreground">
-          Prepared {date} · Dataset: {data.datasetLabel} · Analysed with AI ({data.model})
+          Prepared {date} · Dataset: {data.datasetLabel} · Analysed with AI
         </p>
       </header>
 
@@ -75,26 +76,51 @@ export function ReportView({ data }: { data: ReportData }) {
           <Stat tint="d" label="Net sentiment" value={`${k.netSentiment > 0 ? "+" : ""}${k.netSentiment.toFixed(1)}`} note="Positive minus negative" />
           <Stat tint="c" label="Serious problems" value={nf.format(k.critical)} note="Negative, rated 4 or 5 of 5" />
         </div>
-        <div className="flex flex-col gap-2 break-inside-avoid">
-          <div
-            className="flex h-4 w-full gap-0.5 overflow-hidden rounded-full bg-muted"
-            role="img"
-            aria-label={`${pct(k.positive)} positive, ${pct(k.neutral)} neutral, ${pct(k.negative)} negative`}
-          >
-            <div className="bg-pos" style={{ width: pct(k.positive) }} />
-            <div className="bg-neu" style={{ width: pct(k.neutral) }} />
-            <div className="bg-neg" style={{ width: pct(k.negative) }} />
-          </div>
-          <p className="flex flex-wrap gap-x-5 text-xs text-muted-foreground">
-            <span><span className="mr-1.5 inline-block size-2 rounded-full bg-pos" />Positive {pct(k.positive)}</span>
-            <span><span className="mr-1.5 inline-block size-2 rounded-full bg-neu" />Neutral {pct(k.neutral)}</span>
-            <span><span className="mr-1.5 inline-block size-2 rounded-full bg-neg" />Negative {pct(k.negative)}</span>
-          </p>
+        <div className="flex flex-wrap items-center gap-x-10 gap-y-4 break-inside-avoid">
+          <Donut
+            items={[
+              { name: "Positive", value: k.positive, color: "var(--pos)" },
+              { name: "Neutral", value: k.neutral, color: "var(--neu)" },
+              { name: "Negative", value: k.negative, color: "var(--neg)" },
+            ]}
+            center={nf.format(k.totalMentions)}
+            sub="mentions"
+            size={170}
+          />
+          <ul className="flex min-w-48 flex-1 flex-col gap-3 text-sm">
+            {[
+              { name: "Positive", value: k.positive, color: "var(--pos)" },
+              { name: "Neutral", value: k.neutral, color: "var(--neu)" },
+              { name: "Negative", value: k.negative, color: "var(--neg)" },
+            ].map((s) => (
+              <li key={s.name} className="flex flex-col gap-1">
+                <span className="flex items-center gap-2">
+                  <span className="size-3 rounded-full" style={{ background: s.color }} aria-hidden="true" />
+                  <span className="flex-1">{s.name}</span>
+                  <span className="font-semibold tabular-nums">{pct(s.value)}</span>
+                </span>
+                <MeterBar value={s.value} color={s.color} label={`${s.name} ${pct(s.value)}`} />
+              </li>
+            ))}
+          </ul>
         </div>
       </section>
 
       <section aria-label="Priorities" className="flex flex-col gap-4">
         <SectionTitle>What to fix first</SectionTitle>
+        {data.priorities.length > 0 && (
+          <div className="rounded-xl border-[1.5px] border-edge bg-card p-4 break-inside-avoid">
+            <PriorityMatrix
+              points={data.priorities.map((p) => ({
+                name: p.theme,
+                x: p.frequency,
+                y: p.negativeShare,
+                size: p.avgSeverity / 5,
+                rank: p.rank,
+              }))}
+            />
+          </div>
+        )}
         {data.priorities.length === 0 ? (
           <p className="text-sm text-muted-foreground">No problems were found in the feedback.</p>
         ) : (
@@ -114,10 +140,21 @@ export function ReportView({ data }: { data: ReportData }) {
                   <div className="h-2 overflow-hidden rounded-full bg-muted" role="img" aria-label={`Priority ${p.score.toFixed(0)} of 100`}>
                     <div className="h-full rounded-full bg-neg" style={{ width: `${p.score}%` }} />
                   </div>
-                  <p className="text-sm text-muted-foreground">
-                    {nf.format(p.mentions)} mentions ({pct(p.frequency)} of feedback) · {pct(p.negativeShare)} negative · average
-                    severity {p.avgSeverity.toFixed(1)} of 5
-                  </p>
+                  <div className="grid gap-3 sm:grid-cols-3">
+                    {[
+                      { label: "Share of feedback", value: p.frequency / Math.max(0.0001, top?.frequency ?? p.frequency), text: `${pct(p.frequency)} · ${nf.format(p.mentions)}` },
+                      { label: "Negative", value: p.negativeShare, text: pct(p.negativeShare) },
+                      { label: "Severity", value: p.avgSeverity / 5, text: `${p.avgSeverity.toFixed(1)} / 5` },
+                    ].map((part) => (
+                      <div key={part.label} className="flex flex-col gap-1">
+                        <span className="flex justify-between text-xs">
+                          <span className="text-muted-foreground">{part.label}</span>
+                          <span className="font-semibold tabular-nums">{part.text}</span>
+                        </span>
+                        <MeterBar value={part.value} color="var(--p1)" className="h-2" label={`${part.label}: ${part.text}`} />
+                      </div>
+                    ))}
+                  </div>
                   {p.action && (
                     <p className="text-[0.9375rem] leading-relaxed">
                       <span className="font-semibold">Suggested action: </span>
@@ -213,7 +250,7 @@ export function ReportView({ data }: { data: ReportData }) {
 
       <footer className="border-t pt-4 text-xs leading-relaxed text-muted-foreground">
         How to read this report: an AI read each unique review and labelled its sentiment, theme and severity. All counts
-        and percentages were calculated by InsightFlow from those labels and count every time a review was received. A
+        and percentages were calculated by Verdict from those labels and count every time a review was received. A
         problem&apos;s priority is its share of all feedback × its negative share × its average severity (out of 5),
         shown relative to the top problem.
       </footer>

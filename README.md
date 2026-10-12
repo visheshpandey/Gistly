@@ -1,8 +1,10 @@
-# InsightFlow
+# Verdict
 
 **AI-powered feedback intelligence. From raw signal to ranked decisions.**
 
-InsightFlow turns piles of customer feedback into decisions. Import reviews, see what customers feel and talk about, find out what to fix first, track the fixes, and send a report to your team. Ask your own questions in plain English and get answers backed by the real reviews.
+**Live app: https://verdict-visheshpandey.vercel.app**
+
+Verdict turns piles of customer feedback into decisions. Import reviews, see what customers feel and talk about, find out what to fix first, track the fixes, and send a report to your team. Ask your own questions in plain English and get answers backed by the real reviews.
 
 It works on first load with a built-in sample (7,000 reviews), needs no login, and runs on a normal laptop.
 
@@ -39,7 +41,7 @@ It works on first load with a built-in sample (7,000 reviews), needs no login, a
 | **Datasets menu** (top bar) | Keep up to 25 datasets side by side. Each has its own AI analysis, issues, reports and questions. Switch, rename or delete from the menu; uploading never overwrites anything. |
 | **AI Analysis** | An AI labels every unique review with sentiment, theme, severity and main issue. Shows the sentiment split, the themes with real quotes, and sentiment inside each category. New feedback is analysed on its own in seconds. |
 | **Ask** | Ask a question such as "What do customers say about refunds?" or "Which category has the most problems?". Every answer shows how it was worked out and the reviews behind it. |
-| **Dashboard** | Key numbers, key takeaways written from the numbers, the top problems ranked, and charts for sentiment, complaints, categories, severity and trend. One-click filters for sentiment and category (plus theme and date) change everything together. |
+| **Dashboard** | Visual first: every number and takeaway has a small chart, a priority matrix (volume × negativity × severity) shows what to fix first, a heatmap shows which theme hurts in which category, plus charts for sentiment, complaints, kinds of feedback, severity, trend and data reliability. One-click filters for sentiment and category (plus theme and date) change everything together. |
 | **Recommendations** | A numbered table of problems ranked by priority score with score bars. Click a row for the numbers, a plain-language reason for the rank, an AI-written suggested action and real quotes. |
 | **Issues** | Save a problem and track it as open, in progress or resolved, with team notes and a comparison against today's numbers. |
 | **Reports** | A business-friendly report with key takeaways. Download it as a PDF or copy a share link that works without an account. |
@@ -47,7 +49,7 @@ It works on first load with a built-in sample (7,000 reviews), needs no login, a
 
 ## How the numbers stay trustworthy
 
-- **The AI labels, our code counts.** Every count, percentage and score is calculated by InsightFlow from the AI's labels and is weighted by how many times each review was received. The AI never writes a number.
+- **The AI labels, our code counts.** Every count, percentage and score is calculated by Verdict from the AI's labels and is weighted by how many times each review was received. The AI never writes a number.
 - **Category is not sentiment.** Categories are never sent to the AI and never used as sentiment. Inside every category there is praise and complaints.
 - **Questions are answered in three steps:** the AI turns the question into a search, our code computes the facts, and the AI explains them. Group winners ("which is highest?") are picked by code, and every figure in an answer is checked against the facts.
 - **Honest labels.** "Instant" is our own estimate. "Verified by Adaption" is Adaption's result. They use different scales and are never mixed. Nothing is simulated: if there are no dates there is no trend chart.

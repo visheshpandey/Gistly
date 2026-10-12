@@ -43,3 +43,5 @@ next-env.d.ts
 
 # coding-assistant notes written by next dev
 AGENTS.md
+
+.env*
