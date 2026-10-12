@@ -1,25 +1,14 @@
-import { FeedbackTable } from "@/components/feedback-table";
-import { KpiCards } from "@/components/kpi-cards";
-import { ErrorState, PageHeader } from "@/components/page-header";
-import { loadFeedback } from "@/lib/feedback";
+import { FeedbackWorkspace } from "@/components/feedback-workspace";
+import { PageHeader } from "@/components/page-header";
 
-export default async function FeedbackPage() {
-  const data = await loadFeedback();
-
+export default function FeedbackPage() {
   return (
     <>
       <PageHeader
         title="Feedback"
-        description="Browse the dataset. Identical reviews are grouped and counted under Occurrences."
+        description="Browse, import and add feedback. Identical reviews are grouped and counted under Occurrences."
       />
-      {data.error ? (
-        <ErrorState message={data.error} />
-      ) : (
-        <div className="flex flex-col gap-6">
-          <KpiCards data={data} />
-          <FeedbackTable rows={data.rows} categories={data.categories} />
-        </div>
-      )}
+      <FeedbackWorkspace />
     </>
   );
 }
