@@ -1,4 +1,4 @@
--- Gistly initial schema.
+-- InsightFlow initial schema.
 -- Run in the Supabase SQL editor, or with the Supabase CLI: supabase db push
 
 create extension if not exists pgcrypto;
