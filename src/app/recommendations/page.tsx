@@ -1,17 +1,14 @@
-import { PageHeader, Placeholder } from "@/components/page-header";
+import { PageHeader } from "@/components/page-header";
+import { RecommendationsPanel } from "@/components/recommendations-panel";
 
 export default function RecommendationsPage() {
   return (
     <>
       <PageHeader
         title="Recommendations"
-        description="Prioritized issues with the evidence behind each one."
+        description="The problems to fix first, with the numbers behind each ranking."
       />
-      <Placeholder
-        title="No recommendations yet"
-        description="Recommendations are generated after feedback has been analyzed."
-        phase="the recommendations phase"
-      />
+      <RecommendationsPanel />
     </>
   );
 }

@@ -1,17 +1,16 @@
-import { PageHeader, Placeholder } from "@/components/page-header";
+import { PageHeader } from "@/components/page-header";
+import { ReportsPanel } from "@/components/reports-panel";
 
 export default function ReportsPage() {
   return (
     <>
-      <PageHeader
-        title="Reports"
-        description="Export or share a summary of your findings."
-      />
-      <Placeholder
-        title="No reports yet"
-        description="Reports you create will be listed here."
-        phase="the reports phase"
-      />
+      <div className="print:hidden">
+        <PageHeader
+          title="Reports"
+          description="A report you can send to your team: download it as a PDF or share a link."
+        />
+      </div>
+      <ReportsPanel />
     </>
   );
 }
