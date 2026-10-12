@@ -1,0 +1,2565 @@
+{
+  "source": "precomputed",
+  "model": "gemini-3.1-flash-lite",
+  "datasetLabel": "Sample dataset",
+  "context": "",
+  "totalMentions": 7000,
+  "totalUnique": 317,
+  "analysedTexts": 317,
+  "truncated": false,
+  "failedTexts": 0,
+  "themes": [
+    "Product Quality Performance",
+    "Product Design Features",
+    "Customer Service Interactions",
+    "Delivery and Shipping",
+    "Website Ordering Experience",
+    "Fraud and Security"
+  ],
+  "labels": [
+    {
+      "id": 1,
+      "sentiment": "positive",
+      "theme": "Product Design Features",
+      "severity": 1,
+      "keyIssue": "innovative features improved daily tasks",
+      "kind": "praise"
+    },
+    {
+      "id": 2,
+      "sentiment": "negative",
+      "theme": "Customer Service Interactions",
+      "severity": 3,
+      "keyIssue": "unresponsive customer service inquiry",
+      "kind": "complaint"
+    },
+    {
+      "id": 3,
+      "sentiment": "negative",
+      "theme": "Fraud and Security",
+      "severity": 5,
+      "keyIssue": "seller requested additional payment",
+      "kind": "complaint"
+    },
+    {
+      "id": 4,
+      "sentiment": "positive",
+      "theme": "Delivery and Shipping",
+      "severity": 2,
+      "keyIssue": "delayed delivery but informed promptly",
+      "kind": "praise"
+    },
+    {
+      "id": 5,
+      "sentiment": "positive",
+      "theme": "Product Quality Performance",
+      "severity": 2,
+      "keyIssue": "defective product replaced by seller",
+      "kind": "praise"
+    },
+    {
+      "id": 6,
+      "sentiment": "positive",
+      "theme": "Customer Service Interactions",
+      "severity": 1,
+      "keyIssue": "helpful service resolved issue quickly",
+      "kind": "praise"
+    },
+    {
+      "id": 7,
+      "sentiment": "negative",
+      "theme": "Fraud and Security",
+      "severity": 5,
+      "keyIssue": "scammed by fraudulent seller",
+      "kind": "complaint"
+    },
+    {
+      "id": 8,
+      "sentiment": "positive",
+      "theme": "Website Ordering Experience",
+      "severity": 2,
+      "keyIssue": "website issues resolved by support",
+      "kind": "praise"
+    },
+    {
+      "id": 9,
+      "sentiment": "positive",
+      "theme": "Product Quality Performance",
+      "severity": 1,
+      "keyIssue": "product exceeded quality expectations",
+      "kind": "praise"
+    },
+    {
+      "id": 10,
+      "sentiment": "positive",
+      "theme": "Product Quality Performance",
+      "severity": 2,
+      "keyIssue": "minor operational issue resolved",
+      "kind": "praise"
+    },
+    {
+      "id": 11,
+      "sentiment": "positive",
+      "theme": "Customer Service Interactions",
+      "severity": 1,
+      "keyIssue": "knowledgeable service provided excellent assistance",
+      "kind": "praise"
+    },
+    {
+      "id": 12,
+      "sentiment": "negative",
+      "theme": "Fraud and Security",
+      "severity": 5,
+      "keyIssue": "scammed with low quality product",
+      "kind": "complaint"
+    },
+    {
+      "id": 13,
+      "sentiment": "positive",
+      "theme": "Website Ordering Experience",
+      "severity": 1,
+      "keyIssue": "user friendly website navigation",
+      "kind": "praise"
+    },
+    {
+      "id": 14,
+      "sentiment": "positive",
+      "theme": "Product Quality Performance",
+      "severity": 1,
+      "keyIssue": "product arrived in perfect condition",
+      "kind": "praise"
+    },
+    {
+      "id": 15,
+      "sentiment": "negative",
+      "theme": "Customer Service Interactions",
+      "severity": 3,
+      "keyIssue": "unhelpful service no solution provided",
+      "kind": "complaint"
+    },
+    {
+      "id": 16,
+      "sentiment": "negative",
+      "theme": "Fraud and Security",
+      "severity": 5,
+      "keyIssue": "victim of counterfeit product fraud",
+      "kind": "complaint"
+    },
+    {
+      "id": 17,
+      "sentiment": "positive",
+      "theme": "Delivery and Shipping",
+      "severity": 2,
+      "keyIssue": "delayed delivery with transparent communication",
+      "kind": "praise"
+    },
+    {
+      "id": 18,
+      "sentiment": "positive",
+      "theme": "Product Quality Performance",
+      "severity": 2,
+      "keyIssue": "minor product issue resolved quickly",
+      "kind": "praise"
+    },
+    {
+      "id": 19,
+      "sentiment": "positive",
+      "theme": "Customer Service Interactions",
+      "severity": 1,
+      "keyIssue": "helpful service resolved issue promptly",
+      "kind": "praise"
+    },
+    {
+      "id": 20,
+      "sentiment": "positive",
+      "theme": "Product Design Features",
+      "severity": 1,
+      "keyIssue": "impressive features improved daily tasks",
+      "kind": "praise"
+    },
+    {
+      "id": 21,
+      "sentiment": "positive",
+      "theme": "Customer Service Interactions",
+      "severity": 1,
+      "keyIssue": "friendly efficient service resolved issue",
+      "kind": "praise"
+    },
+    {
+      "id": 22,
+      "sentiment": "positive",
+      "theme": "Fraud and Security",
+      "severity": 1,
+      "keyIssue": "genuine product received as advertised",
+      "kind": "praise"
+    },
+    {
+      "id": 23,
+      "sentiment": "positive",
+      "theme": "Delivery and Shipping",
+      "severity": 1,
+      "keyIssue": "on time delivery excellent packaging",
+      "kind": "praise"
+    },
+    {
+      "id": 24,
+      "sentiment": "positive",
+      "theme": "Product Quality Performance",
+      "severity": 2,
+      "keyIssue": "minor issue resolved by support",
+      "kind": "praise"
+    },
+    {
+      "id": 25,
+      "sentiment": "positive",
+      "theme": "Customer Service Interactions",
+      "severity": 1,
+      "keyIssue": "knowledgeable patient service guidance",
+      "kind": "praise"
+    },
+    {
+      "id": 26,
+      "sentiment": "positive",
+      "theme": "Fraud and Security",
+      "severity": 1,
+      "keyIssue": "transparent seller clear refund policy",
+      "kind": "praise"
+    },
+    {
+      "id": 27,
+      "sentiment": "positive",
+      "theme": "Delivery and Shipping",
+      "severity": 2,
+      "keyIssue": "delayed delivery with compensation provided",
+      "kind": "praise"
+    },
+    {
+      "id": 28,
+      "sentiment": "positive",
+      "theme": "Product Quality Performance",
+      "severity": 1,
+      "keyIssue": "product met expectations excellent value",
+      "kind": "praise"
+    },
+    {
+      "id": 29,
+      "sentiment": "negative",
+      "theme": "Fraud and Security",
+      "severity": 5,
+      "keyIssue": "fraudulent seller provided low quality",
+      "kind": "complaint"
+    },
+    {
+      "id": 30,
+      "sentiment": "positive",
+      "theme": "Website Ordering Experience",
+      "severity": 2,
+      "keyIssue": "website technical issues resolved quickly",
+      "kind": "praise"
+    },
+    {
+      "id": 31,
+      "sentiment": "positive",
+      "theme": "Product Quality Performance",
+      "severity": 1,
+      "keyIssue": "product performance exceeded expectations",
+      "kind": "praise"
+    },
+    {
+      "id": 32,
+      "sentiment": "positive",
+      "theme": "Customer Service Interactions",
+      "severity": 1,
+      "keyIssue": "professional customer service instructions",
+      "kind": "praise"
+    },
+    {
+      "id": 33,
+      "sentiment": "positive",
+      "theme": "Fraud and Security",
+      "severity": 1,
+      "keyIssue": "genuine product received safely",
+      "kind": "praise"
+    },
+    {
+      "id": 34,
+      "sentiment": "positive",
+      "theme": "Product Quality Performance",
+      "severity": 1,
+      "keyIssue": "excellent product quality performance",
+      "kind": "praise"
+    },
+    {
+      "id": 35,
+      "sentiment": "positive",
+      "theme": "Customer Service Interactions",
+      "severity": 1,
+      "keyIssue": "outstanding customer service resolution",
+      "kind": "praise"
+    },
+    {
+      "id": 36,
+      "sentiment": "negative",
+      "theme": "Fraud and Security",
+      "severity": 5,
+      "keyIssue": "seller requested additional payment",
+      "kind": "complaint"
+    },
+    {
+      "id": 37,
+      "sentiment": "negative",
+      "theme": "Delivery and Shipping",
+      "severity": 3,
+      "keyIssue": "incorrect order processing received",
+      "kind": "complaint"
+    },
+    {
+      "id": 38,
+      "sentiment": "negative",
+      "theme": "Product Quality Performance",
+      "severity": 4,
+      "keyIssue": "product stopped working quickly",
+      "kind": "complaint"
+    },
+    {
+      "id": 39,
+      "sentiment": "positive",
+      "theme": "Customer Service Interactions",
+      "severity": 1,
+      "keyIssue": "helpful and friendly support",
+      "kind": "praise"
+    },
+    {
+      "id": 40,
+      "sentiment": "negative",
+      "theme": "Fraud and Security",
+      "severity": 5,
+      "keyIssue": "charged but never received",
+      "kind": "complaint"
+    },
+    {
+      "id": 41,
+      "sentiment": "negative",
+      "theme": "Website Ordering Experience",
+      "severity": 3,
+      "keyIssue": "website glitches prevented purchase",
+      "kind": "complaint"
+    },
+    {
+      "id": 42,
+      "sentiment": "positive",
+      "theme": "Product Design Features",
+      "severity": 1,
+      "keyIssue": "innovative and useful features",
+      "kind": "praise"
+    },
+    {
+      "id": 43,
+      "sentiment": "negative",
+      "theme": "Customer Service Interactions",
+      "severity": 4,
+      "keyIssue": "unhelpful customer service experience",
+      "kind": "complaint"
+    },
+    {
+      "id": 44,
+      "sentiment": "positive",
+      "theme": "Product Quality Performance",
+      "severity": 1,
+      "keyIssue": "great value for money",
+      "kind": "praise"
+    },
+    {
+      "id": 45,
+      "sentiment": "negative",
+      "theme": "Fraud and Security",
+      "severity": 5,
+      "keyIssue": "multiple charges for purchase",
+      "kind": "complaint"
+    },
+    {
+      "id": 46,
+      "sentiment": "negative",
+      "theme": "Website Ordering Experience",
+      "severity": 3,
+      "keyIssue": "website crashing during ordering",
+      "kind": "complaint"
+    },
+    {
+      "id": 47,
+      "sentiment": "positive",
+      "theme": "Customer Service Interactions",
+      "severity": 1,
+      "keyIssue": "knowledgeable support staff assistance",
+      "kind": "praise"
+    },
+    {
+      "id": 48,
+      "sentiment": "negative",
+      "theme": "Fraud and Security",
+      "severity": 5,
+      "keyIssue": "low quality product scam",
+      "kind": "complaint"
+    },
+    {
+      "id": 49,
+      "sentiment": "negative",
+      "theme": "Delivery and Shipping",
+      "severity": 3,
+      "keyIssue": "delivery delayed two weeks",
+      "kind": "complaint"
+    },
+    {
+      "id": 50,
+      "sentiment": "positive",
+      "theme": "Product Design Features",
+      "severity": 1,
+      "keyIssue": "impressive product features satisfied",
+      "kind": "praise"
+    },
+    {
+      "id": 51,
+      "sentiment": "positive",
+      "theme": "Customer Service Interactions",
+      "severity": 1,
+      "keyIssue": "excellent customer service support",
+      "kind": "praise"
+    },
+    {
+      "id": 52,
+      "sentiment": "negative",
+      "theme": "Fraud and Security",
+      "severity": 5,
+      "keyIssue": "scammed with false advertising",
+      "kind": "complaint"
+    },
+    {
+      "id": 53,
+      "sentiment": "neutral",
+      "theme": "Delivery and Shipping",
+      "severity": 2,
+      "keyIssue": "delivery process operational issues",
+      "kind": "complaint"
+    },
+    {
+      "id": 54,
+      "sentiment": "positive",
+      "theme": "Product Quality Performance",
+      "severity": 1,
+      "keyIssue": "exceptional product quality performance",
+      "kind": "praise"
+    },
+    {
+      "id": 55,
+      "sentiment": "negative",
+      "theme": "Customer Service Interactions",
+      "severity": 4,
+      "keyIssue": "terrible unhelpful support team",
+      "kind": "complaint"
+    },
+    {
+      "id": 56,
+      "sentiment": "negative",
+      "theme": "Fraud and Security",
+      "severity": 5,
+      "keyIssue": "received counterfeit product scam",
+      "kind": "complaint"
+    },
+    {
+      "id": 57,
+      "sentiment": "neutral",
+      "theme": "Delivery and Shipping",
+      "severity": 2,
+      "keyIssue": "smooth ordering delayed delivery",
+      "kind": "complaint"
+    },
+    {
+      "id": 58,
+      "sentiment": "positive",
+      "theme": "Product Design Features",
+      "severity": 1,
+      "keyIssue": "incredibly useful product features",
+      "kind": "praise"
+    },
+    {
+      "id": 59,
+      "sentiment": "positive",
+      "theme": "Customer Service Interactions",
+      "severity": 1,
+      "keyIssue": "knowledgeable support satisfactory solution",
+      "kind": "praise"
+    },
+    {
+      "id": 60,
+      "sentiment": "negative",
+      "theme": "Fraud and Security",
+      "severity": 5,
+      "keyIssue": "charged but never received",
+      "kind": "complaint"
+    },
+    {
+      "id": 61,
+      "sentiment": "negative",
+      "theme": "Website Ordering Experience",
+      "severity": 3,
+      "keyIssue": "website unresponsive during order placement",
+      "kind": "complaint"
+    },
+    {
+      "id": 62,
+      "sentiment": "positive",
+      "theme": "Product Quality Performance",
+      "severity": 1,
+      "keyIssue": "good quality meets daily needs",
+      "kind": "praise"
+    },
+    {
+      "id": 63,
+      "sentiment": "positive",
+      "theme": "Customer Service Interactions",
+      "severity": 1,
+      "keyIssue": "helpful service resolved issue quickly",
+      "kind": "praise"
+    },
+    {
+      "id": 64,
+      "sentiment": "negative",
+      "theme": "Fraud and Security",
+      "severity": 5,
+      "keyIssue": "received non functional scam product",
+      "kind": "complaint"
+    },
+    {
+      "id": 65,
+      "sentiment": "positive",
+      "theme": "Delivery and Shipping",
+      "severity": 2,
+      "keyIssue": "delivery issues resolved with replacement",
+      "kind": "praise"
+    },
+    {
+      "id": 66,
+      "sentiment": "positive",
+      "theme": "Product Quality Performance",
+      "severity": 1,
+      "keyIssue": "great value performs well price",
+      "kind": "praise"
+    },
+    {
+      "id": 67,
+      "sentiment": "negative",
+      "theme": "Customer Service Interactions",
+      "severity": 4,
+      "keyIssue": "unhelpful support issue remains unresolved",
+      "kind": "complaint"
+    },
+    {
+      "id": 68,
+      "sentiment": "negative",
+      "theme": "Fraud and Security",
+      "severity": 5,
+      "keyIssue": "received wrong product scam incident",
+      "kind": "complaint"
+    },
+    {
+      "id": 69,
+      "sentiment": "negative",
+      "theme": "Delivery and Shipping",
+      "severity": 3,
+      "keyIssue": "significant delivery delay experienced",
+      "kind": "complaint"
+    },
+    {
+      "id": 70,
+      "sentiment": "positive",
+      "theme": "Product Design Features",
+      "severity": 1,
+      "keyIssue": "innovative and useful product features",
+      "kind": "praise"
+    },
+    {
+      "id": 71,
+      "sentiment": "negative",
+      "theme": "Fraud and Security",
+      "severity": 5,
+      "keyIssue": "scam product failed expectations",
+      "kind": "complaint"
+    },
+    {
+      "id": 72,
+      "sentiment": "positive",
+      "theme": "Product Quality Performance",
+      "severity": 1,
+      "keyIssue": "great investment exceeds expectations",
+      "kind": "praise"
+    },
+    {
+      "id": 73,
+      "sentiment": "negative",
+      "theme": "Fraud and Security",
+      "severity": 5,
+      "keyIssue": "received non authentic scam product",
+      "kind": "complaint"
+    },
+    {
+      "id": 74,
+      "sentiment": "positive",
+      "theme": "Product Design Features",
+      "severity": 1,
+      "keyIssue": "game changer useful innovative features",
+      "kind": "praise"
+    },
+    {
+      "id": 75,
+      "sentiment": "positive",
+      "theme": "Product Quality Performance",
+      "severity": 1,
+      "keyIssue": "durable well made product quality",
+      "kind": "praise"
+    },
+    {
+      "id": 76,
+      "sentiment": "positive",
+      "theme": "Customer Service Interactions",
+      "severity": 1,
+      "keyIssue": "exceptional service resolved issue efficiently",
+      "kind": "praise"
+    },
+    {
+      "id": 77,
+      "sentiment": "negative",
+      "theme": "Fraud and Security",
+      "severity": 5,
+      "keyIssue": "fraudulent product not as advertised",
+      "kind": "complaint"
+    },
+    {
+      "id": 78,
+      "sentiment": "negative",
+      "theme": "Delivery and Shipping",
+      "severity": 3,
+      "keyIssue": "delayed delivery and damaged packaging",
+      "kind": "complaint"
+    },
+    {
+      "id": 79,
+      "sentiment": "positive",
+      "theme": "Product Quality Performance",
+      "severity": 1,
+      "keyIssue": "innovative useful worth the investment",
+      "kind": "praise"
+    },
+    {
+      "id": 80,
+      "sentiment": "positive",
+      "theme": "Customer Service Interactions",
+      "severity": 1,
+      "keyIssue": "helpful friendly support team assistance",
+      "kind": "praise"
+    },
+    {
+      "id": 81,
+      "sentiment": "negative",
+      "theme": "Fraud and Security",
+      "severity": 5,
+      "keyIssue": "charged but never received product",
+      "kind": "complaint"
+    },
+    {
+      "id": 82,
+      "sentiment": "negative",
+      "theme": "Website Ordering Experience",
+      "severity": 3,
+      "keyIssue": "website kept crashing during ordering",
+      "kind": "complaint"
+    },
+    {
+      "id": 83,
+      "sentiment": "positive",
+      "theme": "Product Quality Performance",
+      "severity": 1,
+      "keyIssue": "high quality performs well daily",
+      "kind": "praise"
+    },
+    {
+      "id": 84,
+      "sentiment": "negative",
+      "theme": "Customer Service Interactions",
+      "severity": 4,
+      "keyIssue": "unresponsive service issue remains unresolved",
+      "kind": "complaint"
+    },
+    {
+      "id": 85,
+      "sentiment": "positive",
+      "theme": "Customer Service Interactions",
+      "severity": 1,
+      "keyIssue": "helpful efficient service resolved promptly",
+      "kind": "praise"
+    },
+    {
+      "id": 86,
+      "sentiment": "negative",
+      "theme": "Fraud and Security",
+      "severity": 5,
+      "keyIssue": "fraudulent seller requested additional payment",
+      "kind": "complaint"
+    },
+    {
+      "id": 87,
+      "sentiment": "negative",
+      "theme": "Website Ordering Experience",
+      "severity": 3,
+      "keyIssue": "website glitches and difficult checkout",
+      "kind": "complaint"
+    },
+    {
+      "id": 88,
+      "sentiment": "positive",
+      "theme": "Product Quality Performance",
+      "severity": 1,
+      "keyIssue": "excellent quality exceeds my expectations",
+      "kind": "praise"
+    },
+    {
+      "id": 89,
+      "sentiment": "positive",
+      "theme": "Customer Service Interactions",
+      "severity": 1,
+      "keyIssue": "responsive service provided great assistance",
+      "kind": "praise"
+    },
+    {
+      "id": 90,
+      "sentiment": "negative",
+      "theme": "Customer Service Interactions",
+      "severity": 4,
+      "keyIssue": "unhelpful support issue remains unresolved",
+      "kind": "complaint"
+    },
+    {
+      "id": 91,
+      "sentiment": "positive",
+      "theme": "Product Quality Performance",
+      "severity": 1,
+      "keyIssue": "exceptional product performance and value",
+      "kind": "praise"
+    },
+    {
+      "id": 92,
+      "sentiment": "positive",
+      "theme": "Product Quality Performance",
+      "severity": 1,
+      "keyIssue": "well made high quality product",
+      "kind": "praise"
+    },
+    {
+      "id": 93,
+      "sentiment": "positive",
+      "theme": "Customer Service Interactions",
+      "severity": 1,
+      "keyIssue": "friendly and helpful support team",
+      "kind": "praise"
+    },
+    {
+      "id": 94,
+      "sentiment": "negative",
+      "theme": "Fraud and Security",
+      "severity": 5,
+      "keyIssue": "fraudulent seller and counterfeit product",
+      "kind": "complaint"
+    },
+    {
+      "id": 95,
+      "sentiment": "positive",
+      "theme": "Delivery and Shipping",
+      "severity": 2,
+      "keyIssue": "delayed delivery with replacement provided",
+      "kind": "praise"
+    },
+    {
+      "id": 96,
+      "sentiment": "positive",
+      "theme": "Product Design Features",
+      "severity": 1,
+      "keyIssue": "innovative and useful product features",
+      "kind": "praise"
+    },
+    {
+      "id": 97,
+      "sentiment": "negative",
+      "theme": "Customer Service Interactions",
+      "severity": 4,
+      "keyIssue": "unresponsive and unhelpful support team",
+      "kind": "complaint"
+    },
+    {
+      "id": 98,
+      "sentiment": "negative",
+      "theme": "Fraud and Security",
+      "severity": 5,
+      "keyIssue": "multiple charges for single purchase",
+      "kind": "complaint"
+    },
+    {
+      "id": 99,
+      "sentiment": "positive",
+      "theme": "Website Ordering Experience",
+      "severity": 1,
+      "keyIssue": "smooth ordering and timely delivery",
+      "kind": "praise"
+    },
+    {
+      "id": 100,
+      "sentiment": "positive",
+      "theme": "Product Quality Performance",
+      "severity": 1,
+      "keyIssue": "excellent quality and advertised performance",
+      "kind": "praise"
+    },
+    {
+      "id": 101,
+      "sentiment": "positive",
+      "theme": "Customer Service Interactions",
+      "severity": 1,
+      "keyIssue": "knowledgeable and helpful customer support",
+      "kind": "praise"
+    },
+    {
+      "id": 102,
+      "sentiment": "negative",
+      "theme": "Fraud and Security",
+      "severity": 5,
+      "keyIssue": "scammed with non functional product",
+      "kind": "complaint"
+    },
+    {
+      "id": 103,
+      "sentiment": "positive",
+      "theme": "Product Design Features",
+      "severity": 1,
+      "keyIssue": "impressive features exceeded my expectations",
+      "kind": "praise"
+    },
+    {
+      "id": 104,
+      "sentiment": "positive",
+      "theme": "Customer Service Interactions",
+      "severity": 1,
+      "keyIssue": "responsive and prompt issue resolution",
+      "kind": "praise"
+    },
+    {
+      "id": 105,
+      "sentiment": "positive",
+      "theme": "Fraud and Security",
+      "severity": 1,
+      "keyIssue": "no fraudulent activity during purchase",
+      "kind": "praise"
+    },
+    {
+      "id": 106,
+      "sentiment": "positive",
+      "theme": "Delivery and Shipping",
+      "severity": 1,
+      "keyIssue": "on time delivery good condition",
+      "kind": "praise"
+    },
+    {
+      "id": 107,
+      "sentiment": "positive",
+      "theme": "Product Quality Performance",
+      "severity": 1,
+      "keyIssue": "commendable durability and reliable performance",
+      "kind": "praise"
+    },
+    {
+      "id": 108,
+      "sentiment": "positive",
+      "theme": "Customer Service Interactions",
+      "severity": 1,
+      "keyIssue": "friendly support with valuable insights",
+      "kind": "praise"
+    },
+    {
+      "id": 109,
+      "sentiment": "positive",
+      "theme": "Fraud and Security",
+      "severity": 1,
+      "keyIssue": "no signs of fraudulent activity",
+      "kind": "praise"
+    },
+    {
+      "id": 110,
+      "sentiment": "positive",
+      "theme": "Delivery and Shipping",
+      "severity": 2,
+      "keyIssue": "delayed delivery with satisfactory compensation",
+      "kind": "praise"
+    },
+    {
+      "id": 111,
+      "sentiment": "positive",
+      "theme": "Product Design Features",
+      "severity": 1,
+      "keyIssue": "sleek and user friendly design",
+      "kind": "praise"
+    },
+    {
+      "id": 112,
+      "sentiment": "positive",
+      "theme": "Customer Service Interactions",
+      "severity": 1,
+      "keyIssue": "helpful support with quick resolution",
+      "kind": "praise"
+    },
+    {
+      "id": 113,
+      "sentiment": "positive",
+      "theme": "Fraud and Security",
+      "severity": 1,
+      "keyIssue": "no fraudulent activity during purchase",
+      "kind": "praise"
+    },
+    {
+      "id": 114,
+      "sentiment": "positive",
+      "theme": "Delivery and Shipping",
+      "severity": 1,
+      "keyIssue": "on time delivery excellent condition",
+      "kind": "praise"
+    },
+    {
+      "id": 115,
+      "sentiment": "positive",
+      "theme": "Product Quality Performance",
+      "severity": 1,
+      "keyIssue": "outstanding performance meets my requirements",
+      "kind": "praise"
+    },
+    {
+      "id": 116,
+      "sentiment": "positive",
+      "theme": "Customer Service Interactions",
+      "severity": 1,
+      "keyIssue": "attentive support with clear instructions",
+      "kind": "praise"
+    },
+    {
+      "id": 117,
+      "sentiment": "positive",
+      "theme": "Fraud and Security",
+      "severity": 1,
+      "keyIssue": "no fraudulent activity during transaction",
+      "kind": "praise"
+    },
+    {
+      "id": 118,
+      "sentiment": "positive",
+      "theme": "Product Design Features",
+      "severity": 1,
+      "keyIssue": "unique and useful product features",
+      "kind": "praise"
+    },
+    {
+      "id": 119,
+      "sentiment": "positive",
+      "theme": "Customer Service Interactions",
+      "severity": 1,
+      "keyIssue": "knowledgeable support with comprehensive solution",
+      "kind": "praise"
+    },
+    {
+      "id": 120,
+      "sentiment": "positive",
+      "theme": "Fraud and Security",
+      "severity": 1,
+      "keyIssue": "no signs of fraudulent activity",
+      "kind": "praise"
+    },
+    {
+      "id": 121,
+      "sentiment": "positive",
+      "theme": "Delivery and Shipping",
+      "severity": 1,
+      "keyIssue": "timely delivery and good condition",
+      "kind": "praise"
+    },
+    {
+      "id": 122,
+      "sentiment": "positive",
+      "theme": "Product Quality Performance",
+      "severity": 1,
+      "keyIssue": "high quality and efficient performance",
+      "kind": "praise"
+    },
+    {
+      "id": 123,
+      "sentiment": "positive",
+      "theme": "Customer Service Interactions",
+      "severity": 1,
+      "keyIssue": "patient and detailed customer service",
+      "kind": "praise"
+    },
+    {
+      "id": 124,
+      "sentiment": "positive",
+      "theme": "Product Design Features",
+      "severity": 1,
+      "keyIssue": "visually appealing and easy use",
+      "kind": "praise"
+    },
+    {
+      "id": 125,
+      "sentiment": "positive",
+      "theme": "Customer Service Interactions",
+      "severity": 1,
+      "keyIssue": "professional and quick issue resolution",
+      "kind": "praise"
+    },
+    {
+      "id": 126,
+      "sentiment": "positive",
+      "theme": "Product Design Features",
+      "severity": 1,
+      "keyIssue": "innovative and convenient product features",
+      "kind": "praise"
+    },
+    {
+      "id": 127,
+      "sentiment": "positive",
+      "theme": "Customer Service Interactions",
+      "severity": 1,
+      "keyIssue": "friendly and clear service instructions",
+      "kind": "praise"
+    },
+    {
+      "id": 128,
+      "sentiment": "positive",
+      "theme": "Product Quality Performance",
+      "severity": 1,
+      "keyIssue": "impressive durability and reliable performance",
+      "kind": "praise"
+    },
+    {
+      "id": 129,
+      "sentiment": "positive",
+      "theme": "Customer Service Interactions",
+      "severity": 1,
+      "keyIssue": "helpful and comprehensive service solution",
+      "kind": "praise"
+    },
+    {
+      "id": 130,
+      "sentiment": "positive",
+      "theme": "Product Design Features",
+      "severity": 1,
+      "keyIssue": "modern and functional product design",
+      "kind": "praise"
+    },
+    {
+      "id": 131,
+      "sentiment": "positive",
+      "theme": "Customer Service Interactions",
+      "severity": 1,
+      "keyIssue": "attentive and detailed service explanation",
+      "kind": "praise"
+    },
+    {
+      "id": 132,
+      "sentiment": "positive",
+      "theme": "Product Quality Performance",
+      "severity": 1,
+      "keyIssue": "exceptional performance meets my expectations",
+      "kind": "praise"
+    },
+    {
+      "id": 133,
+      "sentiment": "positive",
+      "theme": "Customer Service Interactions",
+      "severity": 1,
+      "keyIssue": "knowledgeable and quick service resolution",
+      "kind": "praise"
+    },
+    {
+      "id": 134,
+      "sentiment": "positive",
+      "theme": "Product Design Features",
+      "severity": 1,
+      "keyIssue": "essential features improve my productivity",
+      "kind": "praise"
+    },
+    {
+      "id": 135,
+      "sentiment": "positive",
+      "theme": "Customer Service Interactions",
+      "severity": 1,
+      "keyIssue": "patient and clear service explanation",
+      "kind": "praise"
+    },
+    {
+      "id": 136,
+      "sentiment": "positive",
+      "theme": "Product Quality Performance",
+      "severity": 1,
+      "keyIssue": "top notch quality efficient performance",
+      "kind": "praise"
+    },
+    {
+      "id": 137,
+      "sentiment": "positive",
+      "theme": "Product Design Features",
+      "severity": 1,
+      "keyIssue": "sleek and aesthetically pleasing design",
+      "kind": "praise"
+    },
+    {
+      "id": 138,
+      "sentiment": "positive",
+      "theme": "Product Design Features",
+      "severity": 1,
+      "keyIssue": "user friendly and easy navigation",
+      "kind": "praise"
+    },
+    {
+      "id": 139,
+      "sentiment": "positive",
+      "theme": "Product Quality Performance",
+      "severity": 1,
+      "keyIssue": "reliable and consistent product performance",
+      "kind": "praise"
+    },
+    {
+      "id": 140,
+      "sentiment": "positive",
+      "theme": "Product Design Features",
+      "severity": 1,
+      "keyIssue": "visually appealing and functional design",
+      "kind": "praise"
+    },
+    {
+      "id": 141,
+      "sentiment": "positive",
+      "theme": "Product Design Features",
+      "severity": 1,
+      "keyIssue": "innovative and useful product features",
+      "kind": "praise"
+    },
+    {
+      "id": 142,
+      "sentiment": "positive",
+      "theme": "Product Quality Performance",
+      "severity": 1,
+      "keyIssue": "impressive durability and long reliability",
+      "kind": "praise"
+    },
+    {
+      "id": 143,
+      "sentiment": "positive",
+      "theme": "Product Design Features",
+      "severity": 1,
+      "keyIssue": "modern and elegant product design",
+      "kind": "praise"
+    },
+    {
+      "id": 144,
+      "sentiment": "positive",
+      "theme": "Product Quality Performance",
+      "severity": 1,
+      "keyIssue": "excellent performance exceeds my expectations",
+      "kind": "praise"
+    },
+    {
+      "id": 145,
+      "sentiment": "positive",
+      "theme": "Product Design Features",
+      "severity": 1,
+      "keyIssue": "minimalist and understated product design",
+      "kind": "praise"
+    },
+    {
+      "id": 146,
+      "sentiment": "positive",
+      "theme": "Product Design Features",
+      "severity": 1,
+      "keyIssue": "intuitive and easy to use",
+      "kind": "praise"
+    },
+    {
+      "id": 147,
+      "sentiment": "positive",
+      "theme": "Customer Service Interactions",
+      "severity": 1,
+      "keyIssue": "knowledgeable and detailed service explanation",
+      "kind": "praise"
+    },
+    {
+      "id": 148,
+      "sentiment": "positive",
+      "theme": "Product Design Features",
+      "severity": 1,
+      "keyIssue": "minimalist and sleek product design",
+      "kind": "praise"
+    },
+    {
+      "id": 149,
+      "sentiment": "positive",
+      "theme": "Customer Service Interactions",
+      "severity": 1,
+      "keyIssue": "attentive and clear service explanation",
+      "kind": "praise"
+    },
+    {
+      "id": 150,
+      "sentiment": "positive",
+      "theme": "Product Quality Performance",
+      "severity": 1,
+      "keyIssue": "exceptional performance exceeds my expectations",
+      "kind": "praise"
+    },
+    {
+      "id": 151,
+      "sentiment": "positive",
+      "theme": "Customer Service Interactions",
+      "severity": 1,
+      "keyIssue": "patient and comprehensive service solution",
+      "kind": "praise"
+    },
+    {
+      "id": 152,
+      "sentiment": "positive",
+      "theme": "Product Design Features",
+      "severity": 1,
+      "keyIssue": "modern and sophisticated product design",
+      "kind": "praise"
+    },
+    {
+      "id": 153,
+      "sentiment": "positive",
+      "theme": "Customer Service Interactions",
+      "severity": 1,
+      "keyIssue": "helpful and quick service resolution",
+      "kind": "praise"
+    },
+    {
+      "id": 154,
+      "sentiment": "positive",
+      "theme": "Product Design Features",
+      "severity": 1,
+      "keyIssue": "simple and functional product design",
+      "kind": "praise"
+    },
+    {
+      "id": 155,
+      "sentiment": "positive",
+      "theme": "Product Design Features",
+      "severity": 1,
+      "keyIssue": "elegant and timeless product design",
+      "kind": "praise"
+    },
+    {
+      "id": 156,
+      "sentiment": "positive",
+      "theme": "Product Design Features",
+      "severity": 1,
+      "keyIssue": "unique and visually appealing design",
+      "kind": "praise"
+    },
+    {
+      "id": 157,
+      "sentiment": "positive",
+      "theme": "Customer Service Interactions",
+      "severity": 1,
+      "keyIssue": "helpful and prompt issue resolution",
+      "kind": "praise"
+    },
+    {
+      "id": 158,
+      "sentiment": "positive",
+      "theme": "Product Quality Performance",
+      "severity": 1,
+      "keyIssue": "impressive performance exceeds expectations",
+      "kind": "praise"
+    },
+    {
+      "id": 159,
+      "sentiment": "positive",
+      "theme": "Customer Service Interactions",
+      "severity": 1,
+      "keyIssue": "knowledgeable service provided clear instructions",
+      "kind": "praise"
+    },
+    {
+      "id": 160,
+      "sentiment": "positive",
+      "theme": "Product Design Features",
+      "severity": 1,
+      "keyIssue": "innovative features enhance daily tasks",
+      "kind": "praise"
+    },
+    {
+      "id": 161,
+      "sentiment": "positive",
+      "theme": "Customer Service Interactions",
+      "severity": 1,
+      "keyIssue": "friendly and quick service resolution",
+      "kind": "praise"
+    },
+    {
+      "id": 162,
+      "sentiment": "positive",
+      "theme": "Product Design Features",
+      "severity": 1,
+      "keyIssue": "functional design meets user needs",
+      "kind": "praise"
+    },
+    {
+      "id": 163,
+      "sentiment": "positive",
+      "theme": "Customer Service Interactions",
+      "severity": 1,
+      "keyIssue": "helpful detailed service explanation provided",
+      "kind": "praise"
+    },
+    {
+      "id": 164,
+      "sentiment": "positive",
+      "theme": "Product Quality Performance",
+      "severity": 1,
+      "keyIssue": "consistent and reliable product performance",
+      "kind": "praise"
+    },
+    {
+      "id": 165,
+      "sentiment": "positive",
+      "theme": "Product Quality Performance",
+      "severity": 1,
+      "keyIssue": "exceptional performance exceeds expectations",
+      "kind": "praise"
+    },
+    {
+      "id": 166,
+      "sentiment": "positive",
+      "theme": "Product Design Features",
+      "severity": 1,
+      "keyIssue": "vibrant and eye catching design",
+      "kind": "praise"
+    },
+    {
+      "id": 167,
+      "sentiment": "positive",
+      "theme": "Product Quality Performance",
+      "severity": 1,
+      "keyIssue": "efficient performance saves user time",
+      "kind": "praise"
+    },
+    {
+      "id": 168,
+      "sentiment": "positive",
+      "theme": "Product Design Features",
+      "severity": 1,
+      "keyIssue": "minimalistic and elegant product design",
+      "kind": "praise"
+    },
+    {
+      "id": 169,
+      "sentiment": "positive",
+      "theme": "Product Design Features",
+      "severity": 1,
+      "keyIssue": "user friendly and easy features",
+      "kind": "praise"
+    },
+    {
+      "id": 170,
+      "sentiment": "positive",
+      "theme": "Product Design Features",
+      "severity": 1,
+      "keyIssue": "futuristic and innovative product design",
+      "kind": "praise"
+    },
+    {
+      "id": 171,
+      "sentiment": "positive",
+      "theme": "Product Design Features",
+      "severity": 1,
+      "keyIssue": "traditional and nostalgic product design",
+      "kind": "praise"
+    },
+    {
+      "id": 172,
+      "sentiment": "positive",
+      "theme": "Product Design Features",
+      "severity": 1,
+      "keyIssue": "versatile and adaptable product features",
+      "kind": "praise"
+    },
+    {
+      "id": 173,
+      "sentiment": "positive",
+      "theme": "Product Design Features",
+      "severity": 1,
+      "keyIssue": "sleek and modern product design",
+      "kind": "praise"
+    },
+    {
+      "id": 174,
+      "sentiment": "positive",
+      "theme": "Product Quality Performance",
+      "severity": 1,
+      "keyIssue": "powerful and efficient product performance",
+      "kind": "praise"
+    },
+    {
+      "id": 175,
+      "sentiment": "positive",
+      "theme": "Product Design Features",
+      "severity": 1,
+      "keyIssue": "simple and intuitive product design",
+      "kind": "praise"
+    },
+    {
+      "id": 176,
+      "sentiment": "positive",
+      "theme": "Product Design Features",
+      "severity": 1,
+      "keyIssue": "customizable and personalizable product features",
+      "kind": "praise"
+    },
+    {
+      "id": 177,
+      "sentiment": "positive",
+      "theme": "Product Design Features",
+      "severity": 1,
+      "keyIssue": "minimalistic and functional product design",
+      "kind": "praise"
+    },
+    {
+      "id": 178,
+      "sentiment": "positive",
+      "theme": "Product Quality Performance",
+      "severity": 1,
+      "keyIssue": "stable and consistent product performance",
+      "kind": "praise"
+    },
+    {
+      "id": 179,
+      "sentiment": "positive",
+      "theme": "Product Design Features",
+      "severity": 1,
+      "keyIssue": "ergonomic and comfortable product design",
+      "kind": "praise"
+    },
+    {
+      "id": 180,
+      "sentiment": "positive",
+      "theme": "Product Design Features",
+      "severity": 1,
+      "keyIssue": "efficient and productive product features",
+      "kind": "praise"
+    },
+    {
+      "id": 181,
+      "sentiment": "positive",
+      "theme": "Product Design Features",
+      "severity": 1,
+      "keyIssue": "sleek and elegant product design",
+      "kind": "praise"
+    },
+    {
+      "id": 182,
+      "sentiment": "positive",
+      "theme": "Product Design Features",
+      "severity": 1,
+      "keyIssue": "modern and stylish product design",
+      "kind": "praise"
+    },
+    {
+      "id": 183,
+      "sentiment": "positive",
+      "theme": "Product Design Features",
+      "severity": 1,
+      "keyIssue": "innovative and cutting edge features",
+      "kind": "praise"
+    },
+    {
+      "id": 184,
+      "sentiment": "positive",
+      "theme": "Product Design Features",
+      "severity": 1,
+      "keyIssue": "minimalistic and chic product design",
+      "kind": "praise"
+    },
+    {
+      "id": 185,
+      "sentiment": "positive",
+      "theme": "Product Design Features",
+      "severity": 1,
+      "keyIssue": "user friendly and intuitive features",
+      "kind": "praise"
+    },
+    {
+      "id": 186,
+      "sentiment": "positive",
+      "theme": "Product Design Features",
+      "severity": 1,
+      "keyIssue": "functional and practical product design",
+      "kind": "praise"
+    },
+    {
+      "id": 187,
+      "sentiment": "positive",
+      "theme": "Product Design Features",
+      "severity": 1,
+      "keyIssue": "minimalistic and sleek product design",
+      "kind": "praise"
+    },
+    {
+      "id": 188,
+      "sentiment": "positive",
+      "theme": "Product Design Features",
+      "severity": 1,
+      "keyIssue": "customizable and versatile product features",
+      "kind": "praise"
+    },
+    {
+      "id": 189,
+      "sentiment": "positive",
+      "theme": "Product Design Features",
+      "severity": 1,
+      "keyIssue": "modern and innovative product design",
+      "kind": "praise"
+    },
+    {
+      "id": 190,
+      "sentiment": "positive",
+      "theme": "Product Design Features",
+      "severity": 1,
+      "keyIssue": "innovative and groundbreaking product features",
+      "kind": "praise"
+    },
+    {
+      "id": 191,
+      "sentiment": "positive",
+      "theme": "Product Design Features",
+      "severity": 1,
+      "keyIssue": "ergonomic and stylish product design",
+      "kind": "praise"
+    },
+    {
+      "id": 192,
+      "sentiment": "positive",
+      "theme": "Product Design Features",
+      "severity": 1,
+      "keyIssue": "modern and sleek product design",
+      "kind": "praise"
+    },
+    {
+      "id": 193,
+      "sentiment": "positive",
+      "theme": "Product Design Features",
+      "severity": 1,
+      "keyIssue": "ergonomic and practical product design",
+      "kind": "praise"
+    },
+    {
+      "id": 194,
+      "sentiment": "positive",
+      "theme": "Product Quality Performance",
+      "severity": 1,
+      "keyIssue": "efficient and effective product performance",
+      "kind": "praise"
+    },
+    {
+      "id": 195,
+      "sentiment": "positive",
+      "theme": "Customer Service Interactions",
+      "severity": 1,
+      "keyIssue": "friendly and helpful customer service",
+      "kind": "praise"
+    },
+    {
+      "id": 196,
+      "sentiment": "positive",
+      "theme": "Product Design Features",
+      "severity": 1,
+      "keyIssue": "stylish and unique product design",
+      "kind": "praise"
+    },
+    {
+      "id": 197,
+      "sentiment": "positive",
+      "theme": "Product Quality Performance",
+      "severity": 1,
+      "keyIssue": "powerful and robust product performance",
+      "kind": "praise"
+    },
+    {
+      "id": 198,
+      "sentiment": "positive",
+      "theme": "Product Quality Performance",
+      "severity": 1,
+      "keyIssue": "impressive and efficient product performance",
+      "kind": "praise"
+    },
+    {
+      "id": 199,
+      "sentiment": "positive",
+      "theme": "Product Design Features",
+      "severity": 1,
+      "keyIssue": "simple yet effective product design",
+      "kind": "praise"
+    },
+    {
+      "id": 200,
+      "sentiment": "positive",
+      "theme": "Product Quality Performance",
+      "severity": 1,
+      "keyIssue": "stable and reliable product performance",
+      "kind": "praise"
+    },
+    {
+      "id": 201,
+      "sentiment": "positive",
+      "theme": "Product Design Features",
+      "severity": 1,
+      "keyIssue": "eco friendly and sustainable design",
+      "kind": "praise"
+    },
+    {
+      "id": 202,
+      "sentiment": "positive",
+      "theme": "Product Design Features",
+      "severity": 1,
+      "keyIssue": "accessible and inclusive product features",
+      "kind": "praise"
+    },
+    {
+      "id": 203,
+      "sentiment": "positive",
+      "theme": "Product Design Features",
+      "severity": 1,
+      "keyIssue": "ergonomic and user friendly design",
+      "kind": "praise"
+    },
+    {
+      "id": 204,
+      "sentiment": "positive",
+      "theme": "Product Design Features",
+      "severity": 1,
+      "keyIssue": "versatile and multifunctional product features",
+      "kind": "praise"
+    },
+    {
+      "id": 205,
+      "sentiment": "positive",
+      "theme": "Product Design Features",
+      "severity": 1,
+      "keyIssue": "minimalist and elegant product design",
+      "kind": "praise"
+    },
+    {
+      "id": 206,
+      "sentiment": "positive",
+      "theme": "Product Quality Performance",
+      "severity": 1,
+      "keyIssue": "responsive and fast product performance",
+      "kind": "praise"
+    },
+    {
+      "id": 207,
+      "sentiment": "positive",
+      "theme": "Product Design Features",
+      "severity": 1,
+      "keyIssue": "advanced and sophisticated product features",
+      "kind": "praise"
+    },
+    {
+      "id": 208,
+      "sentiment": "positive",
+      "theme": "Product Design Features",
+      "severity": 1,
+      "keyIssue": "sleek and futuristic product design",
+      "kind": "praise"
+    },
+    {
+      "id": 209,
+      "sentiment": "positive",
+      "theme": "Product Quality Performance",
+      "severity": 1,
+      "keyIssue": "robust and dependable product performance",
+      "kind": "praise"
+    },
+    {
+      "id": 210,
+      "sentiment": "positive",
+      "theme": "Product Design Features",
+      "severity": 1,
+      "keyIssue": "stylish and trendy product design",
+      "kind": "praise"
+    },
+    {
+      "id": 211,
+      "sentiment": "positive",
+      "theme": "Product Design Features",
+      "severity": 1,
+      "keyIssue": "minimalist and uncluttered product design",
+      "kind": "praise"
+    },
+    {
+      "id": 212,
+      "sentiment": "positive",
+      "theme": "Product Design Features",
+      "severity": 1,
+      "keyIssue": "customizable and adaptable product features",
+      "kind": "praise"
+    },
+    {
+      "id": 213,
+      "sentiment": "positive",
+      "theme": "Product Design Features",
+      "severity": 1,
+      "keyIssue": "sleek and contemporary product design",
+      "kind": "praise"
+    },
+    {
+      "id": 214,
+      "sentiment": "positive",
+      "theme": "Product Quality Performance",
+      "severity": 1,
+      "keyIssue": "impressive product performance exceeded expectations",
+      "kind": "praise"
+    },
+    {
+      "id": 215,
+      "sentiment": "positive",
+      "theme": "Customer Service Interactions",
+      "severity": 1,
+      "keyIssue": "friendly service resolved issue quickly",
+      "kind": "praise"
+    },
+    {
+      "id": 216,
+      "sentiment": "positive",
+      "theme": "Delivery and Shipping",
+      "severity": 1,
+      "keyIssue": "on time delivery perfect condition",
+      "kind": "praise"
+    },
+    {
+      "id": 217,
+      "sentiment": "positive",
+      "theme": "Product Design Features",
+      "severity": 1,
+      "keyIssue": "unique and eye catching design",
+      "kind": "praise"
+    },
+    {
+      "id": 218,
+      "sentiment": "positive",
+      "theme": "Customer Service Interactions",
+      "severity": 1,
+      "keyIssue": "helpful service provided satisfactory solution",
+      "kind": "praise"
+    },
+    {
+      "id": 219,
+      "sentiment": "neutral",
+      "theme": "Delivery and Shipping",
+      "severity": 2,
+      "keyIssue": "delivery delayed but kept informed",
+      "kind": "praise"
+    },
+    {
+      "id": 220,
+      "sentiment": "positive",
+      "theme": "Product Design Features",
+      "severity": 1,
+      "keyIssue": "practical and useful product features",
+      "kind": "praise"
+    },
+    {
+      "id": 221,
+      "sentiment": "negative",
+      "theme": "Customer Service Interactions",
+      "severity": 3,
+      "keyIssue": "unhelpful service issue remains unresolved",
+      "kind": "complaint"
+    },
+    {
+      "id": 222,
+      "sentiment": "negative",
+      "theme": "Fraud and Security",
+      "severity": 5,
+      "keyIssue": "suspected fraud multiple charges applied",
+      "kind": "complaint"
+    },
+    {
+      "id": 223,
+      "sentiment": "negative",
+      "theme": "Delivery and Shipping",
+      "severity": 3,
+      "keyIssue": "delivery delayed causing customer inconvenience",
+      "kind": "complaint"
+    },
+    {
+      "id": 224,
+      "sentiment": "positive",
+      "theme": "Product Design Features",
+      "severity": 1,
+      "keyIssue": "simple yet elegant product design",
+      "kind": "praise"
+    },
+    {
+      "id": 225,
+      "sentiment": "positive",
+      "theme": "Customer Service Interactions",
+      "severity": 1,
+      "keyIssue": "responsive service provided quick resolution",
+      "kind": "praise"
+    },
+    {
+      "id": 226,
+      "sentiment": "positive",
+      "theme": "Product Design Features",
+      "severity": 1,
+      "keyIssue": "functional and user friendly design",
+      "kind": "praise"
+    },
+    {
+      "id": 227,
+      "sentiment": "positive",
+      "theme": "Product Design Features",
+      "severity": 1,
+      "keyIssue": "stylish and modern product design",
+      "kind": "praise"
+    },
+    {
+      "id": 228,
+      "sentiment": "positive",
+      "theme": "Customer Service Interactions",
+      "severity": 1,
+      "keyIssue": "responsive service provided satisfactory solution",
+      "kind": "praise"
+    },
+    {
+      "id": 229,
+      "sentiment": "positive",
+      "theme": "Product Quality Performance",
+      "severity": 1,
+      "keyIssue": "efficient and powerful product performance",
+      "kind": "praise"
+    },
+    {
+      "id": 230,
+      "sentiment": "positive",
+      "theme": "Product Design Features",
+      "severity": 1,
+      "keyIssue": "timeless and classic product design",
+      "kind": "praise"
+    },
+    {
+      "id": 231,
+      "sentiment": "positive",
+      "theme": "Product Design Features",
+      "severity": 1,
+      "keyIssue": "advanced and innovative product features",
+      "kind": "praise"
+    },
+    {
+      "id": 232,
+      "sentiment": "positive",
+      "theme": "Product Design Features",
+      "severity": 1,
+      "keyIssue": "futuristic and high tech design",
+      "kind": "praise"
+    },
+    {
+      "id": 233,
+      "sentiment": "positive",
+      "theme": "Product Quality Performance",
+      "severity": 1,
+      "keyIssue": "fast and powerful product performance",
+      "kind": "praise"
+    },
+    {
+      "id": 234,
+      "sentiment": "positive",
+      "theme": "Product Quality Performance",
+      "severity": 1,
+      "keyIssue": "efficient and reliable product performance",
+      "kind": "praise"
+    },
+    {
+      "id": 235,
+      "sentiment": "positive",
+      "theme": "Product Design Features",
+      "severity": 1,
+      "keyIssue": "innovative features for daily needs",
+      "kind": "praise"
+    },
+    {
+      "id": 236,
+      "sentiment": "positive",
+      "theme": "Customer Service Interactions",
+      "severity": 1,
+      "keyIssue": "outstanding service resolved issue quickly",
+      "kind": "praise"
+    },
+    {
+      "id": 237,
+      "sentiment": "negative",
+      "theme": "Customer Service Interactions",
+      "severity": 3,
+      "keyIssue": "unhelpful service issue remains unresolved",
+      "kind": "complaint"
+    },
+    {
+      "id": 238,
+      "sentiment": "positive",
+      "theme": "Product Design Features",
+      "severity": 1,
+      "keyIssue": "advanced and high tech features",
+      "kind": "praise"
+    },
+    {
+      "id": 239,
+      "sentiment": "positive",
+      "theme": "Product Design Features",
+      "severity": 1,
+      "keyIssue": "vintage and unique product design",
+      "kind": "praise"
+    },
+    {
+      "id": 240,
+      "sentiment": "positive",
+      "theme": "Product Design Features",
+      "severity": 1,
+      "keyIssue": "functional and practical product features",
+      "kind": "praise"
+    },
+    {
+      "id": 241,
+      "sentiment": "positive",
+      "theme": "Product Design Features",
+      "severity": 1,
+      "keyIssue": "artistic and creative product design",
+      "kind": "praise"
+    },
+    {
+      "id": 242,
+      "sentiment": "positive",
+      "theme": "Product Design Features",
+      "severity": 1,
+      "keyIssue": "innovative and useful product features",
+      "kind": "praise"
+    },
+    {
+      "id": 243,
+      "sentiment": "positive",
+      "theme": "Product Design Features",
+      "severity": 1,
+      "keyIssue": "classic and timeless product design",
+      "kind": "praise"
+    },
+    {
+      "id": 244,
+      "sentiment": "positive",
+      "theme": "Product Quality Performance",
+      "severity": 1,
+      "keyIssue": "reliable and efficient product performance",
+      "kind": "praise"
+    },
+    {
+      "id": 245,
+      "sentiment": "positive",
+      "theme": "Product Design Features",
+      "severity": 1,
+      "keyIssue": "advanced and cutting edge features",
+      "kind": "praise"
+    },
+    {
+      "id": 246,
+      "sentiment": "positive",
+      "theme": "Product Design Features",
+      "severity": 1,
+      "keyIssue": "sleek and minimalist product design",
+      "kind": "praise"
+    },
+    {
+      "id": 247,
+      "sentiment": "positive",
+      "theme": "Product Quality Performance",
+      "severity": 1,
+      "keyIssue": "consistent and stable product performance",
+      "kind": "praise"
+    },
+    {
+      "id": 248,
+      "sentiment": "positive",
+      "theme": "Product Design Features",
+      "severity": 1,
+      "keyIssue": "contemporary and trendy product design",
+      "kind": "praise"
+    },
+    {
+      "id": 249,
+      "sentiment": "positive",
+      "theme": "Product Design Features",
+      "severity": 1,
+      "keyIssue": "intuitive and user friendly features",
+      "kind": "praise"
+    },
+    {
+      "id": 250,
+      "sentiment": "positive",
+      "theme": "Product Design Features",
+      "severity": 1,
+      "keyIssue": "timeless and elegant product design",
+      "kind": "praise"
+    },
+    {
+      "id": 251,
+      "sentiment": "positive",
+      "theme": "Product Design Features",
+      "severity": 1,
+      "keyIssue": "minimalist and functional product design",
+      "kind": "praise"
+    },
+    {
+      "id": 252,
+      "sentiment": "positive",
+      "theme": "Product Design Features",
+      "severity": 1,
+      "keyIssue": "futuristic and advanced product design",
+      "kind": "praise"
+    },
+    {
+      "id": 253,
+      "sentiment": "positive",
+      "theme": "Product Design Features",
+      "severity": 1,
+      "keyIssue": "user friendly and convenient features",
+      "kind": "praise"
+    },
+    {
+      "id": 254,
+      "sentiment": "positive",
+      "theme": "Product Design Features",
+      "severity": 1,
+      "keyIssue": "minimalist and chic product design",
+      "kind": "praise"
+    },
+    {
+      "id": 255,
+      "sentiment": "positive",
+      "theme": "Product Design Features",
+      "severity": 1,
+      "keyIssue": "stylish and contemporary product design",
+      "kind": "praise"
+    },
+    {
+      "id": 256,
+      "sentiment": "positive",
+      "theme": "Product Design Features",
+      "severity": 1,
+      "keyIssue": "game changing features exceeded expectations",
+      "kind": "praise"
+    },
+    {
+      "id": 257,
+      "sentiment": "positive",
+      "theme": "Customer Service Interactions",
+      "severity": 1,
+      "keyIssue": "outstanding customer service resolved issue",
+      "kind": "praise"
+    },
+    {
+      "id": 258,
+      "sentiment": "positive",
+      "theme": "Delivery and Shipping",
+      "severity": 1,
+      "keyIssue": "on time delivery pristine condition",
+      "kind": "praise"
+    },
+    {
+      "id": 259,
+      "sentiment": "positive",
+      "theme": "Customer Service Interactions",
+      "severity": 1,
+      "keyIssue": "helpful customer service resolved concern",
+      "kind": "praise"
+    },
+    {
+      "id": 260,
+      "sentiment": "positive",
+      "theme": "Product Quality Performance",
+      "severity": 1,
+      "keyIssue": "impressive and consistent product performance",
+      "kind": "praise"
+    },
+    {
+      "id": 261,
+      "sentiment": "positive",
+      "theme": "Product Design Features",
+      "severity": 1,
+      "keyIssue": "minimalist and sophisticated product design",
+      "kind": "praise"
+    },
+    {
+      "id": 262,
+      "sentiment": "positive",
+      "theme": "Product Design Features",
+      "severity": 1,
+      "keyIssue": "innovative and convenient product features",
+      "kind": "praise"
+    },
+    {
+      "id": 263,
+      "sentiment": "positive",
+      "theme": "Product Quality Performance",
+      "severity": 1,
+      "keyIssue": "impressive durability exceeds my expectations",
+      "kind": "praise"
+    },
+    {
+      "id": 264,
+      "sentiment": "positive",
+      "theme": "Customer Service Interactions",
+      "severity": 1,
+      "keyIssue": "outstanding service resolved issue quickly",
+      "kind": "praise"
+    },
+    {
+      "id": 265,
+      "sentiment": "positive",
+      "theme": "Customer Service Interactions",
+      "severity": 1,
+      "keyIssue": "helpful service provided excellent assistance",
+      "kind": "praise"
+    },
+    {
+      "id": 266,
+      "sentiment": "positive",
+      "theme": "Product Design Features",
+      "severity": 1,
+      "keyIssue": "modern and sleek product design",
+      "kind": "praise"
+    },
+    {
+      "id": 267,
+      "sentiment": "positive",
+      "theme": "Customer Service Interactions",
+      "severity": 1,
+      "keyIssue": "responsive service provided quick resolution",
+      "kind": "praise"
+    },
+    {
+      "id": 268,
+      "sentiment": "positive",
+      "theme": "Product Design Features",
+      "severity": 1,
+      "keyIssue": "minimalist and elegant product design",
+      "kind": "praise"
+    },
+    {
+      "id": 269,
+      "sentiment": "positive",
+      "theme": "Product Design Features",
+      "severity": 1,
+      "keyIssue": "classic and timeless product design",
+      "kind": "praise"
+    },
+    {
+      "id": 270,
+      "sentiment": "positive",
+      "theme": "Product Design Features",
+      "severity": 1,
+      "keyIssue": "functional and practical product design",
+      "kind": "praise"
+    },
+    {
+      "id": 271,
+      "sentiment": "positive",
+      "theme": "Product Design Features",
+      "severity": 1,
+      "keyIssue": "minimalist and sophisticated product design",
+      "kind": "praise"
+    },
+    {
+      "id": 272,
+      "sentiment": "positive",
+      "theme": "Product Quality Performance",
+      "severity": 1,
+      "keyIssue": "outstanding product performance exceeds expectations",
+      "kind": "praise"
+    },
+    {
+      "id": 273,
+      "sentiment": "negative",
+      "theme": "Customer Service Interactions",
+      "severity": 3,
+      "keyIssue": "unresponsive customer service slow resolution",
+      "kind": "complaint"
+    },
+    {
+      "id": 274,
+      "sentiment": "negative",
+      "theme": "Delivery and Shipping",
+      "severity": 2,
+      "keyIssue": "delivery delayed by one week",
+      "kind": "complaint"
+    },
+    {
+      "id": 275,
+      "sentiment": "positive",
+      "theme": "Product Design Features",
+      "severity": 1,
+      "keyIssue": "unique and eye catching design",
+      "kind": "praise"
+    },
+    {
+      "id": 276,
+      "sentiment": "positive",
+      "theme": "Customer Service Interactions",
+      "severity": 1,
+      "keyIssue": "helpful customer service quick resolution",
+      "kind": "praise"
+    },
+    {
+      "id": 277,
+      "sentiment": "negative",
+      "theme": "Delivery and Shipping",
+      "severity": 3,
+      "keyIssue": "delivery delayed by two weeks",
+      "kind": "complaint"
+    },
+    {
+      "id": 278,
+      "sentiment": "positive",
+      "theme": "Customer Service Interactions",
+      "severity": 1,
+      "keyIssue": "responsive customer service excellent assistance",
+      "kind": "praise"
+    },
+    {
+      "id": 279,
+      "sentiment": "positive",
+      "theme": "Product Design Features",
+      "severity": 1,
+      "keyIssue": "vibrant and eye catching design",
+      "kind": "praise"
+    },
+    {
+      "id": 280,
+      "sentiment": "positive",
+      "theme": "Product Design Features",
+      "severity": 1,
+      "keyIssue": "contemporary and stylish product design",
+      "kind": "praise"
+    },
+    {
+      "id": 281,
+      "sentiment": "positive",
+      "theme": "Product Design Features",
+      "severity": 1,
+      "keyIssue": "practical and efficient product features",
+      "kind": "praise"
+    },
+    {
+      "id": 282,
+      "sentiment": "positive",
+      "theme": "Product Design Features",
+      "severity": 1,
+      "keyIssue": "colorful and playful product design",
+      "kind": "praise"
+    },
+    {
+      "id": 283,
+      "sentiment": "positive",
+      "theme": "Product Quality Performance",
+      "severity": 1,
+      "keyIssue": "powerful and effective product performance",
+      "kind": "praise"
+    },
+    {
+      "id": 284,
+      "sentiment": "positive",
+      "theme": "Product Design Features",
+      "severity": 1,
+      "keyIssue": "sleek and modern product design",
+      "kind": "praise"
+    },
+    {
+      "id": 285,
+      "sentiment": "positive",
+      "theme": "Product Design Features",
+      "severity": 1,
+      "keyIssue": "innovative and very useful features",
+      "kind": "praise"
+    },
+    {
+      "id": 286,
+      "sentiment": "positive",
+      "theme": "Product Design Features",
+      "severity": 1,
+      "keyIssue": "cultural and unique product design",
+      "kind": "praise"
+    },
+    {
+      "id": 287,
+      "sentiment": "positive",
+      "theme": "Product Design Features",
+      "severity": 1,
+      "keyIssue": "futuristic and innovative product design",
+      "kind": "praise"
+    },
+    {
+      "id": 288,
+      "sentiment": "positive",
+      "theme": "Product Design Features",
+      "severity": 1,
+      "keyIssue": "artistic and visually appealing design",
+      "kind": "praise"
+    },
+    {
+      "id": 289,
+      "sentiment": "positive",
+      "theme": "Product Quality Performance",
+      "severity": 1,
+      "keyIssue": "fast and responsive product performance",
+      "kind": "praise"
+    },
+    {
+      "id": 290,
+      "sentiment": "positive",
+      "theme": "Product Quality Performance",
+      "severity": 1,
+      "keyIssue": "robust and durable product performance",
+      "kind": "praise"
+    },
+    {
+      "id": 291,
+      "sentiment": "positive",
+      "theme": "Product Design Features",
+      "severity": 1,
+      "keyIssue": "traditional and nostalgic product design",
+      "kind": "praise"
+    },
+    {
+      "id": 292,
+      "sentiment": "positive",
+      "theme": "Product Quality Performance",
+      "severity": 1,
+      "keyIssue": "smooth and seamless product performance",
+      "kind": "praise"
+    },
+    {
+      "id": 293,
+      "sentiment": "positive",
+      "theme": "Product Design Features",
+      "severity": 1,
+      "keyIssue": "vintage and classic product design",
+      "kind": "praise"
+    },
+    {
+      "id": 294,
+      "sentiment": "positive",
+      "theme": "Product Design Features",
+      "severity": 1,
+      "keyIssue": "colorful and vibrant product design",
+      "kind": "praise"
+    },
+    {
+      "id": 295,
+      "sentiment": "positive",
+      "theme": "Product Quality Performance",
+      "severity": 1,
+      "keyIssue": "responsive and agile product performance",
+      "kind": "praise"
+    },
+    {
+      "id": 296,
+      "sentiment": "positive",
+      "theme": "Product Design Features",
+      "severity": 1,
+      "keyIssue": "simple and straightforward product design",
+      "kind": "praise"
+    },
+    {
+      "id": 297,
+      "sentiment": "positive",
+      "theme": "Product Quality Performance",
+      "severity": 1,
+      "keyIssue": "reliable and dependable product performance",
+      "kind": "praise"
+    },
+    {
+      "id": 298,
+      "sentiment": "positive",
+      "theme": "Product Quality Performance",
+      "severity": 1,
+      "keyIssue": "fast and efficient product performance",
+      "kind": "praise"
+    },
+    {
+      "id": 299,
+      "sentiment": "positive",
+      "theme": "Product Design Features",
+      "severity": 1,
+      "keyIssue": "sophisticated and refined product design",
+      "kind": "praise"
+    },
+    {
+      "id": 300,
+      "sentiment": "positive",
+      "theme": "Product Quality Performance",
+      "severity": 1,
+      "keyIssue": "accurate and precise product performance",
+      "kind": "praise"
+    },
+    {
+      "id": 301,
+      "sentiment": "positive",
+      "theme": "Delivery and Shipping",
+      "severity": 1,
+      "keyIssue": "delivery on time intact packaging",
+      "kind": "praise"
+    },
+    {
+      "id": 302,
+      "sentiment": "negative",
+      "theme": "Fraud and Security",
+      "severity": 5,
+      "keyIssue": "fraudulent activity during transaction",
+      "kind": "complaint"
+    },
+    {
+      "id": 303,
+      "sentiment": "negative",
+      "theme": "Delivery and Shipping",
+      "severity": 4,
+      "keyIssue": "delayed delivery and damaged product",
+      "kind": "complaint"
+    },
+    {
+      "id": 304,
+      "sentiment": "negative",
+      "theme": "Product Quality Performance",
+      "severity": 3,
+      "keyIssue": "average quality below expectations",
+      "kind": "complaint"
+    },
+    {
+      "id": 305,
+      "sentiment": "positive",
+      "theme": "Product Quality Performance",
+      "severity": 1,
+      "keyIssue": "stable and robust performance",
+      "kind": "praise"
+    },
+    {
+      "id": 306,
+      "sentiment": "neutral",
+      "theme": "Product Design Features",
+      "severity": 1,
+      "keyIssue": "vintage and retro design",
+      "kind": "praise"
+    },
+    {
+      "id": 307,
+      "sentiment": "positive",
+      "theme": "Product Design Features",
+      "severity": 1,
+      "keyIssue": "artistic and visually appealing design",
+      "kind": "praise"
+    },
+    {
+      "id": 308,
+      "sentiment": "negative",
+      "theme": "Delivery and Shipping",
+      "severity": 4,
+      "keyIssue": "damaged packaging and missing items",
+      "kind": "complaint"
+    },
+    {
+      "id": 309,
+      "sentiment": "negative",
+      "theme": "Customer Service Interactions",
+      "severity": 3,
+      "keyIssue": "unhelpful customer service unresolved issue",
+      "kind": "complaint"
+    },
+    {
+      "id": 310,
+      "sentiment": "negative",
+      "theme": "Product Quality Performance",
+      "severity": 4,
+      "keyIssue": "product stopped working quickly",
+      "kind": "complaint"
+    },
+    {
+      "id": 311,
+      "sentiment": "positive",
+      "theme": "Product Quality Performance",
+      "severity": 1,
+      "keyIssue": "durable and well made product",
+      "kind": "praise"
+    },
+    {
+      "id": 312,
+      "sentiment": "positive",
+      "theme": "Customer Service Interactions",
+      "severity": 1,
+      "keyIssue": "outstanding customer service resolved issue",
+      "kind": "praise"
+    },
+    {
+      "id": 313,
+      "sentiment": "positive",
+      "theme": "Product Quality Performance",
+      "severity": 1,
+      "keyIssue": "great value and good performance",
+      "kind": "praise"
+    },
+    {
+      "id": 314,
+      "sentiment": "positive",
+      "theme": "Product Quality Performance",
+      "severity": 1,
+      "keyIssue": "excellent quality exceeds expectations",
+      "kind": "praise"
+    },
+    {
+      "id": 315,
+      "sentiment": "negative",
+      "theme": "Fraud and Security",
+      "severity": 5,
+      "keyIssue": "scammed by seller false advertising",
+      "kind": "complaint"
+    },
+    {
+      "id": 316,
+      "sentiment": "negative",
+      "theme": "Customer Service Interactions",
+      "severity": 3,
+      "keyIssue": "long wait for service response",
+      "kind": "complaint"
+    },
+    {
+      "id": 317,
+      "sentiment": "negative",
+      "theme": "Fraud and Security",
+      "severity": 5,
+      "keyIssue": "site is a scam",
+      "kind": "complaint"
+    }
+  ],
+  "generatedAt": "2026-10-11T14:46:15.832Z",
+  "actions": {
+    "Fraud and Security": "Implement a secure payment gateway that prohibits sellers from requesting additional funds outside the platform and verify all seller identities.",
+    "Delivery and Shipping": "Improve quality control processes during order packing and partner with reliable logistics providers to ensure timely and intact deliveries.",
+    "Customer Service Interactions": "Increase support staff capacity and implement a mandatory follow-up protocol to ensure all customer issues are fully resolved.",
+    "Website Ordering Experience": "Conduct comprehensive stress testing and optimize server performance to prevent crashes and glitches during the checkout process.",
+    "Product Quality Performance": "Establish stricter quality assurance standards and conduct durability testing on products before listing them for sale to ensure they meet expectations."
+  }
+}

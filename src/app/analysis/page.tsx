@@ -1,17 +1,14 @@
-import { PageHeader, Placeholder } from "@/components/page-header";
+import { AnalysisPanel } from "@/components/analysis-panel";
+import { PageHeader } from "@/components/page-header";
 
 export default function AnalysisPage() {
   return (
     <>
       <PageHeader
         title="AI Analysis"
-        description="Sentiment, themes and issue groups for your feedback."
+        description="Sentiment, themes and the main problems in your feedback."
       />
-      <Placeholder
-        title="No analysis yet"
-        description="Once feedback is analyzed, sentiment and themes will show up here."
-        phase="the AI analysis phase"
-      />
+      <AnalysisPanel />
     </>
   );
 }
