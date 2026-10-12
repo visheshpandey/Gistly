@@ -1,4 +1,3 @@
-import { looksNegative } from "@/lib/estimate";
 
 // One unique piece of feedback. Identical rows are merged and counted in `occurrences`.
 export type FeedbackRow = {
@@ -67,12 +66,10 @@ export type DatasetSummary = {
   categories: string[];
   hasCategory: boolean;
   hasDates: boolean;
-  negativeEstimate: number; // keyword guess, replaced by AI sentiment in a later milestone
 };
 
 export function summarize(rows: FeedbackRow[]): DatasetSummary {
   let total = 0;
-  let negativeEstimate = 0;
   let hasDates = false;
   const texts = new Set<string>();
   const categories = new Set<string>();
@@ -82,7 +79,6 @@ export function summarize(rows: FeedbackRow[]): DatasetSummary {
     texts.add(row.review);
     if (row.category) categories.add(row.category);
     if (row.date) hasDates = true;
-    if (looksNegative(row.review)) negativeEstimate += row.occurrences;
   }
 
   return {
@@ -91,6 +87,5 @@ export function summarize(rows: FeedbackRow[]): DatasetSummary {
     categories: [...categories].sort(),
     hasCategory: categories.size > 0,
     hasDates,
-    negativeEstimate,
   };
 }

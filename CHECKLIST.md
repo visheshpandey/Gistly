@@ -10,6 +10,12 @@ Legend: `[x]` done and tested, `[ ]` not done.
 - [ ] **Supabase (optional).** Data, analysis, issues and reports are saved in each browser, so nothing is shared between people or devices yet. The schema is ready; it needs your Supabase URL and keys, plus code to read and write it.
 - [x] **Dark mode.** Follows the computer's setting, with a toggle in the header that is remembered.
 - [x] **New look.** Entry page at `/` (what the product does, sample or upload), top tab bar instead of a sidebar, tinted number cards, key takeaways and a ranked "fix these first" list on the dashboard, charts with values written on them.
+- [x] **All pages restyled.** Numbered priority table with score bars and a details panel on Recommendations; status cards and coloured status pills on Issues; sentiment pills on Feedback and Ask; tinted cards on Analysis and Adaption; report with key takeaways that prints light even in dark mode.
+- [x] **"Paper and ink" look (current).** Cream page, ink-outlined cards with a small hard shadow, dark ink navigation bar with a serif wordmark and yellow active tab, Fraunces headings and numbers, red main buttons, yellow pressed filters, cobalt links, green/sand/red sentiment, joined number strips, matching dark mode, icon and link preview.
+- [x] **Blue-and-white colour system (replaced by the look above).** White pages, deep slate text and footer, muted blue for buttons, links and active states, cool gray lines; charts in four shades of blue; no gradients, no glass blur, small corner radii; accessible contrast (buttons 5.8:1, secondary text 6.1:1); dark mode in the same navy family.
+- [x] **Layout and text size.** Content uses 90% of the screen width on laptops and desktops; text scales up on large screens (17px at 1280+, 18px at 1600+).
+- [x] **Tab icon and link preview** (`src/app/icon.svg`, `src/app/opengraph-image.tsx`). Old starter files and the keyword sentiment guess removed.
+- [x] **README** with screenshots, a 5-minute demo guide, and a clear note that Supabase is planned but not used.
 - [ ] Add `Problem_Statement.pdf` to the repo (the file was never in the project folder).
 
 ## 0. Foundation

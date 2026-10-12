@@ -1,8 +1,35 @@
 # InsightFlow
 
+**AI-powered feedback intelligence. From raw signal to ranked decisions.**
+
 InsightFlow turns piles of customer feedback into decisions. Import reviews, see what customers feel and talk about, find out what to fix first, track the fixes, and send a report to your team. Ask your own questions in plain English and get answers backed by the real reviews.
 
 It works on first load with a built-in sample (7,000 reviews), needs no login, and runs on a normal laptop.
+
+![Dashboard with key numbers, takeaways and the problems to fix first](docs/screenshots/dashboard.png)
+
+## How to demo (5 minutes)
+
+1. **Open the app.** The entry page explains the product. Click **Try the sample data**.
+2. **Dashboard.** 7,000 reviews collapse into 317 unique ones. Read the **Key takeaways**, then click a row in **Fix these first** to see the real reviews behind it. Click the **Negative** pill or a category: every number and chart updates together.
+3. **Recommendations.** The numbered table ranks problems by priority score. Click a row to see the suggested action and **why it ranks here**, with the numbers. Press **Track this issue**.
+4. **Issues.** Move the issue to *In progress* and add a note. The card shows whether mentions have gone up or down since it was saved.
+5. **Ask.** Try "What do customers say about refunds?". The answer shows how it was worked out and the reviews behind it.
+6. **Reports.** Click **Download PDF** or **Copy share link**. The link opens the report without an account.
+7. **Adaption.** See the instant data-quality score and the verified Adaption result for the sample.
+8. **Your own data.** Click **Upload data** (top right) and drop in a CSV, Excel, JSON or text file, or paste reviews. It becomes a new dataset; the sample stays. Switch between them from the dataset menu.
+9. **Theme.** The moon button switches to dark mode.
+
+## Screenshots
+
+| | |
+|---|---|
+| ![Entry page](docs/screenshots/landing.png) | ![Charts](docs/screenshots/charts.png) |
+| Entry page | Charts with values written on them |
+| ![Recommendations](docs/screenshots/recommendations.png) | ![Report](docs/screenshots/report.png) |
+| Ranked recommendations | Shareable report (prints to PDF) |
+
+![Dashboard in dark mode](docs/screenshots/dashboard-dark.png)
 
 ## What you can do
 
@@ -12,10 +39,10 @@ It works on first load with a built-in sample (7,000 reviews), needs no login, a
 | **Datasets menu** (top bar) | Keep up to 25 datasets side by side. Each has its own AI analysis, issues, reports and questions. Switch, rename or delete from the menu; uploading never overwrites anything. |
 | **AI Analysis** | An AI labels every unique review with sentiment, theme, severity and main issue. Shows the sentiment split, the themes with real quotes, and sentiment inside each category. New feedback is analysed on its own in seconds. |
 | **Ask** | Ask a question such as "What do customers say about refunds?" or "Which category has the most problems?". Every answer shows how it was worked out and the reviews behind it. |
-| **Dashboard** | Key numbers, answers to the main business questions, and five charts. Filters for category, sentiment, theme and date change everything together. |
-| **Recommendations** | Problems ranked by a priority score, with the numbers and a plain-language reason for each rank, plus an AI-written suggested action. |
+| **Dashboard** | Key numbers, key takeaways written from the numbers, the top problems ranked, and charts for sentiment, complaints, categories, severity and trend. One-click filters for sentiment and category (plus theme and date) change everything together. |
+| **Recommendations** | A numbered table of problems ranked by priority score with score bars. Click a row for the numbers, a plain-language reason for the rank, an AI-written suggested action and real quotes. |
 | **Issues** | Save a problem and track it as open, in progress or resolved, with team notes and a comparison against today's numbers. |
-| **Reports** | A business-friendly report. Download it as a PDF or copy a share link that works without an account. |
+| **Reports** | A business-friendly report with key takeaways. Download it as a PDF or copy a share link that works without an account. |
 | **Adaption** | An instant data-quality result computed in your browser, plus a deeper quality check from Adaption on a sample. |
 
 ## How the numbers stay trustworthy
@@ -49,7 +76,7 @@ Set these in `.env.local` (locally) or in your host's settings. Keys without the
 | `GEMINI_API_KEY` | AI analysis, Ask, suggested actions | https://aistudio.google.com/apikey |
 | `GEMINI_MODEL` | Which Gemini model to use (we use `gemini-3.1-flash-lite`) | Google AI Studio |
 | `ADAPTION_API_KEY` | Adaption data-quality check | Adaption dashboard, Settings, API keys |
-| `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Not used yet (see "Storage") | Supabase |
+| `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Not used. Leave empty (see "Storage") | Supabase |
 
 ### Scripts
 
@@ -57,7 +84,7 @@ Set these in `.env.local` (locally) or in your host's settings. Keys without the
 npm run dev        # start the app
 npm run build      # production build
 npm run lint       # check the code
-npm test           # 15 automated checks of the calculation code
+npm test           # 35 automated checks: calculations, file formats, storage and migration
 ```
 
 More tools in `scripts/`:
@@ -84,7 +111,7 @@ The instant result (`src/lib/local/`) runs in a Web Worker, so even a million-ro
 
 ## Architecture
 
-- **Next.js (App Router) + TypeScript**, Tailwind CSS, shadcn/ui, Recharts.
+- **Next.js (App Router) + TypeScript**, Tailwind CSS, shadcn/ui, Recharts. Light and dark mode; colours live in `src/app/globals.css` so charts follow the theme.
 - **Browser:** reads files, deduplicates (Web Worker), calculates every metric (`src/lib/analysis/metrics.ts`, `priority.ts`), draws charts, and keeps data in IndexedDB.
 - **Server (route handlers in `src/app/api/`):** the only place API keys are used. Each route does one short step (label a batch, estimate a cost, poll a status).
 - **AI:** Google Gemini with a response schema, so output is strict JSON that is validated before use.
@@ -104,7 +131,9 @@ scripts/            benchmarks, tests and tools
 
 ## Storage
 
-Your datasets, their analyses, Adaption results and saved questions are kept in the browser's IndexedDB (`src/lib/storage/`), so there is nothing to set up, nothing is sent to a database, and large files fit (a 100,000-row file takes about 2 MB). Small settings and issues stay in `localStorage`. If the browser blocks storage, the app still works but keeps data only until the page closes, and says so. Data from the older single-dataset version is moved over automatically the first time you open this version. A Supabase schema is ready in `supabase/migrations/0001_init.sql` for moving this to a shared database. That step is not done yet, so data is per browser for now. Share links carry the report itself after the `#`, so they need no database either.
+Your datasets, their analyses, Adaption results and saved questions are kept in the browser's IndexedDB (`src/lib/storage/`), so there is nothing to set up, nothing is sent to a database, and large files fit (a 100,000-row file takes about 2 MB). Small settings and issues stay in `localStorage`. If the browser blocks storage, the app still works but keeps data only until the page closes, and says so. Data from the older single-dataset version is moved over automatically the first time you open this version. Share links carry the report itself after the `#`, so they need no database either.
+
+**Supabase is not used.** Keeping data in the browser was a deliberate choice for this version: no login, nothing to set up, and customer feedback never leaves the user's computer except the review text sent for AI analysis. A database schema for a shared, multi-user version is drafted in `supabase/migrations/0001_init.sql`, but nothing in the app reads or writes it yet, and the Supabase variables can stay empty.
 
 ## Privacy
 
