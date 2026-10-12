@@ -1,80 +1,141 @@
-import { Badge } from "@/components/ui/badge";
-import { STATUS_LABEL } from "@/lib/issues/types";
+import { Stat } from "@/components/stat";
+import { STATUS_LABEL, type IssueStatus } from "@/lib/issues/types";
 import type { ReportData } from "@/lib/report/types";
+import { cn } from "@/lib/utils";
 
 const nf = new Intl.NumberFormat("en-US");
 const pct = (n: number) => `${(n * 100).toFixed(0)}%`;
 
-function Kpi({ label, value, note }: { label: string; value: string; note?: string }) {
-  return (
-    <div className="rounded-lg border p-3 break-inside-avoid">
-      <p className="text-xs text-muted-foreground">{label}</p>
-      <p className="text-2xl font-semibold tabular-nums tracking-tight">{value}</p>
-      {note && <p className="text-xs text-muted-foreground">{note}</p>}
-    </div>
-  );
+const STATUS_PILL: Record<IssueStatus, string> = {
+  open: "bg-neg text-on-neg",
+  in_progress: "bg-sel text-foreground",
+  resolved: "bg-pos-bg text-foreground",
+};
+
+function SectionTitle({ children }: { children: React.ReactNode }) {
+  return <h2 className="title-bar text-2xl font-semibold">{children}</h2>;
 }
 
 // A business-friendly report. It only reads the data it is given, so it looks the same live, saved, shared or printed.
+// print-color-adjust keeps the coloured cards and bars when it is printed to PDF.
 export function ReportView({ data }: { data: ReportData }) {
   const k = data.kpis;
   const date = new Date(data.generatedAt).toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
+  const top = data.priorities[0];
+  const strength = data.strengths[0];
+  const tracked = data.issues.length;
+  const resolved = data.issues.filter((i) => i.status === "resolved").length;
+
   return (
-    <article className="flex flex-col gap-8" aria-label={data.title}>
-      <header className="flex flex-col gap-1 border-b pb-4">
-        <h1 className="text-3xl font-semibold tracking-tight">{data.title}</h1>
+    <article className="flex flex-col gap-10 [print-color-adjust:exact]" aria-label={data.title}>
+      <header className="flex flex-col gap-4 border-b-[1.5px] border-edge pb-6">
+        <div className="flex items-baseline gap-2 text-sm font-semibold text-muted-foreground">
+          <span className="wordmark text-xl text-foreground">InsightFlow</span>
+          report
+        </div>
+        <h1 className="text-3xl font-bold md:text-4xl">{data.title}</h1>
         <p className="text-sm text-muted-foreground">
-          Prepared {date} · Source: {data.datasetLabel} · Analysed with AI ({data.model})
+          Prepared {date} · Dataset: {data.datasetLabel} · Analysed with AI ({data.model})
         </p>
       </header>
 
+      <section aria-label="Key takeaways" className="flex flex-col gap-4 rounded-xl bg-tint-a p-5 break-inside-avoid">
+        <SectionTitle>Key takeaways</SectionTitle>
+        <ul className="flex flex-col gap-2 text-[0.9375rem] leading-relaxed">
+          <li>
+            <span className="font-semibold">Overall:</span> {nf.format(k.totalMentions)} pieces of feedback, {pct(k.positive)}{" "}
+            positive and {pct(k.negative)} negative.
+          </li>
+          {top && (
+            <li>
+              <span className="font-semibold">Fix first:</span> {top.theme}. {nf.format(top.mentions)} mentions,{" "}
+              {pct(top.negativeShare)} negative, severity {top.avgSeverity.toFixed(1)} of 5.
+            </li>
+          )}
+          {strength && (
+            <li>
+              <span className="font-semibold">Doing well:</span> {strength.theme}, {pct(strength.positiveShare)} positive.
+            </li>
+          )}
+          {tracked > 0 && (
+            <li>
+              <span className="font-semibold">Tracking:</span> {tracked} {tracked === 1 ? "issue" : "issues"}, {resolved} resolved.
+            </li>
+          )}
+        </ul>
+        {data.summary && <p className="max-w-prose text-sm leading-relaxed text-muted-foreground">{data.summary}</p>}
+      </section>
+
       <section aria-label="Summary" className="flex flex-col gap-4">
-        <h2 className="text-lg font-semibold tracking-tight">Summary</h2>
-        <p className="max-w-prose text-sm leading-relaxed">{data.summary}</p>
-        <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
-          <Kpi label="Feedback received" value={nf.format(k.totalMentions)} note={`${nf.format(k.uniqueReviews)} unique reviews`} />
-          <Kpi label="Positive" value={pct(k.positive)} />
-          <Kpi label="Negative" value={pct(k.negative)} />
-          <Kpi label="Net sentiment" value={`${k.netSentiment > 0 ? "+" : ""}${k.netSentiment.toFixed(1)}`} note="Positive minus negative, in points" />
-          <Kpi label="Serious problems" value={nf.format(k.critical)} note="Negative, rated 4 or 5 of 5" />
+        <SectionTitle>The numbers</SectionTitle>
+        <div className="kpi-strip">
+          <Stat tint="a" label="Feedback" value={nf.format(k.totalMentions)} note={`${nf.format(k.uniqueReviews)} unique reviews`} />
+          <Stat tint="e" label="Positive" value={pct(k.positive)} note="of all feedback" />
+          <Stat tint="b" label="Negative" value={pct(k.negative)} note="of all feedback" />
+          <Stat tint="d" label="Net sentiment" value={`${k.netSentiment > 0 ? "+" : ""}${k.netSentiment.toFixed(1)}`} note="Positive minus negative" />
+          <Stat tint="c" label="Serious problems" value={nf.format(k.critical)} note="Negative, rated 4 or 5 of 5" />
+        </div>
+        <div className="flex flex-col gap-2 break-inside-avoid">
+          <div
+            className="flex h-4 w-full gap-0.5 overflow-hidden rounded-full bg-muted"
+            role="img"
+            aria-label={`${pct(k.positive)} positive, ${pct(k.neutral)} neutral, ${pct(k.negative)} negative`}
+          >
+            <div className="bg-pos" style={{ width: pct(k.positive) }} />
+            <div className="bg-neu" style={{ width: pct(k.neutral) }} />
+            <div className="bg-neg" style={{ width: pct(k.negative) }} />
+          </div>
+          <p className="flex flex-wrap gap-x-5 text-xs text-muted-foreground">
+            <span><span className="mr-1.5 inline-block size-2 rounded-full bg-pos" />Positive {pct(k.positive)}</span>
+            <span><span className="mr-1.5 inline-block size-2 rounded-full bg-neu" />Neutral {pct(k.neutral)}</span>
+            <span><span className="mr-1.5 inline-block size-2 rounded-full bg-neg" />Negative {pct(k.negative)}</span>
+          </p>
         </div>
       </section>
 
       <section aria-label="Priorities" className="flex flex-col gap-4">
-        <h2 className="text-lg font-semibold tracking-tight">What to fix first</h2>
+        <SectionTitle>What to fix first</SectionTitle>
         {data.priorities.length === 0 ? (
           <p className="text-sm text-muted-foreground">No problems were found in the feedback.</p>
         ) : (
           <ol className="flex flex-col gap-4">
             {data.priorities.map((p) => (
-              <li key={p.theme} className="rounded-xl border p-4 break-inside-avoid">
-                <div className="flex flex-wrap items-baseline justify-between gap-2">
-                  <h3 className="text-base font-semibold">
-                    {p.rank}. {p.theme}
-                  </h3>
-                  <p className="text-sm tabular-nums text-muted-foreground">priority {p.score.toFixed(0)} / 100</p>
+              <li key={p.theme} className="flex gap-4 rounded-xl border bg-card p-5 break-inside-avoid">
+                <span className="flex size-9 shrink-0 items-center justify-center rounded-full bg-primary text-sm font-bold text-primary-foreground">
+                  {p.rank}
+                </span>
+                <div className="flex min-w-0 flex-1 flex-col gap-2">
+                  <div className="flex flex-wrap items-baseline justify-between gap-2">
+                    <h3 className="text-lg font-semibold">{p.theme}</h3>
+                    <p className="text-sm tabular-nums text-muted-foreground">
+                      priority <b className="text-foreground">{p.score.toFixed(0)}</b> / 100
+                    </p>
+                  </div>
+                  <div className="h-2 overflow-hidden rounded-full bg-muted" role="img" aria-label={`Priority ${p.score.toFixed(0)} of 100`}>
+                    <div className="h-full rounded-full bg-neg" style={{ width: `${p.score}%` }} />
+                  </div>
+                  <p className="text-sm text-muted-foreground">
+                    {nf.format(p.mentions)} mentions ({pct(p.frequency)} of feedback) · {pct(p.negativeShare)} negative · average
+                    severity {p.avgSeverity.toFixed(1)} of 5
+                  </p>
+                  {p.action && (
+                    <p className="text-[0.9375rem] leading-relaxed">
+                      <span className="font-semibold">Suggested action: </span>
+                      {p.action}
+                    </p>
+                  )}
+                  <p className="text-xs leading-relaxed text-muted-foreground">
+                    <span className="font-semibold text-foreground">Why it ranks here: </span>
+                    {p.why}
+                  </p>
+                  {p.topIssues.length > 0 && (
+                    <p className="text-xs text-muted-foreground">
+                      <span className="font-semibold text-foreground">Most common issues: </span>
+                      {p.topIssues.map((i) => `${i.issue} (${nf.format(i.mentions)})`).join("; ")}
+                    </p>
+                  )}
+                  {p.quote && <p className="border-l-2 pl-3 text-sm italic text-muted-foreground">“{p.quote}”</p>}
                 </div>
-                <p className="mt-1 text-sm text-muted-foreground">
-                  {nf.format(p.mentions)} mentions ({pct(p.frequency)} of feedback) · {pct(p.negativeShare)} negative · average severity{" "}
-                  {p.avgSeverity.toFixed(1)} of 5
-                </p>
-                {p.action && (
-                  <p className="mt-3 text-sm">
-                    <span className="font-medium">Suggested action: </span>
-                    {p.action}
-                  </p>
-                )}
-                <p className="mt-2 text-xs text-muted-foreground">
-                  <span className="font-medium text-foreground">Why it ranks here: </span>
-                  {p.why}
-                </p>
-                {p.topIssues.length > 0 && (
-                  <p className="mt-2 text-xs text-muted-foreground">
-                    <span className="font-medium text-foreground">Most common issues: </span>
-                    {p.topIssues.map((i) => `${i.issue} (${nf.format(i.mentions)})`).join("; ")}
-                  </p>
-                )}
-                {p.quote && <p className="mt-2 text-xs italic text-muted-foreground">“{p.quote}”</p>}
               </li>
             ))}
           </ol>
@@ -82,13 +143,16 @@ export function ReportView({ data }: { data: ReportData }) {
       </section>
 
       {data.strengths.length > 0 && (
-        <section aria-label="Strengths" className="flex flex-col gap-3">
-          <h2 className="text-lg font-semibold tracking-tight">What is going well</h2>
-          <ul className="flex flex-col gap-1 text-sm">
+        <section aria-label="Strengths" className="flex flex-col gap-3 break-inside-avoid">
+          <SectionTitle>What is going well</SectionTitle>
+          <ul className="grid gap-3 sm:grid-cols-2">
             {data.strengths.map((s) => (
-              <li key={s.theme}>
-                <span className="font-medium">{s.theme}</span>: {pct(s.positiveShare)} positive across {nf.format(s.mentions)} mentions
-                {s.topPoint ? `. Customers like: ${s.topPoint}.` : "."}
+              <li key={s.theme} className="rounded-xl bg-tint-e p-4 text-sm">
+                <p className="font-semibold">{s.theme}</p>
+                <p className="mt-1 text-muted-foreground">
+                  {pct(s.positiveShare)} positive across {nf.format(s.mentions)} mentions
+                  {s.topPoint ? `. Customers like: ${s.topPoint}.` : "."}
+                </p>
               </li>
             ))}
           </ul>
@@ -96,24 +160,31 @@ export function ReportView({ data }: { data: ReportData }) {
       )}
 
       <section aria-label="Themes" className="flex flex-col gap-3">
-        <h2 className="text-lg font-semibold tracking-tight">All themes</h2>
-        <div className="overflow-x-auto rounded-xl border">
-          <table className="w-full text-sm">
+        <SectionTitle>All themes</SectionTitle>
+        <div className="overflow-x-auto rounded-xl border bg-card">
+          <table className="w-full min-w-[520px] text-sm">
             <thead>
-              <tr className="border-b text-left text-muted-foreground">
-                <th className="p-3 font-medium">Theme</th>
-                <th className="p-3 text-right font-medium">Mentions</th>
-                <th className="p-3 text-right font-medium">Share</th>
-                <th className="p-3 text-right font-medium">Negative</th>
+              <tr className="border-b text-left text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                <th scope="col" className="p-3">Theme</th>
+                <th scope="col" className="p-3 text-right">Mentions</th>
+                <th scope="col" className="p-3 text-right">Share</th>
+                <th scope="col" className="w-1/3 p-3">Negative</th>
               </tr>
             </thead>
             <tbody>
               {data.themes.map((t) => (
                 <tr key={t.theme} className="border-b last:border-0">
-                  <td className="p-3">{t.theme}</td>
+                  <td className="p-3 font-medium">{t.theme}</td>
                   <td className="p-3 text-right tabular-nums">{nf.format(t.mentions)}</td>
                   <td className="p-3 text-right tabular-nums">{pct(t.share)}</td>
-                  <td className="p-3 text-right tabular-nums">{pct(t.negativeShare)}</td>
+                  <td className="p-3">
+                    <div className="flex items-center gap-2">
+                      <div className="h-2 flex-1 overflow-hidden rounded-full bg-muted">
+                        <div className="h-full rounded-full bg-neg" style={{ width: pct(t.negativeShare) }} />
+                      </div>
+                      <span className="w-10 text-right tabular-nums">{pct(t.negativeShare)}</span>
+                    </div>
+                  </td>
                 </tr>
               ))}
             </tbody>
@@ -123,15 +194,15 @@ export function ReportView({ data }: { data: ReportData }) {
 
       {data.issues.length > 0 && (
         <section aria-label="Issue tracker" className="flex flex-col gap-3">
-          <h2 className="text-lg font-semibold tracking-tight">Issues being tracked</h2>
+          <SectionTitle>Issues being tracked</SectionTitle>
           <ul className="flex flex-col gap-2">
             {data.issues.map((i) => (
-              <li key={`${i.theme}-${i.title}`} className="flex flex-col gap-1 rounded-lg border p-3 text-sm break-inside-avoid">
+              <li key={`${i.theme}-${i.title}`} className="flex flex-col gap-1 rounded-lg border bg-card p-3 text-sm break-inside-avoid">
                 <div className="flex flex-wrap items-center justify-between gap-2">
-                  <span className="font-medium">{i.title}</span>
-                  <Badge variant={i.status === "resolved" ? "secondary" : i.status === "in_progress" ? "default" : "outline"}>
+                  <span className="font-medium first-letter:uppercase">{i.title}</span>
+                  <span className={cn("rounded px-1.5 py-0.5 text-[0.6875rem] font-bold uppercase tracking-wide", STATUS_PILL[i.status])}>
                     {STATUS_LABEL[i.status]}
-                  </Badge>
+                  </span>
                 </div>
                 {i.note && <p className="text-xs text-muted-foreground">{i.note}</p>}
               </li>
@@ -140,7 +211,7 @@ export function ReportView({ data }: { data: ReportData }) {
         </section>
       )}
 
-      <footer className="border-t pt-4 text-xs text-muted-foreground">
+      <footer className="border-t pt-4 text-xs leading-relaxed text-muted-foreground">
         How to read this report: an AI read each unique review and labelled its sentiment, theme and severity. All counts
         and percentages were calculated by InsightFlow from those labels and count every time a review was received. A
         problem&apos;s priority is its share of all feedback × its negative share × its average severity (out of 5),

@@ -2,12 +2,13 @@
 
 import Link from "next/link";
 import { useMemo, useState } from "react";
-import { Badge } from "@/components/ui/badge";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { DataGate } from "@/components/data-gate";
 import { useFeedbackData } from "@/components/data-provider";
 import { NativeSelect } from "@/components/native-select";
+import { Stat } from "@/components/stat";
+import { cn } from "@/lib/utils";
 import { useAnalysis } from "@/components/use-analysis";
 import { useIssues } from "@/components/use-issues";
 import { STATUSES, STATUS_LABEL, type Issue, type IssueStatus } from "@/lib/issues/types";
@@ -17,6 +18,23 @@ const pct = (n: number) => `${(n * 100).toFixed(0)}%`;
 const date = (iso: string) => new Date(iso).toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" });
 
 type Filter = IssueStatus | "all";
+
+// Status colours: red-ish for open, yellow for in progress, green for resolved.
+const STATUS_PILL: Record<IssueStatus, string> = {
+  open: "bg-neg text-on-neg",
+  in_progress: "bg-sel text-foreground",
+  resolved: "bg-pos-bg text-foreground",
+};
+
+function Cell({ label, value, sub, subClass }: { label: string; value: string; sub?: string; subClass?: string }) {
+  return (
+    <div className="rounded-lg bg-muted/60 p-3">
+      <dt className="text-[0.6875rem] font-semibold uppercase tracking-wider text-muted-foreground">{label}</dt>
+      <dd className="mt-1 text-lg font-bold tabular-nums">{value}</dd>
+      {sub && <dd className={cn("text-xs tabular-nums", subClass ?? "text-muted-foreground")}>{sub}</dd>}
+    </div>
+  );
+}
 
 function IssueCard({
   issue,
@@ -39,13 +57,13 @@ function IssueCard({
       <CardContent className="flex flex-col gap-4">
         <div className="flex flex-wrap items-start justify-between gap-3">
           <div>
-            <h2 className="text-base font-semibold tracking-tight">{issue.title}</h2>
+            <span className={cn("rounded px-1.5 py-0.5 text-[0.6875rem] font-bold uppercase tracking-wide", STATUS_PILL[issue.status])}>
+              {STATUS_LABEL[issue.status]}
+            </span>
+            <h2 className="mt-2 text-lg font-semibold tracking-tight first-letter:uppercase">{issue.title}</h2>
             <p className="text-xs text-muted-foreground">Saved {date(issue.createdAt)} · updated {date(issue.updatedAt)}</p>
           </div>
           <div className="flex items-center gap-2">
-            <Badge variant={issue.status === "resolved" ? "secondary" : issue.status === "in_progress" ? "default" : "outline"}>
-              {STATUS_LABEL[issue.status]}
-            </Badge>
             <label className="sr-only" htmlFor={`status-${issue.id}`}>
               Status of {issue.title}
             </label>
@@ -64,41 +82,31 @@ function IssueCard({
           </div>
         </div>
 
-        <dl className="grid grid-cols-2 gap-3 text-center sm:grid-cols-4">
-          <div className="rounded-lg bg-muted/50 p-2">
-            <dt className="text-xs text-muted-foreground">Priority when saved</dt>
-            <dd className="text-lg font-semibold tabular-nums">{issue.snapshot.priorityScore.toFixed(0)}/100</dd>
-          </div>
-          <div className="rounded-lg bg-muted/50 p-2">
-            <dt className="text-xs text-muted-foreground">Mentions when saved</dt>
-            <dd className="text-lg font-semibold tabular-nums">{nf.format(issue.snapshot.mentions)}</dd>
-          </div>
-          <div className="rounded-lg bg-muted/50 p-2">
-            <dt className="text-xs text-muted-foreground">Negative / severity</dt>
-            <dd className="text-lg font-semibold tabular-nums">
-              {pct(issue.snapshot.negativeShare)} · {issue.snapshot.avgSeverity.toFixed(1)}
-            </dd>
-          </div>
-          <div className="rounded-lg bg-muted/50 p-2">
-            <dt className="text-xs text-muted-foreground">Mentions now</dt>
-            <dd className="text-lg font-semibold tabular-nums">{nowMentions === null ? "—" : nf.format(nowMentions)}</dd>
-            {delta !== null && (
-              <dd className="text-xs tabular-nums text-muted-foreground">
-                {delta === 0 ? "no change" : `${delta > 0 ? "+" : ""}${nf.format(delta)} since saved`}
-              </dd>
-            )}
-          </div>
+        <dl className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+          <Cell label="Priority when saved" value={`${issue.snapshot.priorityScore.toFixed(0)}/100`} />
+          <Cell label="Mentions when saved" value={nf.format(issue.snapshot.mentions)} />
+          <Cell
+            label="Negative · severity"
+            value={`${pct(issue.snapshot.negativeShare)} · ${issue.snapshot.avgSeverity.toFixed(1)}`}
+          />
+          <Cell
+            label="Mentions now"
+            value={nowMentions === null ? "—" : nf.format(nowMentions)}
+            sub={delta === null ? undefined : delta === 0 ? "no change" : `${delta > 0 ? "▲ +" : "▼ "}${nf.format(delta)} since saved`}
+            // More mentions of a problem is bad news, fewer is good news.
+            subClass={delta === null || delta === 0 ? undefined : delta > 0 ? "font-semibold text-neg" : "font-semibold text-pos"}
+          />
         </dl>
 
         {issue.action && (
           <div>
-            <h3 className="text-sm font-medium">Suggested action</h3>
-            <p className="mt-1 text-sm text-muted-foreground">{issue.action}</p>
+            <h3 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Suggested action</h3>
+            <p className="mt-1.5 text-sm leading-relaxed">{issue.action}</p>
           </div>
         )}
 
         <div className="flex flex-col gap-1.5">
-          <label htmlFor={`note-${issue.id}`} className="text-sm font-medium">
+          <label htmlFor={`note-${issue.id}`} className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
             Team notes
           </label>
           <textarea
@@ -174,10 +182,17 @@ function Panel() {
   return (
     <div className="flex flex-col gap-6">
       {saveError && (
-        <p role="alert" className="rounded-lg border border-amber-500/40 bg-amber-500/10 p-3 text-sm">
+        <p role="alert" className="notice p-3 text-sm">
           {saveError}
         </p>
       )}
+      <section aria-label="Issue counts" className="kpi-strip">
+        <Stat tint="a" label="Tracked" value={nf.format(counts.all)} note="Issues saved for this dataset" />
+        <Stat tint="b" label="Open" value={nf.format(counts.open)} note="Not started yet" />
+        <Stat tint="c" label="In progress" value={nf.format(counts.in_progress)} note="Someone is on it" />
+        <Stat tint="e" label="Resolved" value={nf.format(counts.resolved)} note="Fixed and closed" />
+      </section>
+
       <div className="flex flex-wrap gap-2" role="tablist" aria-label="Filter issues by status">
         {(["all", ...STATUSES] as Filter[]).map((f) => (
           <button
@@ -186,7 +201,10 @@ function Panel() {
             role="tab"
             aria-selected={filter === f}
             onClick={() => setFilter(f)}
-            className={`rounded-full border px-3 py-1 text-sm transition-colors ${filter === f ? "border-primary bg-primary text-primary-foreground" : "text-muted-foreground hover:bg-muted"}`}
+            className={cn(
+              "rounded-md border-[1.5px] px-3 py-1 text-[0.8125rem] font-medium transition-colors",
+              filter === f ? "border-edge bg-hl font-bold text-[#1c1b2e]" : "border-edge bg-card hover:bg-muted",
+            )}
           >
             {f === "all" ? "All" : STATUS_LABEL[f]} <span className="tabular-nums">({counts[f]})</span>
           </button>

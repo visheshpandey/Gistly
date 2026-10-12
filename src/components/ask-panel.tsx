@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
-import { Badge } from "@/components/ui/badge";
+import { SentimentPill } from "@/components/feedback-table";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { DataGate } from "@/components/data-gate";
@@ -31,7 +31,7 @@ function AnswerCard({ r }: { r: AskResult }) {
         <p className="max-w-prose text-sm leading-relaxed">{r.answer}</p>
 
         {r.unverifiedNumbers.length > 0 && (
-          <p role="alert" className="rounded-lg border border-amber-500/40 bg-amber-500/10 p-3 text-xs">
+          <p role="alert" className="notice p-3 text-xs">
             Some figures in this answer ({r.unverifiedNumbers.join(", ")}) could not be matched to the calculated numbers.
             Check the evidence below before relying on them.
           </p>
@@ -70,7 +70,7 @@ function AnswerCard({ r }: { r: AskResult }) {
                 <li key={q.text} className="flex flex-col gap-1 rounded-lg border p-3">
                   <p className="text-sm">“{q.text}”</p>
                   <div className="flex flex-wrap items-center gap-2 text-xs text-muted-foreground">
-                    <Badge variant={q.sentiment === "negative" ? "destructive" : "secondary"}>{q.sentiment}</Badge>
+                    <SentimentPill sentiment={q.sentiment} />
                     <span className="tabular-nums">received {nf.format(q.receivedTimes)}×</span>
                   </div>
                 </li>

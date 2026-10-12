@@ -172,7 +172,7 @@ function Panel() {
 
       {snapshots.length > 0 && (
         <section aria-label="Saved reports" className="flex flex-col gap-3 print:hidden">
-          <h2 className="text-lg font-semibold tracking-tight">Saved reports</h2>
+          <h2 className="title-bar text-2xl font-semibold">Saved reports</h2>
           <ul className="flex flex-col gap-2">
             {snapshots.map((s) => (
               <li key={s.id} className="flex flex-wrap items-center justify-between gap-2 rounded-lg border p-3 text-sm">

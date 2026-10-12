@@ -14,8 +14,29 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { NativeSelect } from "@/components/native-select";
-import type { ReviewLabel } from "@/lib/analysis/types";
+import type { ReviewLabel, Sentiment } from "@/lib/analysis/types";
 import type { FeedbackRow } from "@/lib/feedback-types";
+import { cn } from "@/lib/utils";
+
+const PILL: Record<Sentiment, string> = {
+  positive: "bg-pos-bg text-foreground",
+  neutral: "bg-neu-bg text-muted-foreground",
+  negative: "bg-neg text-on-neg",
+};
+
+// Sentiment as a coloured pill: green, grey or red, with the word written out too.
+export function SentimentPill({ sentiment }: { sentiment: string }) {
+  return (
+    <span
+      className={cn(
+        "inline-block rounded-full px-2.5 py-0.5 text-xs font-semibold capitalize",
+        PILL[sentiment as Sentiment] ?? PILL.neutral,
+      )}
+    >
+      {sentiment}
+    </span>
+  );
+}
 
 const PAGE_SIZE = 20;
 
@@ -130,7 +151,7 @@ export function FeedbackTable({
     <section aria-label="Feedback table" className="flex flex-col gap-4">
       <div className="flex flex-col gap-3 sm:flex-row">
         <div className="flex flex-1 flex-col gap-1.5">
-          <label htmlFor="feedback-search" className="text-sm font-medium">
+          <label htmlFor="feedback-search" className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
             Search reviews
           </label>
           <Input
@@ -146,7 +167,7 @@ export function FeedbackTable({
         </div>
         {showCategory && (
           <div className="flex flex-col gap-1.5 sm:w-56">
-            <label htmlFor="feedback-category" className="text-sm font-medium">
+            <label htmlFor="feedback-category" className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
               Category
             </label>
             <NativeSelect
@@ -169,7 +190,7 @@ export function FeedbackTable({
         {labels && (
           <>
             <div className="flex flex-col gap-1.5 sm:w-40">
-              <label htmlFor="feedback-sentiment" className="text-sm font-medium">
+              <label htmlFor="feedback-sentiment" className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                 Sentiment
               </label>
               <NativeSelect
@@ -187,7 +208,7 @@ export function FeedbackTable({
               </NativeSelect>
             </div>
             <div className="flex flex-col gap-1.5 sm:w-56">
-              <label htmlFor="feedback-theme" className="text-sm font-medium">
+              <label htmlFor="feedback-theme" className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                 Theme
               </label>
               <NativeSelect
@@ -225,7 +246,7 @@ export function FeedbackTable({
         </div>
       ) : (
         <>
-          <div className="overflow-x-auto rounded-xl border">
+          <div className="overflow-x-auto rounded-xl border bg-card">
             <Table>
               <TableHeader>
                 <TableRow>
@@ -263,9 +284,7 @@ export function FeedbackTable({
                     {labels && (
                       <TableCell>
                         {labels.get(row.id) ? (
-                          <Badge variant={labels.get(row.id)?.sentiment === "negative" ? "destructive" : "secondary"}>
-                            {labels.get(row.id)?.sentiment}
-                          </Badge>
+                          <SentimentPill sentiment={labels.get(row.id)!.sentiment} />
                         ) : (
                           <span className="text-xs text-muted-foreground">Not analysed</span>
                         )}
@@ -276,7 +295,7 @@ export function FeedbackTable({
                         {labels.get(row.id)?.theme ?? <span className="text-muted-foreground">—</span>}
                       </TableCell>
                     )}
-                    <TableCell className="text-right tabular-nums">{row.occurrences}</TableCell>
+                    <TableCell className="text-right font-semibold tabular-nums">{row.occurrences}×</TableCell>
                   </TableRow>
                 ))}
               </TableBody>

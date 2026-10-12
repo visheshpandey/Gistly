@@ -17,14 +17,14 @@ const pct = (part: number, whole: number) => (whole > 0 ? `${((part / whole) * 1
 
 function SentimentBar({ m }: { m: AnalysisMetrics }) {
   const parts = [
-    { key: "positive", label: "Positive", value: m.positive, className: "bg-emerald-500" },
-    { key: "neutral", label: "Neutral", value: m.neutral, className: "bg-slate-400" },
-    { key: "negative", label: "Negative", value: m.negative, className: "bg-rose-500" },
+    { key: "positive", label: "Positive", value: m.positive, className: "bg-pos" },
+    { key: "neutral", label: "Neutral", value: m.neutral, className: "bg-neu" },
+    { key: "negative", label: "Negative", value: m.negative, className: "bg-neg" },
   ];
   return (
     <div className="flex flex-col gap-3">
       <div
-        className="flex h-4 w-full overflow-hidden rounded-full bg-muted"
+        className="flex h-5 w-full gap-0.5 overflow-hidden rounded-full bg-muted"
         role="img"
         aria-label={parts.map((p) => `${p.label} ${pct(p.value, m.labelledMentions)}`).join(", ")}
       >
@@ -65,27 +65,29 @@ function Results({ result, metrics, onRerun, busy }: { result: AnalysisResult; m
         </div>
 
         {result.truncated && (
-          <p role="alert" className="rounded-lg border border-amber-500/40 bg-amber-500/10 p-3 text-sm">
+          <p role="alert" className="notice p-3 text-sm">
             This dataset has more unique reviews than one analysis covers. The {nf.format(MAX_ANALYSED)} most frequent were
             analysed.
           </p>
         )}
         {result.failedTexts > 0 && (
-          <p role="alert" className="rounded-lg border border-amber-500/40 bg-amber-500/10 p-3 text-sm">
+          <p role="alert" className="notice p-3 text-sm">
             {nf.format(result.failedTexts)} reviews could not be labelled and are left out of these numbers. Run again to
             retry them.
           </p>
         )}
 
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="kpi-strip">
           <Stat
+            tint="a"
             label="Net sentiment"
             value={`${net > 0 ? "+" : ""}${net.toFixed(1)}`}
             note="Positive share minus negative share, in points"
           />
-          <Stat label="Positive" value={pct(m.positive, m.labelledMentions)} note={`${nf.format(m.positive)} mentions`} />
-          <Stat label="Negative" value={pct(m.negative, m.labelledMentions)} note={`${nf.format(m.negative)} mentions`} />
+          <Stat tint="e" label="Positive" value={pct(m.positive, m.labelledMentions)} note={`${nf.format(m.positive)} mentions`} />
+          <Stat tint="b" label="Negative" value={pct(m.negative, m.labelledMentions)} note={`${nf.format(m.negative)} mentions`} />
           <Stat
+            tint="c"
             label="Critical problems"
             value={nf.format(m.critical)}
             note={`Negative mentions rated 4 or 5 out of 5 (${pct(m.critical, m.negative)} of all negative)`}
@@ -96,7 +98,7 @@ function Results({ result, metrics, onRerun, busy }: { result: AnalysisResult; m
 
       <section aria-label="Themes" className="flex flex-col gap-4">
         <div>
-          <h2 className="text-lg font-semibold tracking-tight">What people talk about</h2>
+          <h2 className="title-bar text-2xl font-semibold">What people talk about</h2>
           <p className="text-sm text-muted-foreground">
             Themes found by the AI, by number of mentions. Problem-heavy themes list their most common issues.
           </p>
@@ -106,18 +108,18 @@ function Results({ result, metrics, onRerun, busy }: { result: AnalysisResult; m
             <Card key={t.theme}>
               <CardContent className="flex flex-col gap-3">
                 <div className="flex items-start justify-between gap-3">
-                  <h3 className="font-medium">{t.theme}</h3>
+                  <h3 className="text-base font-semibold">{t.theme}</h3>
                   <p className="text-sm tabular-nums text-muted-foreground">
                     {nf.format(t.mentions)} mentions · {(t.share * 100).toFixed(0)}%
                   </p>
                 </div>
                 <div className="flex flex-col gap-1">
                   <div
-                    className="flex h-2 w-full overflow-hidden rounded-full bg-emerald-500/30"
+                    className="flex h-2 w-full overflow-hidden rounded-full bg-pos/30"
                     role="img"
                     aria-label={`${(t.negativeShare * 100).toFixed(0)}% negative`}
                   >
-                    <div className="bg-rose-500" style={{ width: `${t.negativeShare * 100}%` }} />
+                    <div className="bg-neg" style={{ width: `${t.negativeShare * 100}%` }} />
                   </div>
                   <p className="text-xs text-muted-foreground">
                     {(t.negativeShare * 100).toFixed(0)}% negative
@@ -152,31 +154,39 @@ function Results({ result, metrics, onRerun, busy }: { result: AnalysisResult; m
       {m.byCategory && (
         <section aria-label="Sentiment by category" className="flex flex-col gap-3">
           <div>
-            <h2 className="text-lg font-semibold tracking-tight">Sentiment inside each category</h2>
+            <h2 className="title-bar text-2xl font-semibold">Sentiment inside each category</h2>
             <p className="text-sm text-muted-foreground">
               A category is not a sentiment: every category contains both praise and complaints. Sentiment comes from
               what each review says.
             </p>
           </div>
-          <div className="overflow-x-auto rounded-xl border">
-            <table className="w-full text-sm">
+          <div className="overflow-x-auto rounded-xl border bg-card">
+            <table className="w-full min-w-[560px] text-sm">
               <thead>
-                <tr className="border-b text-left text-muted-foreground">
-                  <th className="p-3 font-medium">Category</th>
-                  <th className="p-3 text-right font-medium">Mentions</th>
-                  <th className="p-3 text-right font-medium">Positive</th>
-                  <th className="p-3 text-right font-medium">Neutral</th>
-                  <th className="p-3 text-right font-medium">Negative</th>
+                <tr className="border-b text-left text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                  <th scope="col" className="p-3">Category</th>
+                  <th scope="col" className="p-3 text-right">Mentions</th>
+                  <th scope="col" className="w-2/5 p-3">Sentiment</th>
+                  <th scope="col" className="p-3 text-right">Negative</th>
                 </tr>
               </thead>
               <tbody>
                 {m.byCategory.map((c) => (
                   <tr key={c.category} className="border-b last:border-0">
-                    <td className="p-3">{c.category}</td>
+                    <td className="p-3 font-medium">{c.category}</td>
                     <td className="p-3 text-right tabular-nums">{nf.format(c.mentions)}</td>
-                    <td className="p-3 text-right tabular-nums">{pct(c.positive, c.mentions)}</td>
-                    <td className="p-3 text-right tabular-nums">{pct(c.neutral, c.mentions)}</td>
-                    <td className="p-3 text-right tabular-nums">{pct(c.negative, c.mentions)}</td>
+                    <td className="p-3">
+                      <div
+                        className="flex h-3 w-full gap-0.5 overflow-hidden rounded-full bg-muted"
+                        role="img"
+                        aria-label={`${pct(c.positive, c.mentions)} positive, ${pct(c.neutral, c.mentions)} neutral, ${pct(c.negative, c.mentions)} negative`}
+                      >
+                        <div className="bg-pos" style={{ width: pct(c.positive, c.mentions) }} />
+                        <div className="bg-neu" style={{ width: pct(c.neutral, c.mentions) }} />
+                        <div className="bg-neg" style={{ width: pct(c.negative, c.mentions) }} />
+                      </div>
+                    </td>
+                    <td className="p-3 text-right font-semibold tabular-nums">{pct(c.negative, c.mentions)}</td>
                   </tr>
                 ))}
               </tbody>

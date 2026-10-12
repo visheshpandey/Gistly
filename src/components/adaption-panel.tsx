@@ -44,8 +44,9 @@ function InstantResult() {
         <Badge variant="secondary">Instant</Badge>
         <p className="text-sm text-muted-foreground">Computed in your browser. Nothing was sent anywhere.</p>
       </div>
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="kpi-strip">
         <Stat
+          tint="a"
           label="Your data"
           value={nf.format(stats.rowsRead)}
           note={
@@ -55,23 +56,26 @@ function InstantResult() {
           }
         />
         <Stat
+          tint="d"
           label="Unique entries"
           value={nf.format(stats.uniqueEntries)}
           note={`${nf.format(stats.duplicatesRemoved)} duplicates removed (${removedPct.toFixed(1)}%).${nearDupNote}`}
         />
         <Stat
+          tint="e"
           label="Data quality (instant)"
           value={`${stats.after.grade} · ${stats.after.score.toFixed(1)}/10`}
           note={`Before cleaning: ${stats.before.grade} · ${stats.before.score.toFixed(1)}/10. Checks repeats, empty and very short rows, not the meaning of the text.`}
         />
         <Stat
+          tint="c"
           label="Processed in"
           value={seconds(t.totalMs)}
           note={`Reading ${seconds(t.parseMs)} · deduplicating ${seconds(t.dedupeMs)} · scoring ${seconds(t.scoreMs)}`}
         />
       </div>
       {stats.overflowRows > 0 && (
-        <p role="alert" className="rounded-lg border border-amber-500/40 bg-amber-500/10 p-3 text-sm">
+        <p role="alert" className="notice p-3 text-sm">
           This file has more unique entries than InsightFlow can hold. {nf.format(stats.overflowRows)} rows after
           the limit were not included, so totals are lower than the file.
         </p>
@@ -146,18 +150,21 @@ function Panel() {
                 Verified by Adaption: <span className="tabular-nums">{line}</span>
               </p>
             )}
-            <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+            <div className="kpi-strip">
               <Stat
+                tint="a"
                 label="Sent to Adaption"
                 value={nf.format(report.rowsSent)}
                 note={`${nf.format(report.textsSent)} texts, each up to ${MAX_REPEATS_SENT} times${report.sampled ? ", a sample of your data" : ""}`}
               />
               <Stat
+                tint="d"
                 label="Duplicates removed"
                 value={nf.format(report.duplicatesRemoved)}
                 note={`${nf.format(report.rowsAfter)} of ${nf.format(report.rowsSent)} rows kept`}
               />
               <Stat
+                tint="e"
                 label="Data quality (Adaption)"
                 value={q && q.gradeAfter && q.scoreAfter !== null ? `${q.gradeAfter} · ${q.scoreAfter.toFixed(1)}/10` : "Not scored"}
                 note={
