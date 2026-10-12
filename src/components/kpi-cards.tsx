@@ -2,7 +2,7 @@ import { Stat, type Tint } from "@/components/stat";
 import type { AnalysisMetrics } from "@/lib/analysis/metrics";
 import type { DatasetSummary } from "@/lib/feedback-types";
 
-// With an AI analysis, "Negative feedback" uses real sentiment. Without one it falls back to a keyword guess.
+// Sentiment only appears once the AI has labelled the reviews. Before that the card says so instead of guessing.
 export function KpiCards({ summary, analysis }: { summary: DatasetSummary; analysis?: AnalysisMetrics | null }) {
   const nf = new Intl.NumberFormat("en-US");
   const items: { label: string; value: string; note: string; tint: Tint }[] = [
@@ -28,14 +28,14 @@ export function KpiCards({ summary, analysis }: { summary: DatasetSummary; analy
         }
       : {
           label: "Negative feedback",
-          value: nf.format(summary.negativeEstimate),
-          note: "Estimated from keywords. Run the AI analysis for real sentiment.",
+          value: "Not yet",
+          note: "Run the AI analysis to see sentiment.",
           tint: "b",
         },
   ];
 
   return (
-    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+    <div className="kpi-strip">
       {items.map((item) => (
         <Stat key={item.label} {...item} />
       ))}

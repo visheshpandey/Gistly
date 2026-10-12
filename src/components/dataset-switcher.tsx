@@ -74,7 +74,7 @@ function DatasetsSheet({ open, onOpenChange }: { open: boolean; onOpenChange: (o
 
         <div className="flex flex-col gap-4 px-4 pb-4">
           {persistence === "memory" && (
-            <p role="alert" className="rounded-lg border border-amber-500/40 bg-amber-500/10 p-3 text-sm">
+            <p role="alert" className="notice p-3 text-sm">
               Your browser is blocking storage, so datasets are kept only until you close this page.
             </p>
           )}

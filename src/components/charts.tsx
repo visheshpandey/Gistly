@@ -19,12 +19,13 @@ import {
 import type { AnalysisMetrics } from "@/lib/analysis/metrics";
 import type { TrendPoint } from "@/lib/analysis/filters";
 
-// Colours carry meaning everywhere: green = positive, grey = neutral, red = negative.
+// Colours carry meaning everywhere: green = positive, sand = neutral, red = negative.
 // They are CSS variables from globals.css, so the charts follow the light or dark theme by themselves.
-export const COLORS = { positive: "var(--pos)", neutral: "var(--neu)", negative: "var(--neg)", accent: "var(--primary)" };
-const SEVERITY_COLORS = ["#f2c14e", "#f0a03c", "#e8772e", "#dd4b2c", "#b71c2b"]; // minor to severe
+export const COLORS = { positive: "var(--pos)", neutral: "var(--neu)", negative: "var(--neg)", accent: "var(--brand)" };
+// Minor to severe: sand, mustard, rose, red, ink.
+const SEVERITY_COLORS = ["var(--neu)", "var(--p3)", "var(--p4)", "var(--neg)", "var(--p1)"];
 const nf = new Intl.NumberFormat("en-US");
-const AXIS = { fontSize: 12, fill: "currentColor" };
+const AXIS = { fontSize: 13, fill: "currentColor" };
 const GRID = { stroke: "var(--border)" };
 const TOOLTIP = {
   contentStyle: {
@@ -92,7 +93,7 @@ export function SentimentDonut({ m }: { m: AnalysisMetrics }) {
         </ResponsiveContainer>
         <div className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center">
           <span className="text-2xl font-bold tabular-nums text-foreground">{nf.format(m.labelledMentions)}</span>
-          <span className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">mentions</span>
+          <span className="text-[0.6875rem] font-semibold uppercase tracking-wider text-muted-foreground">mentions</span>
         </div>
       </div>
       <ul className="flex min-w-40 flex-1 flex-col gap-3">
@@ -160,7 +161,8 @@ export function CategoryStack({ m }: { m: AnalysisMetrics }) {
     Negative: c.mentions > 0 ? (c.negative / c.mentions) * 100 : 0,
   }));
   const inside = (v: unknown) => (Number(v) >= 9 ? `${Math.round(Number(v))}%` : "");
-  const labelStyle = { fontSize: 11, fontWeight: 600, fill: "var(--background)" };
+  const labelStyle = { fontSize: 12, fontWeight: 600, fill: "var(--background)" };
+  const darkLabel = { ...labelStyle, fill: "var(--foreground)" };
   return (
     <div className="flex flex-col gap-2">
       <Frame
@@ -183,7 +185,7 @@ export function CategoryStack({ m }: { m: AnalysisMetrics }) {
             <LabelList dataKey="Positive" position="center" formatter={inside} style={labelStyle} />
           </Bar>
           <Bar dataKey="Neutral" stackId="s" fill={COLORS.neutral} isAnimationActive={false}>
-            <LabelList dataKey="Neutral" position="center" formatter={inside} style={labelStyle} />
+            <LabelList dataKey="Neutral" position="center" formatter={inside} style={darkLabel} />
           </Bar>
           <Bar dataKey="Negative" stackId="s" fill={COLORS.negative} isAnimationActive={false} radius={[0, 6, 6, 0]}>
             <LabelList dataKey="Negative" position="center" formatter={inside} style={labelStyle} />
@@ -227,7 +229,7 @@ export function SeverityBars({ m }: { m: AnalysisMetrics }) {
             dataKey="value"
             position="top"
             formatter={(v: unknown) => (Number(v) > 0 ? nf.format(Number(v)) : "")}
-            style={{ fontSize: 12, fontWeight: 600, fill: "var(--foreground)" }}
+            style={{ fontSize: 13, fontWeight: 600, fill: "var(--foreground)" }}
           />
         </Bar>
       </BarChart>
@@ -235,19 +237,13 @@ export function SeverityBars({ m }: { m: AnalysisMetrics }) {
   );
 }
 
-// Negative share over time as a shaded line, with a dashed line at the average so rises and falls stand out.
+// Negative share over time as a line over a light solid fill, with a dashed line at the average so rises and falls stand out.
 export function TrendLine({ points }: { points: TrendPoint[] }) {
   const data = points.map((p) => ({ date: p.date, negative: Math.round(p.negativeShare * 1000) / 10 }));
   const avg = data.length > 0 ? data.reduce((s, d) => s + d.negative, 0) / data.length : 0;
   return (
     <Frame label={`Negative share over time, from ${data[0]?.date ?? ""} to ${data[data.length - 1]?.date ?? ""}`}>
       <AreaChart data={data} margin={{ left: 0, right: 16, top: 8 }}>
-        <defs>
-          <linearGradient id="trend-fill" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor="var(--neg)" stopOpacity={0.35} />
-            <stop offset="100%" stopColor="var(--neg)" stopOpacity={0.02} />
-          </linearGradient>
-        </defs>
         <CartesianGrid vertical={false} {...GRID} />
         <XAxis dataKey="date" tick={AXIS} tickLine={false} axisLine={false} minTickGap={32} />
         <YAxis tick={AXIS} tickLine={false} axisLine={false} unit="%" domain={[0, 100]} width={44} />
@@ -263,7 +259,8 @@ export function TrendLine({ points }: { points: TrendPoint[] }) {
           dataKey="negative"
           stroke={COLORS.negative}
           strokeWidth={2.5}
-          fill="url(#trend-fill)"
+          fill="var(--neg)"
+          fillOpacity={0.1}
           dot={data.length < 40 ? { r: 3, fill: "var(--neg)", strokeWidth: 0 } : false}
           activeDot={{ r: 5 }}
           isAnimationActive={false}

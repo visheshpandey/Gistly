@@ -42,8 +42,8 @@ function ChartCard({
     <Card className={className}>
       <CardContent className="flex h-full flex-col gap-4">
         <div>
-          <h2 className="text-base font-semibold tracking-tight">{question}</h2>
-          {note && <p className="mt-0.5 text-[13px] text-muted-foreground">{note}</p>}
+          <h2 className="title-bar text-xl font-semibold">{question}</h2>
+          {note && <p className="mt-0.5 text-[0.8125rem] text-muted-foreground">{note}</p>}
         </div>
         {children}
       </CardContent>
@@ -69,15 +69,15 @@ function Chip({
       aria-pressed={pressed}
       onClick={onClick}
       className={cn(
-        "inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-[13px] font-medium transition-colors focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-ring/50",
+        "inline-flex items-center gap-1.5 rounded-md border-[1.5px] px-3 py-1 text-[0.8125rem] font-medium transition-colors focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-ring/50",
         pressed
-          ? "border-primary bg-primary text-primary-foreground"
-          : "bg-card text-foreground hover:border-foreground/40",
+          ? "border-edge bg-hl font-bold text-[#1c1b2e]"
+          : "border-edge bg-card text-foreground hover:bg-muted",
       )}
     >
       {dot && (
         <span
-          className={cn("size-2 rounded-full", pressed && "ring-2 ring-primary-foreground")}
+          className={cn("size-2 rounded-full", pressed && "ring-2 ring-[#1c1b2e]")}
           style={{ background: dot }}
           aria-hidden="true"
         />
@@ -89,9 +89,9 @@ function Chip({
 
 type Tone = "bad" | "good" | "info";
 const TONE_CLASS: Record<Tone, string> = {
-  bad: "bg-neg-bg text-neg",
-  good: "bg-pos-bg text-pos",
-  info: "bg-neu-bg text-muted-foreground",
+  bad: "bg-neg text-on-neg",
+  good: "bg-pos-bg text-foreground",
+  info: "border border-edge bg-muted text-muted-foreground",
 };
 type Takeaway = { tone: Tone; tag: string; text: React.ReactNode; theme?: string };
 
@@ -346,7 +346,7 @@ function Dashboard() {
         </div>
       ) : (
         <>
-          <section aria-label="Key numbers" className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-5">
+          <section aria-label="Key numbers" className="kpi-strip">
             <Stat tint="a" label="Total feedback" value={nf.format(metrics.labelledMentions)} note={active ? `of ${nf.format(summary.total)} in all data` : "All mentions, repeats included"} />
             <Stat tint="d" label="Unique reviews" value={nf.format(filtered.length)} note="Distinct review texts" />
             <Stat tint={net >= 0 ? "e" : "c"} label="Net sentiment" value={`${net > 0 ? "+" : ""}${net.toFixed(1)}`} note="Positive share minus negative share" />
@@ -361,7 +361,7 @@ function Dashboard() {
                   <li key={t.tag} className="flex items-start gap-3 rounded-lg bg-muted/60 px-3 py-2.5">
                     <span
                       className={cn(
-                        "mt-0.5 w-24 shrink-0 rounded px-1.5 py-0.5 text-center text-[11px] font-bold uppercase tracking-wide",
+                        "mt-0.5 w-24 shrink-0 rounded px-1.5 py-0.5 text-center text-[0.6875rem] font-bold uppercase tracking-wide",
                         TONE_CLASS[t.tone],
                       )}
                     >

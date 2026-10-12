@@ -5,6 +5,19 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
+  --color-brand: var(--brand);
+  --color-hl: var(--hl);
+  --color-sel: var(--sel);
+  --color-edge: var(--edge);
+  --color-on-neg: var(--on-neg);
+  --color-nav: var(--nav);
+  --color-nav-ink: var(--nav-ink);
+  --color-nav-mute: var(--nav-mute);
+  --color-nav-line: var(--nav-line);
+  --color-p1: var(--p1);
+  --color-p2: var(--p2);
+  --color-p3: var(--p3);
+  --color-p4: var(--p4);
   --color-tint-a: var(--tint-a);
   --color-tint-b: var(--tint-b);
   --color-tint-c: var(--tint-c);
@@ -19,8 +32,9 @@
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-figtree);
+  --font-display: var(--font-fraunces);
   --font-mono: var(--font-geist-mono);
-  --font-heading: var(--font-sans);
+  --font-heading: var(--font-fraunces);
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -59,99 +73,133 @@
   --radius-4xl: calc(var(--radius) * 2.6);
 }
 
-/* Palette: ink on a soft grey page, one blue accent, and a fixed set of status colours.
-   shadcn's variable names are kept so every component picks the new look up automatically. */
+/* "Paper and ink": a cream page, warm white cards with ink outlines and a small hard shadow,
+   a dark ink navigation bar, and a few strong colours that each have one job.
+     #F6F0E4  cream page          #FFFCF5  card          #EFE7D6  quiet surface
+     #1C1B2E  ink (text, outlines, nav bar)            #58566B  secondary text (6.9:1 on cards)
+     #C93A20  red: main buttons and negative (white text on it is 5.1:1)
+     #FFD84D  yellow: pressed filters, hover, active tab, title bars
+     #2F4FD8  cobalt: links and focus
+     #1F8A70  green: positive        #D3C9B2  sand: neutral
+   Data colours for categories and groups: ink, cobalt, mustard, rose (--p1..--p4).
+   shadcn's variable names are kept so every component picks the palette up automatically. */
 :root {
-  --background: #f5f5f6;
-  --foreground: #0d0d10;
-  --card: #ffffff;
-  --card-foreground: #1d1d21;
-  --popover: #ffffff;
-  --popover-foreground: #1d1d21;
-  --primary: #2b4bff;
+  --background: #f6f0e4;
+  --foreground: #1c1b2e;
+  --card: #fffcf5;
+  --card-foreground: #1c1b2e;
+  --popover: #fffcf5;
+  --popover-foreground: #1c1b2e;
+  --primary: #c93a20;
   --primary-foreground: #ffffff;
-  --secondary: #f0f0f2;
-  --secondary-foreground: #1d1d21;
-  --muted: #f0f0f2;
-  --muted-foreground: #4f4f58;
-  --accent: #e8eeff;
-  --accent-foreground: #0d0d10;
-  --destructive: #d1262a;
-  --border: #e3e3e6;
-  --input: #d6d6db;
-  --ring: #2b4bff;
-  --chart-1: #2a78d6;
-  --chart-2: #1baf7a;
-  --chart-3: #eda100;
-  --chart-4: #6250d6;
-  --chart-5: #e87ba4;
-  --radius: 0.625rem;
-  --sidebar: #ffffff;
-  --sidebar-foreground: #1d1d21;
-  --sidebar-primary: #2b4bff;
+  --brand: #2f4fd8;
+  --hl: #ffd84d;
+  --sel: #fff0b8;
+  --edge: #1c1b2e;
+  --on-neg: #ffffff;
+  --secondary: #efe7d6;
+  --secondary-foreground: #1c1b2e;
+  --muted: #efe7d6;
+  --muted-foreground: #58566b;
+  --accent: #fff0b8;
+  --accent-foreground: #1c1b2e;
+  --destructive: #a92e18;
+  --border: #ddd3be;
+  --input: #1c1b2e;
+  --ring: #2f4fd8;
+  --p1: #1c1b2e;
+  --p2: #2f4fd8;
+  --p3: #f2a81d;
+  --p4: #e86a92;
+  --chart-1: #1c1b2e;
+  --chart-2: #2f4fd8;
+  --chart-3: #f2a81d;
+  --chart-4: #e86a92;
+  --chart-5: #d3c9b2;
+  --radius: 0.5rem;
+  --nav: #1c1b2e;
+  --nav-ink: #fffcf5;
+  --nav-mute: #c9c5da;
+  --nav-line: #46445f;
+  --sidebar: #fffcf5;
+  --sidebar-foreground: #1c1b2e;
+  --sidebar-primary: #c93a20;
   --sidebar-primary-foreground: #ffffff;
-  --sidebar-accent: #f0f0f2;
-  --sidebar-accent-foreground: #0d0d10;
-  --sidebar-border: #e3e3e6;
-  --sidebar-ring: #2b4bff;
-  /* soft card tints and sentiment colours */
-  --tint-a: #e8eeff;
-  --tint-b: #ffe9e9;
-  --tint-c: #fff2cf;
-  --tint-d: #efe9ff;
-  --tint-e: #e2f6e6;
-  --pos: #0b8a0b;
-  --neu: #6b6b74;
-  --neg: #d1262a;
-  --pos-bg: #e2f6e6;
-  --neu-bg: #ededf0;
-  --neg-bg: #ffe9e9;
+  --sidebar-accent: #efe7d6;
+  --sidebar-accent-foreground: #1c1b2e;
+  --sidebar-border: #ddd3be;
+  --sidebar-ring: #2f4fd8;
+  /* number cards sit on the card colour inside one outlined strip (the five names are kept for the components) */
+  --tint-a: #fffcf5;
+  --tint-b: #fffcf5;
+  --tint-c: #fffcf5;
+  --tint-d: #fffcf5;
+  --tint-e: #fffcf5;
+  --pos: #1f8a70;
+  --neu: #d3c9b2;
+  --neg: #c93a20;
+  --pos-bg: #d4ede3;
+  --neu-bg: #efe7d6;
+  --neg-bg: #f8dcd4;
 }
 
 .dark {
   color-scheme: dark;
-  --background: #111113;
-  --foreground: #f3f3f5;
-  --card: #1a1a1d;
-  --card-foreground: #e6e6ea;
-  --popover: #1a1a1d;
-  --popover-foreground: #e6e6ea;
-  --primary: #8aa0ff;
-  --primary-foreground: #0d0d10;
-  --secondary: #232327;
-  --secondary-foreground: #e6e6ea;
-  --muted: #232327;
-  --muted-foreground: #b8b8c2;
-  --accent: #1b2340;
-  --accent-foreground: #f3f3f5;
-  --destructive: #ff6b6e;
-  --border: #2f2f35;
-  --input: #3a3a42;
-  --ring: #8aa0ff;
-  --chart-1: #3987e5;
-  --chart-2: #199e70;
-  --chart-3: #c98500;
-  --chart-4: #9085e9;
-  --chart-5: #d55181;
-  --sidebar: #1a1a1d;
-  --sidebar-foreground: #e6e6ea;
-  --sidebar-primary: #8aa0ff;
-  --sidebar-primary-foreground: #0d0d10;
-  --sidebar-accent: #232327;
-  --sidebar-accent-foreground: #f3f3f5;
-  --sidebar-border: #2f2f35;
-  --sidebar-ring: #8aa0ff;
-  --tint-a: #1b2340;
-  --tint-b: #3a1c1e;
-  --tint-c: #3a2f12;
-  --tint-d: #2a2548;
-  --tint-e: #17301a;
-  --pos: #3cc43c;
-  --neu: #9b9ba6;
-  --neg: #ff6b6e;
-  --pos-bg: #17301a;
-  --neu-bg: #2a2a30;
-  --neg-bg: #3a1c1e;
+  --background: #15141e;
+  --foreground: #f6f0e4;
+  --card: #1e1d2b;
+  --card-foreground: #eae4d6;
+  --popover: #1e1d2b;
+  --popover-foreground: #eae4d6;
+  --primary: #d8452b;
+  --primary-foreground: #ffffff;
+  --brand: #8ca2ff;
+  --hl: #f5b82e;
+  --sel: #3a3320;
+  --edge: #4b4966;
+  --on-neg: #15141e;
+  --secondary: #282739;
+  --secondary-foreground: #eae4d6;
+  --muted: #282739;
+  --muted-foreground: #b5b2c8;
+  --accent: #3a3320;
+  --accent-foreground: #f6f0e4;
+  --destructive: #f0624a;
+  --border: #37354d;
+  --input: #4b4966;
+  --ring: #8ca2ff;
+  --p1: #f6f0e4;
+  --p2: #8ca2ff;
+  --p3: #f5b82e;
+  --p4: #f08cad;
+  --chart-1: #f6f0e4;
+  --chart-2: #8ca2ff;
+  --chart-3: #f5b82e;
+  --chart-4: #f08cad;
+  --chart-5: #4a4863;
+  --nav: #0e0d15;
+  --nav-ink: #fffcf5;
+  --nav-mute: #c9c5da;
+  --nav-line: #37354d;
+  --sidebar: #1e1d2b;
+  --sidebar-foreground: #eae4d6;
+  --sidebar-primary: #d8452b;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #282739;
+  --sidebar-accent-foreground: #f6f0e4;
+  --sidebar-border: #37354d;
+  --sidebar-ring: #8ca2ff;
+  --tint-a: #1e1d2b;
+  --tint-b: #1e1d2b;
+  --tint-c: #1e1d2b;
+  --tint-d: #1e1d2b;
+  --tint-e: #1e1d2b;
+  --pos: #4fc3a1;
+  --neu: #4a4863;
+  --neg: #f0624a;
+  --pos-bg: #1f3d36;
+  --neu-bg: #282739;
+  --neg-bg: #3d2420;
 }
 
 @layer base {
@@ -164,8 +212,172 @@
   html {
     @apply font-sans;
   }
+  /* Text grows a little on bigger screens so it stays easy to read from a normal distance.
+     Every size in the app is in rem, so headings, numbers and spacing all grow together. */
+  html {
+    font-size: 100%;
+  }
+  @media (min-width: 1280px) {
+    html {
+      font-size: 106.25%; /* 17px */
+    }
+  }
+  @media (min-width: 1600px) {
+    html {
+      font-size: 112.5%; /* 18px */
+    }
+  }
   body {
     line-height: 1.55;
+    letter-spacing: 0.005em;
+    text-rendering: optimizeLegibility;
+    /* Native checkboxes, radio buttons and progress bars use the palette, not the browser's default blue. */
+    accent-color: var(--primary);
+  }
+  /* Headings use the Fraunces serif; body text stays Figtree. */
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-fraunces), Georgia, "Times New Roman", serif;
+    color: var(--foreground);
+    letter-spacing: -0.01em;
+  }
+  a {
+    text-underline-offset: 3px;
+  }
+  thead tr {
+    border-color: var(--edge);
+  }
+}
+
+/* Page width: the full screen minus a small gutter on phones, 90% of the screen on larger displays,
+   so the content uses the space with an even gap on the left and right. */
+.page-width {
+  width: 100%;
+  margin-inline: auto;
+  padding-inline: 1rem;
+}
+@media (min-width: 768px) {
+  .page-width {
+    width: 90%;
+    max-width: 112rem;
+    padding-inline: 0;
+  }
+}
+
+/* A short yellow bar under a section title. */
+.title-bar::after {
+  content: "";
+  display: block;
+  width: 34px;
+  height: 4px;
+  margin-top: 7px;
+  border-radius: 2px;
+  background: var(--hl);
+}
+
+/* The wordmark: Fraunces with its soft, slightly quirky shapes, and a yellow dot. */
+.wordmark {
+  font-family: var(--font-fraunces), Georgia, serif;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  font-variation-settings: "SOFT" 100, "WONK" 1;
+}
+.wordmark::after {
+  content: "";
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  margin-left: 5px;
+  border-radius: 50%;
+  background: var(--hl);
+}
+
+/* Big numbers in the serif. */
+.num-display {
+  font-family: var(--font-fraunces), Georgia, serif;
+  font-weight: 650;
+  letter-spacing: -0.01em;
+}
+
+/* A row of number cards joined into one outlined strip with thin ink dividers.
+   Flex (not grid) so a wrapped last row stretches and never leaves an empty cell. */
+.kpi-strip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5px;
+  background: var(--edge);
+  border: 1.5px solid var(--edge);
+  border-radius: var(--radius-lg);
+  box-shadow: 3px 3px 0 var(--edge);
+  overflow: hidden;
+}
+.kpi-strip > * {
+  flex: 1 1 11rem;
+  min-width: 0;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  border: 0 !important;
+}
+
+/* Controls placed on the dark navigation bar: outline buttons become light-on-dark. */
+.nav-dark [data-slot="button"][data-variant="outline"] {
+  background: transparent;
+  color: var(--nav-ink);
+  border-color: var(--nav-line);
+  box-shadow: none;
+}
+.nav-dark [data-slot="button"][data-variant="outline"]:hover {
+  background: var(--hl);
+  color: #1c1b2e;
+  border-color: var(--hl);
+}
+
+/* A message that needs attention but is not an error (for example "this was not saved"). */
+.notice {
+  border: 1.5px solid var(--edge);
+  border-left: 5px solid var(--hl);
+  background: var(--card);
+  border-radius: var(--radius);
+}
+
+@media print {
+  .page-width {
+    width: 100%;
+    max-width: none;
+  }
+  /* A printed or saved PDF is always the light version, even if the screen is in dark mode. */
+  .dark {
+    color-scheme: light;
+    --background: #ffffff;
+    --foreground: #1c1b2e;
+    --card: #fffcf5;
+    --card-foreground: #1c1b2e;
+    --primary: #c93a20;
+    --primary-foreground: #ffffff;
+    --brand: #2f4fd8;
+    --hl: #ffd84d;
+    --sel: #fff0b8;
+    --edge: #1c1b2e;
+    --on-neg: #ffffff;
+    --muted: #efe7d6;
+    --muted-foreground: #58566b;
+    --border: #ddd3be;
+    --p1: #1c1b2e;
+    --p2: #2f4fd8;
+    --p3: #f2a81d;
+    --p4: #e86a92;
+    --tint-a: #fffcf5;
+    --tint-b: #fffcf5;
+    --tint-c: #fffcf5;
+    --tint-d: #fffcf5;
+    --tint-e: #fffcf5;
+    --pos: #1f8a70;
+    --neu: #d3c9b2;
+    --neg: #c93a20;
+    --pos-bg: #d4ede3;
+    --neu-bg: #efe7d6;
+    --neg-bg: #f8dcd4;
   }
 }
 

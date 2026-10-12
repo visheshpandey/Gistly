@@ -7,26 +7,8 @@ export function PageHeader({
 }) {
   return (
     <div className="mb-6">
-      <h1 className="text-2xl font-semibold tracking-tight">{title}</h1>
-      <p className="mt-1 max-w-prose text-sm text-muted-foreground">{description}</p>
-    </div>
-  );
-}
-
-export function Placeholder({
-  title,
-  description,
-  phase,
-}: {
-  title: string;
-  description: string;
-  phase: string;
-}) {
-  return (
-    <div className="flex min-h-64 flex-col items-center justify-center rounded-xl border border-dashed p-8 text-center">
-      <h2 className="text-base font-medium">{title}</h2>
-      <p className="mt-1 max-w-md text-sm text-muted-foreground">{description}</p>
-      <p className="mt-3 text-xs text-muted-foreground">Planned for {phase}.</p>
+      <h1 className="text-2xl font-bold tracking-tight md:text-3xl">{title}</h1>
+      <p className="mt-1.5 max-w-prose text-[0.9375rem] text-muted-foreground">{description}</p>
     </div>
   );
 }

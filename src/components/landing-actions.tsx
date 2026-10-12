@@ -7,8 +7,12 @@ import { Button } from "@/components/ui/button";
 import { useFeedbackData } from "@/components/data-provider";
 import { useUpload } from "@/components/upload-provider";
 
+// On the dark ink band the main button turns yellow so it stands out; the outline button is
+// restyled for dark backgrounds by the .nav-dark rule in globals.css.
+const ON_DARK_PRIMARY = "border-hl bg-hl text-[#1c1b2e] shadow-none hover:brightness-95";
+
 // The two ways into the app from the entry page: the built-in sample, or the user's own file.
-export function LandingActions({ size = "lg" }: { size?: "default" | "lg" }) {
+export function LandingActions({ size = "lg", tone = "light" }: { size?: "default" | "lg"; tone?: "light" | "dark" }) {
   const router = useRouter();
   const { status, loadSample } = useFeedbackData();
   const { open } = useUpload();
@@ -21,11 +25,16 @@ export function LandingActions({ size = "lg" }: { size?: "default" | "lg" }) {
 
   return (
     <div className="flex flex-wrap gap-3">
-      <Button size={size} onClick={() => void trySample()} disabled={!ready}>
+      <Button size={size} onClick={() => void trySample()} disabled={!ready} className={tone === "dark" ? ON_DARK_PRIMARY : undefined}>
         Try the sample data
         <ArrowRight data-icon="inline-end" aria-hidden="true" />
       </Button>
-      <Button size={size} variant="outline" onClick={() => open("new")} disabled={!ready}>
+      <Button
+        size={size}
+        variant="outline"
+        onClick={() => open("new")}
+        disabled={!ready}
+      >
         <Upload data-icon="inline-start" aria-hidden="true" />
         Upload your data
       </Button>

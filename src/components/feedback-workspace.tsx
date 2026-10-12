@@ -57,7 +57,7 @@ function Workspace() {
       </div>
 
       {saveWarning && (
-        <p role="alert" className="rounded-lg border border-amber-500/40 bg-amber-500/10 p-3 text-sm">
+        <p role="alert" className="notice p-3 text-sm">
           {saveWarning}
         </p>
       )}

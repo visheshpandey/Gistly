@@ -10,7 +10,7 @@ const ToastContext = createContext<{ notify: (text: string, tone?: Tone) => void
 
 const SHOW_MS = 9000;
 const TONE_CLASS: Record<Tone, string> = {
-  success: "border-emerald-500/40 bg-emerald-50 text-emerald-950 dark:bg-emerald-950 dark:text-emerald-50",
+  success: "border-border border-l-[3px] border-l-brand bg-card text-foreground",
   error: "border-destructive/40 bg-destructive/5 text-foreground",
   info: "border-border bg-card text-foreground",
 };
@@ -42,7 +42,7 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
           <div
             key={t.id}
             role="status"
-            className={`pointer-events-auto flex items-start gap-3 rounded-xl border p-3 text-sm shadow-lg ${TONE_CLASS[t.tone]}`}
+            className={`pointer-events-auto flex items-start gap-3 rounded-lg border p-3 text-sm shadow-sm ${TONE_CLASS[t.tone]}`}
           >
             <p className="flex-1">{t.text}</p>
             <button type="button" aria-label="Dismiss message" onClick={() => dismiss(t.id)} className="rounded p-0.5 hover:bg-muted">

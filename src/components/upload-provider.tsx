@@ -412,7 +412,7 @@ function UploadSheet({
                       ))}
                     </NativeSelect>
                     {numericWarning && (
-                      <p role="alert" className="text-xs text-amber-700 dark:text-amber-300">
+                      <p role="alert" className="text-xs font-semibold text-foreground">
                         This column looks like numbers, not feedback text. Pick the column that holds what people wrote.
                       </p>
                     )}
