@@ -1,5 +1,5 @@
-import { AdaptionPanel } from "@/components/adaption-panel";
-import { PageHeader } from "@/components/page-header";
+import { AdaptionPanel } from "@/features/adaption/adaption-panel";
+import { PageHeader } from "@/components/layout/page-header";
 
 export default function AdaptionPage() {
   return (

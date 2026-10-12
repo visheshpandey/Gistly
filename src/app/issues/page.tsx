@@ -1,5 +1,5 @@
-import { IssuesPanel } from "@/components/issues-panel";
-import { PageHeader } from "@/components/page-header";
+import { IssuesPanel } from "@/features/issues/issues-panel";
+import { PageHeader } from "@/components/layout/page-header";
 
 export default function IssuesPage() {
   return (

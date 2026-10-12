@@ -1,5 +1,5 @@
-import { AskPanel } from "@/components/ask-panel";
-import { PageHeader } from "@/components/page-header";
+import { AskPanel } from "@/features/ask/ask-panel";
+import { PageHeader } from "@/components/layout/page-header";
 
 export default function AskPage() {
   return (

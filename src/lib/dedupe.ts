@@ -1,3 +1,4 @@
+// Merging rows: add new feedback to a dataset while keeping existing row ids and counts.
 import type { FeedbackRow } from "./feedback-types.ts";
 import { normalizeText } from "./local/normalize.ts";
 

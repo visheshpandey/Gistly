@@ -1,3 +1,4 @@
+// Runs an AI analysis from the browser: themes first, then labels in batches, with retries and progress.
 import type { FeedbackRow } from "../feedback-types.ts";
 import { computeMetrics } from "./metrics.ts";
 import { rankPriorities } from "./priority.ts";

@@ -1,5 +1,6 @@
+// API: label one batch of reviews with sentiment, theme, severity, main issue and kind (Gemini).
 import { generateJson } from "@/lib/analysis/gemini";
-import { badRequest, errorResponse } from "@/lib/analysis/http";
+import { badRequest, handleRoute } from "@/lib/server/api";
 import { labelPrompt, labelSchema } from "@/lib/analysis/prompts";
 import {
   BATCH_SIZE,
@@ -45,7 +46,7 @@ function validLabel(raw: unknown, ids: Set<number>, themes: Set<string>): Review
 }
 
 // Step 2 of an analysis: label one batch of reviews with sentiment, theme, severity, key issue and kind.
-export async function POST(request: Request) {
+export const POST = handleRoute(async (request: Request) => {
   const body = (await request.json().catch(() => null)) as
     | { items?: unknown; themes?: unknown; context?: unknown }
     | null;
@@ -62,28 +63,24 @@ export async function POST(request: Request) {
   }
   const context = typeof body?.context === "string" ? body.context.slice(0, 200) : "";
 
-  try {
-    const { data, model } = await generateJson(
-      labelPrompt(items, themes as string[], context),
-      labelSchema(themes as string[]),
-    );
-    const ids = new Set(items.map((i) => i.id));
-    const allowed = new Set(themes as string[]);
-    const labels: ReviewLabel[] = [];
-    const taken = new Set<number>();
-    for (const raw of Array.isArray(data) ? data : []) {
-      const label = validLabel(raw, ids, allowed);
-      if (label && !taken.has(label.id)) {
-        taken.add(label.id);
-        labels.push(label);
-      }
+  const { data, model } = await generateJson(
+    labelPrompt(items, themes as string[], context),
+    labelSchema(themes as string[]),
+  );
+  const ids = new Set(items.map((i) => i.id));
+  const allowed = new Set(themes as string[]);
+  const labels: ReviewLabel[] = [];
+  const taken = new Set<number>();
+  for (const raw of Array.isArray(data) ? data : []) {
+    const label = validLabel(raw, ids, allowed);
+    if (label && !taken.has(label.id)) {
+      taken.add(label.id);
+      labels.push(label);
     }
-    const response: LabelResponse = { labels, model };
-    return Response.json(response);
-  } catch (e) {
-    return errorResponse(e);
   }
-}
+  const response: LabelResponse = { labels, model };
+  return Response.json(response);
+});
 
 // Calls to an outside service can take several seconds. Allow up to a minute on hosts that cut functions off early.
 export const maxDuration = 60;

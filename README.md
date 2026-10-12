@@ -86,7 +86,7 @@ Set these in `.env.local` (locally) or in your host's settings. Keys without the
 npm run dev        # start the app
 npm run build      # production build
 npm run lint       # check the code
-npm test           # 35 automated checks: calculations, file formats, storage and migration
+npm test           # 43 automated checks: calculations, insights, file formats, storage and migration
 ```
 
 More tools in `scripts/`:
@@ -115,21 +115,20 @@ The instant result (`src/lib/local/`) runs in a Web Worker, so even a million-ro
 
 - **Next.js (App Router) + TypeScript**, Tailwind CSS, shadcn/ui, Recharts. Light and dark mode; colours live in `src/app/globals.css` so charts follow the theme.
 - **Browser:** reads files, deduplicates (Web Worker), calculates every metric (`src/lib/analysis/metrics.ts`, `priority.ts`), draws charts, and keeps data in IndexedDB.
-- **Server (route handlers in `src/app/api/`):** the only place API keys are used. Each route does one short step (label a batch, estimate a cost, poll a status).
+- **Server (route handlers in `src/app/api/<feature>/<action>`):** the only place API keys are used (read in `src/lib/server/env.ts`). Each route does one short step (label a batch, estimate a cost, poll a status) and is wrapped in a shared error handler, so errors always come back as `{ error, code }`.
 - **AI:** Google Gemini with a response schema, so output is strict JSON that is validated before use.
 
 ```
-src/app/            pages and API routes
-src/components/     screens, charts, shared providers
-src/lib/local/      file reading (CSV, TSV, TXT, JSON, JSONL, Excel), dedupe engine and quality score (runs in a worker)
-src/lib/storage/    IndexedDB library of datasets, analyses and saved questions
-src/lib/adaption/   Adaption client, sampling, types
-src/lib/analysis/   AI client, prompts, batching, metrics, priority score
-src/lib/ask/        question planning, facts and answer checking
-src/lib/report/     report building and share-link encoding
+src/app/            routes: thin pages, API routes, error and not-found screens
+src/features/       one folder per page or flow (dashboard, feedback, analysis, ask, recommendations, issues, reports, adaption, upload, datasets)
+src/components/     reusable pieces: ui/ (base controls), charts/, layout/, shared/
+src/providers/      shared state: datasets, analysis, Adaption, issues, toasts
+src/lib/            logic only, no React: analysis/, ask/, adaption/, local/, storage/, report/, server/
 data/               sample dataset and saved real results
-scripts/            benchmarks, tests and tools
+scripts/            tests (43 checks), benchmarks and tools
 ```
+
+See **[ARCHITECTURE.md](ARCHITECTURE.md)** for how data flows and how to add a page or an API route.
 
 ## Storage
 

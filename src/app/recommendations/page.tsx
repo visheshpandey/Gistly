@@ -1,5 +1,5 @@
-import { PageHeader } from "@/components/page-header";
-import { RecommendationsPanel } from "@/components/recommendations-panel";
+import { PageHeader } from "@/components/layout/page-header";
+import { RecommendationsPanel } from "@/features/recommendations/recommendations-panel";
 
 export default function RecommendationsPage() {
   return (

@@ -1,3 +1,4 @@
+// Tracked issue types and statuses.
 export type IssueStatus = "open" | "in_progress" | "resolved";
 
 export const STATUS_LABEL: Record<IssueStatus, string> = {

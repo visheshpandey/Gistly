@@ -1,4 +1,4 @@
-import { SharedReport } from "@/components/shared-report";
+import { SharedReport } from "@/features/reports/shared-report";
 
 export default function SharedReportPage() {
   return <SharedReport />;

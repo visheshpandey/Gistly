@@ -1,3 +1,4 @@
+// Answers one question in three steps: plan (AI), facts (code), explanation (AI), then checks the figures.
 import type { FeedbackRow } from "../feedback-types.ts";
 import { post, type RunOptions } from "../analysis/run.ts";
 import type { AnalysisResult } from "../analysis/types.ts";

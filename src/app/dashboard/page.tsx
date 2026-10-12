@@ -1,5 +1,5 @@
-import { DashboardView } from "@/components/dashboard-view";
-import { PageHeader } from "@/components/page-header";
+import { DashboardView } from "@/features/dashboard/dashboard-view";
+import { PageHeader } from "@/components/layout/page-header";
 
 export default function DashboardPage() {
   return (

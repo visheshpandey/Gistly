@@ -1,3 +1,4 @@
+// Light/dark theme: the storage key and the script that applies the theme before the page paints.
 export const THEME_KEY = "insightflow:theme";
 
 // Runs in the page head before anything is painted, so a dark-mode user never sees a white flash.

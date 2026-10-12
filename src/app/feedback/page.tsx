@@ -1,5 +1,5 @@
-import { FeedbackWorkspace } from "@/components/feedback-workspace";
-import { PageHeader } from "@/components/page-header";
+import { FeedbackWorkspace } from "@/features/feedback/feedback-workspace";
+import { PageHeader } from "@/components/layout/page-header";
 
 export default function FeedbackPage() {
   return (

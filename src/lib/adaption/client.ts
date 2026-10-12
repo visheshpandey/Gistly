@@ -1,5 +1,7 @@
 import "server-only";
 import { createHash } from "node:crypto";
+import { serverEnv } from "@/lib/server/env";
+import { ServiceError } from "@/lib/server/service-error";
 
 // Server-only wrapper around the Adaption REST API.
 // Endpoints and fields follow https://docs.adaptionlabs.ai/api (checked 2026-10-11).
@@ -17,20 +19,20 @@ export type AdaptionErrorCode =
   | "network"
   | "api";
 
-export class AdaptionError extends Error {
-  code: AdaptionErrorCode;
-  status: number; // HTTP status we answer our own client with
-
+export class AdaptionError extends ServiceError<AdaptionErrorCode> {
   constructor(message: string, code: AdaptionErrorCode, status: number) {
-    super(message);
+    super(message, code, status);
     this.name = "AdaptionError";
-    this.code = code;
-    this.status = status;
   }
 }
 
+// Adaption has finished a dataset when its status is succeeded (the download docs also say "ready").
+export function isDone(status: string): boolean {
+  return status === "succeeded" || status === "ready";
+}
+
 function apiKey(): string {
-  const key = process.env.ADAPTION_API_KEY?.trim();
+  const key = serverEnv.adaptionApiKey();
   if (!key) {
     throw new AdaptionError(
       "Adaption is not configured. Add ADAPTION_API_KEY to .env.local and restart the server.",

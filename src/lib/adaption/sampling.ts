@@ -1,3 +1,4 @@
+// Builds the small, repeatable sample sent to Adaption (each text at most twice, up to 400 rows).
 import type { FeedbackRow } from "../feedback-types.ts";
 import { MAX_REPEATS_SENT, MAX_ROWS_SENT } from "./types.ts";
 

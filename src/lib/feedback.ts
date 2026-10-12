@@ -1,3 +1,4 @@
+// Loads the built-in sample dataset on the server.
 import "server-only";
 import fs from "node:fs/promises";
 import path from "node:path";

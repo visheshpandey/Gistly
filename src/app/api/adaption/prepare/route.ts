@@ -1,6 +1,7 @@
+// API: build the sample for an Adaption check and upload it, returning the Adaption dataset id.
 import Papa from "papaparse";
 import { completeUpload, createDataset, uploadFile } from "@/lib/adaption/client";
-import { badRequest, errorResponse } from "@/lib/adaption/http";
+import { badRequest, handleRoute } from "@/lib/server/api";
 import { MAX_ROWS_SENT } from "@/lib/adaption/types";
 
 type InputRow = { review: string; category: string | null; occurrences: number };
@@ -31,7 +32,7 @@ function parseRows(body: unknown): InputRow[] | null {
 
 // Step 1 of a run: build a CSV with one line per row sent (repeats included, so Adaption has
 // real duplicates to remove), create the dataset on Adaption and upload the file. No credits are used.
-export async function POST(request: Request) {
+export const POST = handleRoute(async (request: Request) => {
   const body = await request.json().catch(() => null);
   const rows = parseRows(body);
   if (!rows) return badRequest("Send a list of feedback rows with review text and occurrence counts.");
@@ -53,15 +54,11 @@ export async function POST(request: Request) {
   }
   const csv = Papa.unparse(records);
 
-  try {
-    const { datasetId, uploadUrl } = await createDataset(`insightflow-${Date.now()}.csv`);
-    await uploadFile(uploadUrl, csv);
-    await completeUpload(datasetId, csv);
-    return Response.json({ datasetId, mentions });
-  } catch (e) {
-    return errorResponse(e);
-  }
-}
+  const { datasetId, uploadUrl } = await createDataset(`insightflow-${Date.now()}.csv`);
+  await uploadFile(uploadUrl, csv);
+  await completeUpload(datasetId, csv);
+  return Response.json({ datasetId, mentions });
+});
 
 // Calls to an outside service can take several seconds. Allow up to a minute on hosts that cut functions off early.
 export const maxDuration = 60;

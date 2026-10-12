@@ -1,5 +1,5 @@
-import { AnalysisPanel } from "@/components/analysis-panel";
-import { PageHeader } from "@/components/page-header";
+import { AnalysisPanel } from "@/features/analysis/analysis-panel";
+import { PageHeader } from "@/components/layout/page-header";
 
 export default function AnalysisPage() {
   return (

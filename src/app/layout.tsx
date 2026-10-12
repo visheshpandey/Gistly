@@ -1,12 +1,14 @@
+// Root layout: fonts, page metadata, the theme script and the tree of shared-state providers.
 import type { Metadata } from "next";
 import { Figtree, Fraunces, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import { AppShell } from "@/components/app-shell";
-import { DataProvider } from "@/components/data-provider";
-import { AdaptionProvider } from "@/components/adaption-provider";
-import { ToastProvider } from "@/components/toast";
-import { UploadProvider } from "@/components/upload-provider";
-import { AnalysisProvider } from "@/components/use-analysis";
+import { AppShell } from "@/components/layout/app-shell";
+import { DataProvider } from "@/providers/data-provider";
+import { AdaptionProvider } from "@/providers/adaption-provider";
+import { ToastProvider } from "@/providers/toast-provider";
+import { UploadProvider } from "@/features/upload/upload-provider";
+import { AnalysisProvider } from "@/providers/analysis-provider";
+import { IssuesProvider } from "@/providers/issues-provider";
 import { THEME_INIT_SCRIPT } from "@/lib/theme";
 
 const figtree = Figtree({
@@ -49,9 +51,11 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           <ToastProvider>
             <AnalysisProvider>
               <AdaptionProvider>
-                <UploadProvider>
-                  <AppShell>{children}</AppShell>
-                </UploadProvider>
+                <IssuesProvider>
+                  <UploadProvider>
+                    <AppShell>{children}</AppShell>
+                  </UploadProvider>
+                </IssuesProvider>
               </AdaptionProvider>
             </AnalysisProvider>
           </ToastProvider>

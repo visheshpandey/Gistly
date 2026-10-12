@@ -1,3 +1,4 @@
+// Column mapping for imports: which column is the text, category and date, with a sensible first guess.
 import type { FilePreview } from "./local/messages.ts";
 import { TEXT_FIELD } from "./local/sources.ts";
 

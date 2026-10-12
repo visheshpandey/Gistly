@@ -1,3 +1,4 @@
+// Entry page: what Verdict does, with the two ways in (sample data or upload).
 import type { Metadata } from "next";
 import Link from "next/link";
 import {
@@ -9,9 +10,9 @@ import {
   Sparkles,
   BarChart3,
 } from "lucide-react";
-import { Brand } from "@/components/brand";
-import { GoToDashboardAfterImport, LandingActions } from "@/components/landing-actions";
-import { ThemeToggle } from "@/components/theme-toggle";
+import { Brand } from "@/components/layout/brand";
+import { GoToDashboardAfterImport, LandingActions } from "@/features/landing/landing-actions";
+import { ThemeToggle } from "@/components/layout/theme-toggle";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 

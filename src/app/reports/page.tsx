@@ -1,5 +1,5 @@
-import { PageHeader } from "@/components/page-header";
-import { ReportsPanel } from "@/components/reports-panel";
+import { PageHeader } from "@/components/layout/page-header";
+import { ReportsPanel } from "@/features/reports/reports-panel";
 
 export default function ReportsPage() {
   return (

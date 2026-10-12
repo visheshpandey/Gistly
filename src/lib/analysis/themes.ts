@@ -1,3 +1,4 @@
+// Cleans up and checks the theme names the AI proposes.
 const SMALL_WORDS = new Set(["a", "an", "and", "or", "of", "the", "for", "to", "in", "on", "at", "by", "with", "&"]);
 
 // "Fraud And Security" becomes "Fraud and Security": small words in the middle of a name stay lowercase.

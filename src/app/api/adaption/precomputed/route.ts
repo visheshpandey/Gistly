@@ -1,3 +1,4 @@
+import { handleRoute } from "@/lib/server/api";
 import fs from "node:fs/promises";
 import path from "node:path";
 
@@ -5,11 +6,11 @@ import path from "node:path";
 // Lets the demo show real quality numbers without calling Adaption again.
 const FILE = path.join(process.cwd(), "data", "adaption-sample.json");
 
-export async function GET() {
+export const GET = handleRoute(async () => {
   try {
     const raw = await fs.readFile(FILE, "utf8");
     return Response.json(JSON.parse(raw));
   } catch {
     return Response.json({ error: "No precomputed Adaption result is saved yet." }, { status: 404 });
   }
-}
+});

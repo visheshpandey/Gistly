@@ -1,3 +1,4 @@
+// Builds a report snapshot from the metrics, priorities and tracked issues.
 import type { AnalysisMetrics } from "../analysis/metrics.ts";
 import { explainRank, type PriorityItem } from "../analysis/priority.ts";
 import type { AnalysisResult } from "../analysis/types.ts";

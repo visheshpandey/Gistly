@@ -1,4 +1,6 @@
 import "server-only";
+import { serverEnv } from "@/lib/server/env";
+import { ServiceError } from "@/lib/server/service-error";
 
 // Server-only wrapper around the Gemini API (Google AI Studio).
 // The key and the model name come from the environment and never reach the browser.
@@ -13,21 +15,16 @@ export type GeminiErrorCode =
   | "bad_output"
   | "api";
 
-export class GeminiError extends Error {
-  code: GeminiErrorCode;
-  status: number; // HTTP status we answer our own client with
-
+export class GeminiError extends ServiceError<GeminiErrorCode> {
   constructor(message: string, code: GeminiErrorCode, status: number) {
-    super(message);
+    super(message, code, status);
     this.name = "GeminiError";
-    this.code = code;
-    this.status = status;
   }
 }
 
 function settings(): { key: string; model: string } {
-  const key = process.env.GEMINI_API_KEY?.trim();
-  const model = process.env.GEMINI_MODEL?.trim();
+  const key = serverEnv.geminiApiKey();
+  const model = serverEnv.geminiModel();
   if (!key || !model) {
     throw new GeminiError(
       "AI analysis is not configured. Add GEMINI_API_KEY and GEMINI_MODEL to .env.local and restart the server.",
