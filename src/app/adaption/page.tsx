@@ -1,17 +1,14 @@
-import { PageHeader, Placeholder } from "@/components/page-header";
+import { AdaptionPanel } from "@/components/adaption-panel";
+import { PageHeader } from "@/components/page-header";
 
 export default function AdaptionPage() {
   return (
     <>
       <PageHeader
         title="Adaption"
-        description="Deduplicate and enrich your dataset before analysis."
+        description="Remove duplicates and score the quality of your dataset before analysis."
       />
-      <Placeholder
-        title="Adaption is not connected"
-        description="Dataset preparation runs on the server. No API key is needed in the browser."
-        phase="the Adaption phase"
-      />
+      <AdaptionPanel />
     </>
   );
 }

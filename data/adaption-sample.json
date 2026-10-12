@@ -1,0 +1,21 @@
+{
+    "source":  "precomputed",
+    "datasetLabel":  "Sample dataset",
+    "datasetId":  "f971257f-1223-488b-a25e-3c87849f53a2",
+    "totalMentions":  7000,
+    "totalUnique":  317,
+    "rowsSent":  400,
+    "textsSent":  251,
+    "sampled":  true,
+    "rowsAfter":  251,
+    "duplicatesRemoved":  149,
+    "quality":  {
+                    "gradeBefore":  "D",
+                    "gradeAfter":  "C",
+                    "scoreBefore":  3,
+                    "scoreAfter":  6.2,
+                    "percentileAfter":  8.4
+                },
+    "creditsEstimated":  null,
+    "generatedAt":  "2026-10-11T13:09:40.088Z"
+}
